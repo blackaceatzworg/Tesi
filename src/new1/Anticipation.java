@@ -29,21 +29,33 @@ public class Anticipation {
 		String ownerType="ped";
 		int k=5;
 		switch(direction){
-		case Constants.O:
-			this.setOAnticip(x, y, k, ownerType);
-			break;
-		case Constants.S:
-			this.setSAnticip(x, y, k, ownerType);
-			break;
-		case Constants.N:
-			this.setNAnticip(x, y, k, ownerType);
-			break;
-		case Constants.E:
-			this.setEAnticip(x, y, k, ownerType);
-			break;
+//		case Constants.O:
+//			this.setOAnticip(x, y, k, ownerType);
+//			break;
+//		case Constants.S:
+//			this.setSAnticip(x, y, k, ownerType);
+//			break;
+//		case Constants.N:
+//			this.setNAnticip(x, y, k, ownerType);
+//			break;
+//		case Constants.E:
+//			this.setEAnticip(x, y, k, ownerType);
+//			break;
 		case Constants.NO:
 			System.out.println(Constants.NO+" "+direction);
 			this.setNOAnticip(x, y, k, ownerType);
+			break;
+		case Constants.SO:
+			System.out.println(Constants.NO+" "+direction);
+			this.setSOAnticip(x, y, k, ownerType);
+			break;
+		case Constants.NE:
+			System.out.println(Constants.NO+" "+direction);
+			this.setNEAnticip(x, y, k, ownerType);
+			break;
+		case Constants.SE:
+			System.out.println(Constants.NO+" "+direction);
+			this.setSEAnticip(x, y, k, ownerType);
 			break;
 		}
 	}
@@ -139,7 +151,7 @@ public class Anticipation {
 	public void setNOAnticip(int x, int y, int k, String ownerType){
 		AnticipationCell ac;
 		int j=y;
-			for(int i=x;i>x-k+1;i--){
+			for(int i=x;i>x-k;i--){
 				try{
 					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
