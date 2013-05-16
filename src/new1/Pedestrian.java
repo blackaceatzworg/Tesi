@@ -49,7 +49,7 @@ public class Pedestrian extends Agent {
 		this.setLogDirectionFileName(logDirectionFileName);
 		this.routeIndex=0;
 		this.setArrived(false);
-		this.setAnticipation(new Anticipation());
+		this.setAnticipation(new Anticipation(Constants.ownerTypePed));
 	}
 	
 	public Pedestrian(String id, int desiredSpeed, Grid<Object> grid){
@@ -58,6 +58,7 @@ public class Pedestrian extends Agent {
 		this.grid=grid;
 		this.setHeading(Constants.E);//TODO orientamento casuale
 		this.setPreviourHeading(this.getHeading());
+		this.setAnticipation(new Anticipation(Constants.ownerTypePed));
 		this.routeIndex=0;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

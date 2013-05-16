@@ -43,7 +43,7 @@ public class PedGenerator {
 			ped.setRoute(route2);
 		}
 		ped.setCurrentField(ped.getRoute().get(0));
-		ped.setAnticipation(new Anticipation());
+		//ped.setAnticipation(new Anticipation(Constants.ownerTypePed));
 		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
 		context.add(ped);
 		grid.moveTo(ped, rx,ry);

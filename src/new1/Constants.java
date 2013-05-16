@@ -48,7 +48,9 @@ public final class Constants {
 	public static  final int E=7;
 	public static  final int NE=8;
 	
-	//vehicle speed
+	public static final String ownerTypePed="ped";
+	public static final String ownerTypeVeh="vehicle";
+	
 	
 
 }

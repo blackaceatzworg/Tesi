@@ -319,13 +319,13 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(ped);
 //		grid.moveTo(ped,25,16);
 		
-		Pedestrian ped3=new Pedestrian("ped3",1,grid);
-		ped3.setRoute(southNorthRoute);
-		ped3.setCurrentField(ped3.getRoute().get(0));
-		ped3.setAnticipation(new Anticipation());
-		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
-		context.add(ped3);
-		grid.moveTo(ped3,35,2);
+//		Pedestrian ped3=new Pedestrian("ped3",1,grid);
+//		ped3.setRoute(southNorthRoute);
+//		ped3.setCurrentField(ped3.getRoute().get(0));
+//		//ped3.setAnticipation(new Anticipation("ped"));
+//		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
+//		context.add(ped3);
+//		grid.moveTo(ped3,35,2);
 		
 		PedTicker pedt=new PedTicker();
 		context.add(pedt);
@@ -348,10 +348,10 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		ped4.getAnticipation().initAnticipation(ped.getId(), grid, context);
 //		context.add(ped4);
 //		grid.moveTo(ped4,30,2);
-//		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,northSouthRoute2,16);
-//		context.add(pedg);
-//		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute,2);
-//		context.add(pedg2);
+		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,northSouthRoute2,16);
+		context.add(pedg);
+		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute,2);
+		context.add(pedg2);
 		
 		
 

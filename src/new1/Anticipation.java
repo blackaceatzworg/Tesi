@@ -13,10 +13,15 @@ import repast.simphony.space.grid.GridPoint;
 public class Anticipation {
 	
 	private String owner;//occhio, è getID!
-	private double hazardIndex;
+//	private double hazardIndex;
 	Grid<Object> grid;
 	Context context;
 	private ArrayList<AnticipationCell> anticipationCells;
+	private String ownerType;
+	
+	public Anticipation(String ownerType){
+		this.ownerType=ownerType;
+	}
 	
 	public void initAnticipation(String id, Grid<Object> agentGrid, Context context){
 		this.setId(id);
@@ -26,7 +31,6 @@ public class Anticipation {
 	}
 	public void updatePedestrianAnticipation(int direction, int x, int y){
 		AnticipationCell ac;
-		String ownerType="ped";
 		int k=5;
 		switch(direction){
 		case Constants.O:
@@ -216,13 +220,13 @@ public class Anticipation {
 	public void setAnticipationCells(ArrayList<AnticipationCell> anticipationCells) {
 		this.anticipationCells = anticipationCells;
 	}
-	public double getHazardIndex() {
-		return hazardIndex;
-	}
-
-	public void setHazardIndex(double hazardIndex) {
-		this.hazardIndex = hazardIndex;
-	}
+//	public double getHazardIndex() {
+//		return hazardIndex;
+//	}
+//
+//	public void setHazardIndex(double hazardIndex) {
+//		this.hazardIndex = hazardIndex;
+//	}
 
 	public String getId() {
 		return owner;
