@@ -19,8 +19,16 @@ public class Anticipation {
 	private ArrayList<AnticipationCell> anticipationCells;
 	private String ownerType;
 	
+	public String getOwnerType() {
+		return ownerType;
+	}
+
+	public void setOwnerType(String ownerType) {
+		this.ownerType = ownerType;
+	}
+
 	public Anticipation(String ownerType){
-		this.ownerType=ownerType;
+		this.setOwnerType(ownerType);
 	}
 	
 	public void initAnticipation(String id, Grid<Object> agentGrid, Context context){
@@ -29,6 +37,19 @@ public class Anticipation {
 		this.setAnticipationCells(new ArrayList<AnticipationCell>());
 		this.context=context;
 	}
+	
+	public void updateVehicleAnticipation(int direction, int x, int y, int anticipationLenght){
+		AnticipationCell ac;
+		switch(direction){
+		case Constants.O:
+			this.setVehOAnticip(x,y,anticipationLenght, this.getOwnerType());
+			break;
+		case Constants.E:
+			this.setVehEAnticip(x, y, anticipationLenght, this.getOwnerType());
+			break;
+		}
+	}
+	
 	public void updatePedestrianAnticipation(int direction, int x, int y){
 		AnticipationCell ac;
 		int k=5;
@@ -46,19 +67,19 @@ public class Anticipation {
 			this.setEAnticip(x, y, k, ownerType);
 			break;
 		case Constants.NO:
-			System.out.println(Constants.NO+" "+direction);
+//			System.out.println(Constants.NO+" "+direction);
 			this.setNOAnticip(x, y, k, ownerType);
 			break;
 		case Constants.SO:
-			System.out.println(Constants.NO+" "+direction);
+//			System.out.println(Constants.NO+" "+direction);
 			this.setSOAnticip(x, y, k, ownerType);
 			break;
 		case Constants.NE:
-			System.out.println(Constants.NO+" "+direction);
+//			System.out.println(Constants.NO+" "+direction);
 			this.setNEAnticip(x, y, k, ownerType);
 			break;
 		case Constants.SE:
-			System.out.println(Constants.NO+" "+direction);
+//			System.out.println(Constants.NO+" "+direction);
 			this.setSEAnticip(x, y, k, ownerType);
 			break;
 		}
@@ -212,6 +233,37 @@ public class Anticipation {
 				}catch(Exception e){e.printStackTrace();}	
 			}
 	}
+	
+/////////////////////////////////////////////////////////////////////////
+	//vehicle anticipations
+	public void setVehEAnticip(int x, int y, int k, String ownerType){
+		AnticipationCell ac;
+//		System.out.println("veh e ant");
+			for(int i=x;i<x+k;i++){
+				for(int j=y;j<y+5;j++){
+					try{
+					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					this.getAnticipationCells().add(ac);
+					context.add(ac);
+					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}
+				}
+			}
+	}
+	public void setVehOAnticip(int x, int y, int k, String ownerType){
+		AnticipationCell ac;
+		System.out.println("veh o ant");
+			for(int i=x;i>x-k;i--){
+				for(int j=y;j<y+5;j++){
+					try{
+//						System.out.println("dir:o");
+					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					this.getAnticipationCells().add(ac);
+					context.add(ac);
+					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}
+				}
+			}
+	}
+	
 /////////////////////////////////////////////////////////////////////////
 	public ArrayList<AnticipationCell> getAnticipationCells() {
 		return anticipationCells;

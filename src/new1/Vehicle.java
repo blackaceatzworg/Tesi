@@ -48,17 +48,73 @@ public class Vehicle {
 	}
 	
 	
-	@ScheduledMethod(start=0,interval=1)
-	public void movement(){
+//	@ScheduledMethod(start=0,interval=1)
+	public void test(){
 		Context context=ContextUtils.getContext(this);
 		GridPoint position=grid.getLocation(this);
 		int x=position.getX();
 		int y=position.getY();
 //		if(this.getCurrentSpeed()<2){
 //		this.accelerate();}
-		this.brake(Constants.softBrakeModule);
-		int k=(int) Math.round(this.getCurrentSpeed());
-		grid.moveTo(this,x+k,y);
+//		this.brake(Constants.softBrakeModule);
+//		int k=(int) Math.round(this.getCurrentSpeed());
+//		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x-1, y, 16);
+		//grid.moveTo(this,x+1,y);
+	}
+	
+	public DestinationCell chooseDestination(){
+		return this.getDest();//TODO
+	}
+	@ScheduledMethod(start=0,interval=2)
+	public void project(){
+		int speed=(int)this.getCurrentSpeed();
+		int x=grid.getLocation(this).getX()+1;
+		int y=grid.getLocation(this).getY();
+		int anticipationLenght=this.calcAnticipation(speed);
+		System.out.println(this.getCurrentSpeed());
+		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght);
+		this.setCurrentSpeed(this.getCurrentSpeed()+1);
+	}
+	
+	public int calcAnticipation(int speed){
+		int antValue=16;
+		switch(speed){
+		case 0:
+			antValue=16;
+			break;
+		case 1:
+			antValue=32;
+			break;
+		case 2:
+			antValue=48;
+			break;
+		case 3:
+			antValue=64;
+			break;
+		case 4:
+			antValue=80;
+			break;
+		case 5:
+			antValue=96;
+			break;
+		}
+		if(speed>5){
+			this.setCurrentSpeed(0);
+		}
+		return antValue;
+	}
+	
+	public void evaluate(){}
+	
+	@ScheduledMethod(start=1,interval=2)
+	public void movevement(){
+//		int x=this.getDest().getX();
+//		int y=this.getDest().getY();
+//		this.move(x, y);
+		this.getAnticipation().flushAnticipation();
+	}
+	public void move(int x, int y){
+		grid.moveTo(this,x,y);
 	}
 	
 	///Derived from pedestrian
