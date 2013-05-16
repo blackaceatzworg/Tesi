@@ -24,23 +24,23 @@ public class Anticipation {
 		this.setAnticipationCells(new ArrayList<AnticipationCell>());
 		this.context=context;
 	}
-	public void updateAnticipation(int direction, int x, int y){
+	public void updatePedestrianAnticipation(int direction, int x, int y){
 		AnticipationCell ac;
 		String ownerType="ped";
 		int k=5;
 		switch(direction){
-//		case Constants.O:
-//			this.setOAnticip(x, y, k, ownerType);
-//			break;
-//		case Constants.S:
-//			this.setSAnticip(x, y, k, ownerType);
-//			break;
-//		case Constants.N:
-//			this.setNAnticip(x, y, k, ownerType);
-//			break;
-//		case Constants.E:
-//			this.setEAnticip(x, y, k, ownerType);
-//			break;
+		case Constants.O:
+			this.setOAnticip(x, y, k, ownerType);
+			break;
+		case Constants.S:
+			this.setSAnticip(x, y, k, ownerType);
+			break;
+		case Constants.N:
+			this.setNAnticip(x, y, k, ownerType);
+			break;
+		case Constants.E:
+			this.setEAnticip(x, y, k, ownerType);
+			break;
 		case Constants.NO:
 			System.out.println(Constants.NO+" "+direction);
 			this.setNOAnticip(x, y, k, ownerType);

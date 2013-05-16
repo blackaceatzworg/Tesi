@@ -21,7 +21,7 @@ import new1.AgentUtils;
 
 public class Pedestrian extends Agent {
 	private Grid<Object> grid;
-	private int desiderdSpeed;
+	//private int desiderdSpeed;
 	private String id;
 	private int heading;
 	private int previourHeading;
@@ -42,7 +42,7 @@ public class Pedestrian extends Agent {
 	//CONSTRUCTORS////////////////////////////////////////////////////////////////////////////////
 	public Pedestrian(String id, int desiredSpeed, Grid<Object> grid,String logDirectionFileName){
 		this.setId(id);
-		this.setDesiderdSpeed(desiredSpeed);
+		//this.setDesiderdSpeed(desiredSpeed);
 		this.grid=grid;
 		this.setHeading(Constants.E);//TODO orientamento casuale
 		this.setPreviourHeading(this.getHeading());
@@ -54,7 +54,7 @@ public class Pedestrian extends Agent {
 	
 	public Pedestrian(String id, int desiredSpeed, Grid<Object> grid){
 		this.setId(id);
-		this.setDesiderdSpeed(desiredSpeed);
+//		this.setDesiderdSpeed(desiredSpeed);
 		this.grid=grid;
 		this.setHeading(Constants.E);//TODO orientamento casuale
 		this.setPreviourHeading(this.getHeading());
@@ -157,7 +157,7 @@ public class Pedestrian extends Agent {
 		Context context=ContextUtils.getContext(this);
 		GridPoint position=grid.getLocation(this);
 //		System.out.println(this.getId()+" percept");
-		this.getAnticipation().updateAnticipation(dest.getRelativeDirection(), dest.getX(), dest.getY());
+		this.getAnticipation().updatePedestrianAnticipation(dest.getRelativeDirection(), dest.getX(), dest.getY());
 //		for(int i=0;i<this.getAnticipation().getAnticipationCells().size();i++){
 //			int x=this.getAnticipation().getAnticipationCells().get(i).getGp().getX();
 //			int y=this.getAnticipation().getAnticipationCells().get(i).getGp().getY();
@@ -174,7 +174,7 @@ public class Pedestrian extends Agent {
 		this.setHeading(dest.getRelativeDirection());
 		System.out.println(this.getId()+" move");
 		this.move(dest.getX(),dest.getY());
-		//this.getAnticipation().flushAnticipation();
+		this.getAnticipation().flushAnticipation();
 		this.checkArrival();
 	}
 	
@@ -314,12 +314,12 @@ public class Pedestrian extends Agent {
 	/**
 	 * @return desiredSpeed 
 	 * */
-	public int getDesiderdSpeed() {
-		return desiderdSpeed;
-	}
-	public void setDesiderdSpeed(int desiderdSpeed) {
-		this.desiderdSpeed = desiderdSpeed;
-	}
+//	public int getDesiderdSpeed() {
+//		return desiderdSpeed;
+//	}
+//	public void setDesiderdSpeed(int desiderdSpeed) {
+//		this.desiderdSpeed = desiderdSpeed;
+//	}
 	public String getId() {
 		return id;
 	}
