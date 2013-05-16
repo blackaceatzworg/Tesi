@@ -1,0 +1,222 @@
+//		AGENT SCHEDULING
+//		ISchedule schedule = (ISchedule) RunEnvironment.getInstance().getCurrentSchedule();
+//		ScheduleParameters activatePedgenParam = ScheduleParameters.createRepeating(0, 10, 1);
+//		schedule.schedule(activatePedgenParam, this, "activatePedGen");
+		
+//		ScheduleParameters activatePedParam = ScheduleParameters.createRepeating(0, 4, 1);//debug 0,4,1
+//		schedule.schedule(activatePedParam, this, "calcNeighPed");
+//		ScheduleParameters antPedParam = ScheduleParameters.createRepeating(1, 4, 0);//debug 1,4,0
+//		schedule.schedule(antPedParam, this, "setAnticipationPed");
+//		ScheduleParameters evalPedParam=ScheduleParameters.createRepeating(2,4,-1);//debug 2,4,-1
+//		schedule.schedule(evalPedParam,this,"evalPed");
+//		ScheduleParameters movePedParam = ScheduleParameters.createRepeating(3, 4, -2);//debug 3,4,-1
+//		schedule.schedule(movePedParam, this, "movePed");
+		
+//		ScheduleParameters activatePedParam = ScheduleParameters.createRepeating(0, 1, 1);
+//		schedule.schedule(activatePedParam, this, "calcNeighPed");
+//		ScheduleParameters antPedParam = ScheduleParameters.createRepeating(0, 1, 0);
+//		schedule.schedule(antPedParam, this, "setAnticipationPed");
+//		ScheduleParameters evalPedParam=ScheduleParameters.createRepeating(0,1,-1);
+//		schedule.schedule(evalPedParam,this,"evalPed");
+//		ScheduleParameters movePedParam = ScheduleParameters.createRepeating(0, 1, -2);
+//		schedule.schedule(movePedParam, this, "movePed");
+//	public void calcNeighPed(){
+//		final ArrayList<PedGenerator> pedGList=getPedGenList();
+//		for(final PedGenerator pedG:pedGList){
+//			pedG.addPedestrian();
+//		}
+//	}
+//	
+//	public void activatePedestrian(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		final ArrayList<DestinationCell> destList=new ArrayList<DestinationCell>();
+//		for(final Pedestrian ped:pedList){
+//			//destList.add(ped.chooseDestination2());
+//			ped.chooseDestination2();
+////			ped.percept();
+////			ped.evaluate();
+////			ped.movement2();
+////			ped.updatePed();
+//		}
+//	}
+//	public void setAnticipationPed(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		for(final Pedestrian ped:pedList){
+//			ped.project();
+//		}
+//	}
+//	
+//	public void evalPed(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		for(final Pedestrian ped:pedList){
+//			ped.evaluate();
+//		}
+//	}
+//	public void movePed(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		for(final Pedestrian ped:pedList){
+//			ped.movement2();
+//		}
+//	}
+//	private ArrayList<Pedestrian> getPedList(){
+//		@SuppressWarnings("unchecked")
+//		final Iterable<Pedestrian> peds=RunState.getInstance().getMasterContext().getObjects(Pedestrian.class);
+//		final ArrayList<Pedestrian> pedList=new ArrayList<Pedestrian>();
+//		for(final Pedestrian ped:peds){
+//			pedList.add(ped);
+//		}
+//		return pedList;
+//	}
+//	private ArrayList<PedGenerator> getPedGenList(){
+//		@SuppressWarnings("unchecked")
+//		final Iterable<PedGenerator> peds=RunState.getInstance().getMasterContext().getObjects(PedGenerator.class);
+//		final ArrayList<PedGenerator> pedList=new ArrayList<PedGenerator>();
+//		for(final PedGenerator ped:peds){
+//			pedList.add(ped);
+//		}
+//		return pedList;
+//	}
+//		public ArrayList<PedGenerator> getPedGenList(){
+//			@SuppressWarnings("unchecked")
+//			final Iterable<PedGenerator> peds=RunState.getInstance().getMasterContext().getObjects(PedGenerator.class);
+//			final ArrayList<PedGenerator> pedList=new ArrayList<PedGenerator>();
+//			for(final PedGenerator ped:peds){
+//				pedList.add(ped);
+//			}
+//			return pedList;
+//		}		
+		
+//		final GridValueLayer southCurbFF=new GridValueLayer(Constants.northCurbFF,
+//				true,
+//				new StrictBorders(),
+//				Constants.GRID_LENGHT,
+//				numberOfLane);
+//		context.addValueLayer(southCurbFF);
+//		for(int i=0;i<Constants.GRID_LENGHT;i++){
+//			for(int j=0; j<numberOfLane;j++){
+//				southCurbFF.set(Constants.maxint,i,j);
+//			}
+//		}
+//		final GridValueLayer southEastFF=new GridValueLayer(Constants.crossingToCurbFF,
+//				true,
+//				new StrictBorders(),
+//				Constants.GRID_LENGHT,
+//				numberOfLane);
+//		context.addValueLayer(southEastFF);
+//		for(int i=0;i<Constants.GRID_LENGHT;i++){
+//			for(int j=0; j<numberOfLane;j++){
+//				southEastFF.set(Constants.maxint,i,j);
+//			}
+//		}
+//
+//		//path field
+//		
+//		
+////		ArrayList<GridPoint> L=new ArrayList<GridPoint>();
+////		for(int i=4;i<9;i++){
+////			L.add(new GridPoint(i,4));
+////			nordCurb.set(0,i,4);
+////		}
+////		while(L.size()!=0){
+////			GridPoint pivot=L.get(0);
+////			double pivotValue=nordCurb.get(pivot.getX(),pivot.getY());
+////			L.remove(0);
+////			ArrayList<GridPoint> N=getNeighb(pivot);
+////			for(int i=0;i<N.size();i++){
+////				int x=N.get(i).getX();
+////				int y=N.get(i).getY();
+////				double newvalue=pivotValue;
+////				double nvalue=nordCurb.get(x,y);
+////				//escludo cella centrale
+////				//if(i!=4){
+////					if(i==0||i==2||i==5||i==7){
+////						newvalue+=Math.sqrt(2);
+////					}else{
+////						newvalue+=1;
+////					}
+////				//}
+////				if(nvalue==Constants.maxint||nvalue>newvalue){
+////					nordCurb.set(newvalue, x,y);
+////					L.add(N.get(i));
+////				}	
+////			}
+////		}
+//		
+//		//Scenario building
+//		
+//		
+//		
+//		//south walkway
+//		surfaceArea southEastDest=new surfaceArea();
+//		southEastDest.setID(Constants.southEastArea);
+//		surfaceArea southWestDest=new surfaceArea();
+//		southWestDest.setID(Constants.southWestDest);
+//		for(int i=0;i<Constants.GRID_LENGHT;i++){
+//			for(int j=0; j<Constants.WALKWAY_HEIGHT;j++){
+//				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Walkway,nordCurbFF.getName(),false);
+//				context.add(cell);
+//				cell.setFieldvalue(nordCurbFF.get(i,j));
+//				if(i==Constants.GRID_LENGHT-1){
+//					southEastDest.getZone().add(cell);
+//					cell.setFieldvalue(0);
+//					cell.setDestination(true);
+//				}
+//				if(i==0){
+//					southWestDest.getZone().add(cell);
+//				}
+//				grid.moveTo(cell,i,j);
+//			}
+//		}
+//		
+//		
+//		//curbsCurb
+//		surfaceArea southCurbDest=new surfaceArea();
+//		southCurbDest.setID(Constants.southCurbDest);
+//		surfaceArea nordCurbDest=new surfaceArea();
+//		nordCurbDest.setID(Constants.nordCurbDest);
+//		int center=Constants.GRID_LENGHT/2;
+//		int arealenght=5;
+//		System.out.println(center);
+//		for(int i=0;i<Constants.GRID_LENGHT;i++){
+//			final SurfaceCell cell=new SurfaceCell(i,4,Constants.Curb,nordCurbFF.getName(),false);
+//			final SurfaceCell cell2=new SurfaceCell(i,13,Constants.Curb,nordCurbFF.getName(),false);
+//			context.add(cell);
+//			context.add(cell2);
+//			cell.setFieldvalue(nordCurbFF.get(i,4));
+//			cell2.setFieldvalue(nordCurbFF.get(i,13));
+//			if(i>=center&&i<center+arealenght){
+//				cell.setDestination(true);
+//				cell.setFieldvalue(0);
+//				southCurbDest.getZone().add(cell);
+//				cell2.setDestination(true);
+//				cell2.setFieldvalue(0);
+//				nordCurbDest.getZone().add(cell2);
+//			}
+//			grid.moveTo(cell,i,4);
+//			grid.moveTo(cell2, i,13);
+//		}
+//		this.calcPathField(nordCurbFF,nordCurbDest.getZone());
+//		this.calcPathField(southCurbFF,southCurbDest.getZone());
+//		this.calcPathField(southEastFF, southEastDest.getZone());
+//		//nord curb
+////		surfaceArea nordCurbDest=new surfaceArea();
+////		nordCurbDest.setID(Constants.nordCurbDest);
+////		for(int i=0;i<Constants.GRID_LENGHT;i++){
+////			final SurfaceCell cell=new SurfaceCell(i,13,Constants.Curb,nordCurb.getName(),false);
+////			context.add(cell);
+////			cell.setFieldvalue(nordCurb.get(i,13));
+////			if(i>=center&&i<center+arealenght){
+////				southCurbDest.getZone().add(cell);
+////			}
+////			grid.moveTo(cell,i,13);
+////		}
+//		
+//		//roadway
+//		for(int i=0;i<Constants.GRID_LENGHT;i++){
+//			for(int j=5;j<13;j++){
+//				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Roadway,nordCurbFF.getName(),false);
+//				context.add(cell);
+//				cell.setFieldvalue(nordCurbFF.get(i,j));
+//				grid.moveTo(cell,i,j);
+//			}
+//		}
