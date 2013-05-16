@@ -3,6 +3,10 @@
   <type>TWO_D</type>
   <styles>
     <entry>
+      <string>new1.Vehicle</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
       <string>new1.SurfaceCell</string>
       <string>new1.SurfaceClassStyle</string>
     </entry>
@@ -16,6 +20,10 @@
     </entry>
   </styles>
   <editedStyles>
+    <entry>
+      <string>new1.Vehicle</string>
+      <string>new1.Vehicle.style_0.xml</string>
+    </entry>
     <entry>
       <string>new1.SurfaceCell</string>
       <null/>
@@ -44,6 +52,10 @@
   <layoutInterval>0</layoutInterval>
   <layerOrder>
     <entry>
+      <string>new1.Vehicle</string>
+      <int>2</int>
+    </entry>
+    <entry>
       <string>new1.SurfaceCell</string>
       <int>0</int>
     </entry>
@@ -53,7 +65,7 @@
     </entry>
     <entry>
       <string>new1.Pedestrian</string>
-      <int>2</int>
+      <int>3</int>
     </entry>
   </layerOrder>
   <projections>

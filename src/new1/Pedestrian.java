@@ -64,25 +64,25 @@ public class Pedestrian extends Agent {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//STEP
-	public void movement(GridPoint position, Context context){
-		String fieldName=this.getRoute().get(this.getRouteIndex());
-		GridValueLayer gvl=(GridValueLayer)context.getValueLayer(fieldName);
-		this.checkRouteNode(position, gvl);
-		dest=this.chooseDestination(position,fieldName);
-		//if(this.isMotionstate()){
-			//HEADING UPDATE ------------------------------------------------------------
-			this.setHeading(dest.getRelativeDirection());
-			this.move(dest.getX(),dest.getY());
-		//}
-		this.checkArrival();
-	}
+//	public void movement(GridPoint position, Context context){
+//		String fieldName=this.getRoute().get(this.getRouteIndex());
+//		GridValueLayer gvl=(GridValueLayer)context.getValueLayer(fieldName);
+//		this.checkRouteNode(position, gvl);
+//		dest=this.chooseDestination(position,fieldName);
+//		//if(this.isMotionstate()){
+//			//HEADING UPDATE ------------------------------------------------------------
+//			this.setHeading(dest.getRelativeDirection());
+//			this.move(dest.getX(),dest.getY());
+//		//}
+//		this.checkArrival();
+//	}
 	
 	//@ScheduledMethod(start=1,interval=1000)
-			public void step(){
-				Context context=ContextUtils.getContext(this);
-				GridPoint position=grid.getLocation(this);
-				
-			}
+//			public void step(){
+//				Context context=ContextUtils.getContext(this);
+//				GridPoint position=grid.getLocation(this);
+//				
+//			}
 			
 			public void checkRouteNode(GridPoint position, GridValueLayer gvl){
 				double val=gvl.get(position.getX(),position.getY());
