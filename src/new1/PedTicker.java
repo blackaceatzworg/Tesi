@@ -16,7 +16,7 @@ public class PedTicker {
 		this.destinationConflicts=new ArrayList<DestinationCell>();
 	}
 	
-	@ScheduledMethod(start=0, interval=4, priority=0)
+	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void pedTurn(){
 		this.activatePedestrians();
 		this.setAnticipationPeds();

@@ -40,7 +40,7 @@ public class Pedestrian extends Agent {
 	double directionWeight=(Double)params.getValue("directionWeight");
 	
 	//CONSTRUCTORS////////////////////////////////////////////////////////////////////////////////
-	public Pedestrian(String id, int desiredSpeed, Grid<Object> grid,String logDirectionFileName){
+	public Pedestrian(String id,Grid<Object> grid,String logDirectionFileName){
 		this.setId(id);
 		//this.setDesiderdSpeed(desiredSpeed);
 		this.grid=grid;
@@ -52,7 +52,7 @@ public class Pedestrian extends Agent {
 		this.setAnticipation(new Anticipation(Constants.ownerTypePed));
 	}
 	
-	public Pedestrian(String id, int desiredSpeed, Grid<Object> grid){
+	public Pedestrian(String id,Grid<Object> grid){
 		this.setId(id);
 //		this.setDesiderdSpeed(desiredSpeed);
 		this.grid=grid;
@@ -84,7 +84,7 @@ public class Pedestrian extends Agent {
 //				
 //			}
 			
-			public void checkRouteNode(GridPoint position, GridValueLayer gvl){
+			public void checkAndSwitchRouteNode(GridPoint position, GridValueLayer gvl){
 				double val=gvl.get(position.getX(),position.getY());
 				if(val==0){
 					if(this.getRouteIndex()==this.getRoute().size()-1){
@@ -146,7 +146,7 @@ public class Pedestrian extends Agent {
 		GridPoint position=grid.getLocation(this);
 		Context context=ContextUtils.getContext(this);
 		GridValueLayer gvl=(GridValueLayer)context.getValueLayer(fieldName);
-		this.checkRouteNode(position, gvl);
+		this.checkAndSwitchRouteNode(position, gvl);
 		ArrayList<DestinationCell> nlist=this.getNeigh(position,fieldName);
 		this.calcP(nlist,fieldName);
 		dest=this.lottery(nlist);
@@ -171,7 +171,6 @@ public class Pedestrian extends Agent {
 		//this.getAnticipation().flushAnticipation();
 	}
 	public void movement2(){
-		
 		this.setHeading(dest.getRelativeDirection());
 		System.out.println(this.getId()+" move");
 		this.move(dest.getX(),dest.getY());

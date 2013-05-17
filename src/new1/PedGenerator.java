@@ -26,17 +26,17 @@ public class PedGenerator {
 		this.setHeight(ry);
 	}
 	
-	@ScheduledMethod(start=1, interval=40)
+	@ScheduledMethod(start=0, interval=10)
 	public void addPedestrian(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getPedindex();
 		this.pedindex++;
 		Random r=new Random();
-		int direction=r.nextInt(9);
 		int rx=r.nextInt(Constants.GRID_LENGHT);
+		boolean eo=r.nextBoolean();
 		boolean ns=r.nextBoolean();
 		int ry=this.getHeight();
-		Pedestrian ped=new Pedestrian(id,direction,grid);
+		Pedestrian ped=new Pedestrian(id,grid);
 		if(ns){
 			ped.setRoute(route1);
 		}else{
