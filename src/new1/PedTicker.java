@@ -39,8 +39,9 @@ public class PedTicker {
 			//ped.chooseDestination2();
 			ped.setMotionstate(true);
 			destinationChoices.add(ped.chooseDestination2());
-			this.checkDestinationConflicts(destinationChoices);
+//			this.checkDestinationConflicts(destinationChoices);
 		}
+		this.checkDestinationConflicts(destinationChoices);
 	}
 	
 	public void checkDestinationConflicts(ArrayList<DestinationCell> dcList){
@@ -54,7 +55,6 @@ public class PedTicker {
 				int dcx= dc.getX();
 				int dcy= dc.getY();
 				String dcId=dc.getPedId();
-				
 				int dc2x= dc2.getX();
 				int dc2y= dc2.getY();
 				String dc2Id=dc2.getPedId();
@@ -99,6 +99,8 @@ public class PedTicker {
 		for(final Pedestrian ped:pedList){
 			if(ped.isMotionstate()){
 			ped.movement2();
+			}else{
+				System.out.println(ped.getId()+" in conflict, stopped");
 			}
 		}
 		this.destinationChoices.removeAll(destinationChoices);

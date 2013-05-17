@@ -172,7 +172,7 @@ public class Pedestrian extends Agent {
 	}
 	public void movement2(){
 		this.setHeading(dest.getRelativeDirection());
-		System.out.println(this.getId()+" move");
+//		System.out.println(this.getId()+" move");
 		this.move(dest.getX(),dest.getY());
 		this.getAnticipation().flushAnticipation();
 		this.checkArrival();

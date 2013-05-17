@@ -120,7 +120,7 @@ public class Anticipation {
 		}
 		}catch(Exception e){
 			
-				e.printStackTrace();	
+//				e.printStackTrace();	
 		}
 		//System.out.println(pedAnticipationCount+" "+vehAnticipationCount+" "+pedCount+" "+vehCount);
 	}
@@ -134,7 +134,9 @@ public class Anticipation {
 				ac= new AnticipationCell(new GridPoint(x,i),this.getId(),ownerType);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
-				grid.moveTo(ac, x,i);}catch(Exception e){e.printStackTrace();}
+				grid.moveTo(ac, x,i);}catch(Exception e){
+//					e.printStackTrace();
+					}
 			}
 	}
 	public void setSAnticip(int x, int y, int k, String ownerType){
@@ -146,7 +148,9 @@ public class Anticipation {
 				ac= new AnticipationCell(new GridPoint(x,i),this.getId(),ownerType);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
-				grid.moveTo(ac,x,i);}catch(Exception e){e.printStackTrace();}
+				grid.moveTo(ac,x,i);}catch(Exception e){
+//					e.printStackTrace();
+					}
 			}
 	}
 	public void setEAnticip(int x, int y, int k, String ownerType){
@@ -158,7 +162,9 @@ public class Anticipation {
 				ac= new AnticipationCell(new GridPoint(i,y),this.getId(),ownerType);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
-				grid.moveTo(ac,i,y);}catch(Exception e){e.printStackTrace();}
+				grid.moveTo(ac,i,y);}catch(Exception e){
+//					e.printStackTrace();
+					}
 			}
 	}
 	public void setOAnticip(int x, int y, int k, String ownerType){
@@ -169,7 +175,9 @@ public class Anticipation {
 				ac= new AnticipationCell(new GridPoint(i,y),this.getId(),ownerType);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
-				grid.moveTo(ac,i,y);}catch(Exception e){e.printStackTrace();}
+				grid.moveTo(ac,i,y);}catch(Exception e){
+//					e.printStackTrace();
+					}
 			}
 	}
 	
@@ -178,14 +186,16 @@ public class Anticipation {
 		int j=y;
 			for(int i=x;i>x-k;i--){
 				try{
-					System.out.println("dir:No");
+//					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
 					j++;
-					System.out.println(i+" "+j);
-				}catch(Exception e){e.printStackTrace();}	
+//					System.out.println(i+" "+j);
+				}catch(Exception e){
+//					e.printStackTrace();
+					}	
 			}
 	}
 	public void setSOAnticip(int x, int y, int k, String ownerType){
@@ -193,14 +203,16 @@ public class Anticipation {
 		int j=y;
 			for(int i=x;i>x-k+1;i--){
 				try{
-					System.out.println("dir:No");
+//					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
 					j--;
-					System.out.println(i+" "+j);
-				}catch(Exception e){e.printStackTrace();}	
+//					System.out.println(i+" "+j);
+				}catch(Exception e){
+//					e.printStackTrace();
+					}	
 			}
 	}
 	public void setNEAnticip(int x, int y, int k, String ownerType){
@@ -208,14 +220,16 @@ public class Anticipation {
 		AnticipationCell ac;
 			for(int i=x;i<x+k;i++){
 				try{
-					System.out.println("dir:No");
+//					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
 					j++;
-					System.out.println(i+" "+j);
-				}catch(Exception e){e.printStackTrace();}	
+//					System.out.println(i+" "+j);
+				}catch(Exception e){
+//					e.printStackTrace();
+					}	
 			}
 	}
 	public void setSEAnticip(int x, int y, int k, String ownerType){
@@ -223,14 +237,16 @@ public class Anticipation {
 		AnticipationCell ac;
 			for(int i=x;i<x+k;i++){
 				try{
-					System.out.println("dir:No");
+//					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
 					j--;
-					System.out.println(i+" "+j);
-				}catch(Exception e){e.printStackTrace();}	
+//					System.out.println(i+" "+j);
+				}catch(Exception e){
+//					e.printStackTrace();
+					}	
 			}
 	}
 	

@@ -135,7 +135,13 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		ArrayList<GridPoint> southcurbdestarea=new ArrayList<GridPoint>();
 		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
 			northcurbdestarea.add(new GridPoint(i,13));
+			northcurbdestarea.add(new GridPoint(i,14));
+			northcurbdestarea.add(new GridPoint(i,15));
+			northcurbdestarea.add(new GridPoint(i,16));
 			southcurbdestarea.add(new GridPoint(i,4));
+			southcurbdestarea.add(new GridPoint(i,3));
+			southcurbdestarea.add(new GridPoint(i,2));
+			southcurbdestarea.add(new GridPoint(i,1));
 		}
 		this.calcPathField(nordCurbFF, northcurbdestarea);
 		this.calcPathField(southCurbFF, southcurbdestarea);
@@ -356,10 +362,10 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//vehicle
-		Vehicle veh=new Vehicle("v1",0,Constants.E,grid,12,5);
-		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
-		context.add(veh);
-		grid.moveTo(veh,10,7);
+//		Vehicle veh=new Vehicle("v1",0,Constants.E,grid,12,5);
+//		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
+//		context.add(veh);
+//		grid.moveTo(veh,10,7);
 //		
 
 		
