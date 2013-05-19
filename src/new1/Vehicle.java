@@ -40,6 +40,16 @@ public class Vehicle {
 			System.out.println("in accereleration: "+Math.round(this.getCurrentSpeed()));
 			this.setCurrentSpeed(this.getCurrentSpeed()+Constants.accelerationModule);
 		}
+	}
+	@ScheduledMethod(start=0,interval=1)
+	public void test_accelerate(){
+		if(this.getCurrentSpeed()<2){
+		this.setCurrentSpeed(this.getCurrentSpeed()+0.04);}
+		int delta=(int) Math.round(this.getCurrentSpeed());
+		int x=grid.getLocation(this).getX()+delta;
+		int y=grid.getLocation(this).getY();
+		//DestinationCell dest=new DestinationCell(new GridPoint(x,y),0,Constants.E);
+		this.move(x,y);
 		
 	}
 	public void brake(double softbrakemodule){
@@ -65,7 +75,7 @@ public class Vehicle {
 	public DestinationCell chooseDestination(){
 		return this.getDest();//TODO
 	}
-	@ScheduledMethod(start=0,interval=2)
+	
 	public void project(){
 		int speed=(int)this.getCurrentSpeed();
 		int x=grid.getLocation(this).getX()+1;
