@@ -102,19 +102,25 @@ public class Pedestrian extends Agent {
 					}
 				}
 			}
+			
 			public void checkArrival(){
 				if(this.isArrived()){
 					ContextUtils.getContext(this).remove(this);
 				}
 			}
 			
+			
+			/**
+			 * Control when one pedestrian cross the road successfully
+			 * 
+			 * */
 			public void checkSurface(){
 				if(!this.isCrossed()){
 					int x=grid.getLocation(this).getX();
 					int y=grid.getLocation(this).getY();
 					for(Object ags : grid.getObjectsAt(x,y)){
 						if(ags instanceof SurfaceCell){
-							if(((SurfaceCell) ags).getSurfaceType()==Constants.Curb&&this.getRouteIndex()==1){
+							if(((SurfaceCell) ags).getSurfaceType()==Constants.Curb&&this.getRouteIndex()==2){
 								this.setCrossed(true);
 								System.out.println("ha attraversato "+ this.getId());
 							}

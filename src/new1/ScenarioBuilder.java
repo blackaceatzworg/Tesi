@@ -316,21 +316,21 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 //		//Pedestrian with log
-		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
-		ped.setRoute(northSouthRoute);
-		ped.setCurrentField(ped.getRoute().get(0));
-//		ped.setAnticipation(new Anticipation());
-		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
-		context.add(ped);
-		grid.moveTo(ped,25,16);
+//		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
+//		ped.setRoute(northSouthRoute);
+//		ped.setCurrentField(ped.getRoute().get(0));
+////		ped.setAnticipation(new Anticipation());
+//		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
+//		context.add(ped);
+//		grid.moveTo(ped,25,16);
 ////		
-//		Pedestrian ped3=new Pedestrian("ped3",grid);
-//		ped3.setRoute(southNorthRoute);
-//		ped3.setCurrentField(ped3.getRoute().get(0));
-//		//ped3.setAnticipation(new Anticipation("ped"));
-//		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
-//		context.add(ped3);
-//		grid.moveTo(ped3,25,2);
+		Pedestrian ped3=new Pedestrian("ped3",grid);
+		ped3.setRoute(southNorthRoute);
+		ped3.setCurrentField(ped3.getRoute().get(0));
+		//ped3.setAnticipation(new Anticipation("ped"));
+		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
+		context.add(ped3);
+		grid.moveTo(ped3,25,2);
 //		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
 //		context.add(pedg);
 //		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
@@ -361,10 +361,10 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//vehicle
-		Vehicle veh=new Vehicle("v1",0,Constants.E,grid,12,5);
-		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
-		context.add(veh);
-		grid.moveTo(veh,10,7);
+//		Vehicle veh=new Vehicle("v1",0,Constants.E,grid,12,5);
+//		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
+//		context.add(veh);
+//		grid.moveTo(veh,10,7);
 //		
 
 		
