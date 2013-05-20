@@ -311,19 +311,18 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		ArrayList<String> southNorthRoute=new ArrayList<String>();
 		southNorthRoute.add(southCurbFF.getName());
 		southNorthRoute.add(nordCurbFF.getName());
-		//southNorthRoute.add(northEastFF.getName());
 		southNorthRoute.add(northWestFF.getName());
 		
 		
 		
 //		//Pedestrian with log
-//		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
-//		ped.setRoute(northSouthRoute);
-//		ped.setCurrentField(ped.getRoute().get(0));
-////		ped.setAnticipation(new Anticipation());
-//		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
-//		context.add(ped);
-//		grid.moveTo(ped,25,16);
+		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
+		ped.setRoute(northSouthRoute);
+		ped.setCurrentField(ped.getRoute().get(0));
+//		ped.setAnticipation(new Anticipation());
+		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
+		context.add(ped);
+		grid.moveTo(ped,25,16);
 ////		
 //		Pedestrian ped3=new Pedestrian("ped3",grid);
 //		ped3.setRoute(southNorthRoute);
@@ -337,8 +336,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
 //		context.add(pedg2);
 		
-//		PedTicker pedt=new PedTicker();
-//		context.add(pedt);
+		PedTicker pedt=new PedTicker();
+		context.add(pedt);
 //		
 //		//Pedestrian normal
 //		Pedestrian ped2=new Pedestrian("ped2",1,grid);

@@ -30,6 +30,9 @@ public class Pedestrian extends Agent {
 	private ArrayList<String> route;
 	private int routeIndex;
 	private boolean arrived;
+	private boolean crossed;
+	
+
 	private Anticipation anticipation;
 	private DestinationCell dest;
 	private String currentField;
@@ -61,6 +64,7 @@ public class Pedestrian extends Agent {
 		this.setAnticipation(new Anticipation(Constants.ownerTypePed));
 		this.routeIndex=0;
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//STEP
@@ -104,6 +108,24 @@ public class Pedestrian extends Agent {
 				}
 			}
 			
+			public void checkSurface(){
+				if(!this.isCrossed()){
+					int x=grid.getLocation(this).getX();
+					int y=grid.getLocation(this).getY();
+					for(Object ags : grid.getObjectsAt(x,y)){
+						if(ags instanceof SurfaceCell){
+							if(((SurfaceCell) ags).getSurfaceType()==Constants.Curb&&this.getRouteIndex()==1){
+								this.setCrossed(true);
+								System.out.println("ha attraversato "+ this.getId());
+							}
+						}
+//						else{
+//							//System.out.println("Cella libera");
+//						}
+					}
+				}
+			}
+			
 			public boolean checkOccupation(DestinationCell dc){
 				boolean occupied=false;
 				int x=dc.getX();
@@ -126,9 +148,11 @@ public class Pedestrian extends Agent {
 			 * */
 			public void move(GridPoint gp){
 				grid.moveTo(this,gp.getX(),gp.getY());
+				this.checkSurface();
 			}
 			public void move(int x, int y){
 				grid.moveTo(this,x,y);
+				this.checkSurface();
 			}
 	
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -405,5 +429,12 @@ public class Pedestrian extends Agent {
 
 	public void setDest(DestinationCell dest) {
 		this.dest = dest;
+	}
+	public boolean isCrossed() {
+		return crossed;
+	}
+
+	public void setCrossed(boolean crossed) {
+		this.crossed = crossed;
 	}
 }

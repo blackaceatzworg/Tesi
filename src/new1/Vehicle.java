@@ -48,7 +48,7 @@ public class Vehicle {
 	public void test_accelerate(){
 		this.setTicker(this.getTicker()+1);
 		if(this.getCurrentSpeed()<5){
-		this.setCurrentSpeed(this.getCurrentSpeed()+0.03);}
+		this.setCurrentSpeed(this.getCurrentSpeed()+0.5);}
 		int delta=(int) Math.round(this.getCurrentSpeed());
 		int delta1=this.speedSelector(4);
 		System.out.println(delta+" "+this.getCurrentSpeed()+" "+delta1);
