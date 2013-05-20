@@ -3,6 +3,7 @@ package new1;
 import java.util.ArrayList;
 
 import repast.simphony.context.Context;
+import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
@@ -23,6 +24,7 @@ public class Vehicle {
 	private String currentField;
 	private DestinationCell dest;
 	private String logFileName;//
+	private int ticker;
 	
 	////////////////CONSTRUCTOR
 	public Vehicle(String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
@@ -33,6 +35,7 @@ public class Vehicle {
 		this.setPreferredSpeed(2);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
 		this.setVehicleCells(new VehicleShape(l,w));
+		this.setTicker(0);
 	}
 	
 	public void accelerate(){
@@ -43,14 +46,51 @@ public class Vehicle {
 	}
 	@ScheduledMethod(start=0,interval=1)
 	public void test_accelerate(){
-		if(this.getCurrentSpeed()<2){
-		this.setCurrentSpeed(this.getCurrentSpeed()+0.04);}
+		this.setTicker(this.getTicker()+1);
+		if(this.getCurrentSpeed()<5){
+		this.setCurrentSpeed(this.getCurrentSpeed()+0.03);}
 		int delta=(int) Math.round(this.getCurrentSpeed());
-		int x=grid.getLocation(this).getX()+delta;
+		int delta1=this.speedSelector(4);
+		System.out.println(delta+" "+this.getCurrentSpeed()+" "+delta1);
+		int x=grid.getLocation(this).getX()+delta1;
 		int y=grid.getLocation(this).getY();
 		//DestinationCell dest=new DestinationCell(new GridPoint(x,y),0,Constants.E);
 		this.move(x,y);
+	}
+	
+	public int speedSelector(int val){
+		int tick=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		switch(val){
+		case 1:
+			if(this.getTicker()==4){
+				this.setTicker(0);
+				return 1;
+			}else{
+				return 0;
+			}
+			//break;
+		case 2:
+			
+			if(tick%2==0){
+				return 1;
+			}else{
+				return 0;
+			}
+//			break;
+		case 3:
+			return 1;
+		case 4:
+			if(tick%2==0){
+				return 2;
+			}else{
+				return 1;
+			}
+		case 5:
+			return 2;
+		}
 		
+		
+		return 0;
 	}
 	public void brake(double softbrakemodule){
 		System.out.println("in decereleration: "+Math.round(this.getCurrentSpeed()));
@@ -234,6 +274,14 @@ public class Vehicle {
 
 	public void setDest(DestinationCell dest) {
 		this.dest = dest;
+	}
+
+	public int getTicker() {
+		return ticker;
+	}
+
+	public void setTicker(int ticker) {
+		this.ticker = ticker;
 	}
 	
 
