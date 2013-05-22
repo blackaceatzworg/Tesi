@@ -2,6 +2,8 @@ package new1;
 
 import java.util.ArrayList;
 
+import bsh.This;
+
 import repast.simphony.context.Context;
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
@@ -197,11 +199,12 @@ public class Vehicle {
 ////////////////PERCEPTION
 	public void project(){
 		int speed=(int)this.getCurrentSpeed();
+		System.out.println(speed);
 		int x=grid.getLocation(this).getX()+1;
 		int y=grid.getLocation(this).getY();
 		int anticipationLenght=this.calcAnticipation(speed);
 		System.out.println(this.getCurrentSpeed());
-		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght);
+		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 	}
 	public int calcAnticipation(int speed){
 		int antValue=16;
@@ -231,7 +234,27 @@ public class Vehicle {
 		return antValue;
 	}
 	
-	public void evaluate(){}
+	public void evaluate(){
+		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
+			int x=ac.getGp().getX();
+			int y=ac.getGp().getY();
+			for(Object ags : grid.getObjectsAt(x,y)){
+				if(ags instanceof Pedestrian){
+					System.out.println("pedone rilevato in "+x+" "+y+ac.getIndex());
+				}
+				if(ags instanceof Vehicle){
+					System.out.println("veicolo rilevato in "+x+" "+y+ac.getOwnerType());
+				}
+				if(ags instanceof AnticipationCell){
+					if(!((AnticipationCell) ags).getOwner().equals(this.getId())){
+						System.out.println("anticipazione rilevata in "+x+" "+y+ac.getOwner());
+					}
+				}
+			}
+		}
+		
+		
+	}
 	
 	///Derived from pedestrian
 	public boolean checkOccupation(DestinationCell dc){

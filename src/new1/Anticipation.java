@@ -260,7 +260,9 @@ public class Anticipation {
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
-					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}
+					grid.moveTo(ac,i,j);}catch(Exception e){
+						//e.printStackTrace();
+						}
 				}
 			}
 	}
@@ -274,7 +276,9 @@ public class Anticipation {
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
-					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}
+					grid.moveTo(ac,i,j);}catch(Exception e){
+						//e.printStackTrace();
+						}
 				}
 			}
 	}

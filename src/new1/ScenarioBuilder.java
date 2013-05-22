@@ -324,15 +324,15 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(ped);
 //		grid.moveTo(ped,25,16);
 ////		
-		Pedestrian ped3=new Pedestrian("ped3",grid);
-		ped3.setRoute(southNorthRoute);
-		ped3.setCurrentField(ped3.getRoute().get(0));
-		//ped3.setAnticipation(new Anticipation("ped"));
-		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
-		context.add(ped3);
-		grid.moveTo(ped3,25,2);
-//		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
-//		context.add(pedg);
+//		Pedestrian ped3=new Pedestrian("ped3",grid);
+//		ped3.setRoute(southNorthRoute);
+//		ped3.setCurrentField(ped3.getRoute().get(0));
+//		//ped3.setAnticipation(new Anticipation("ped"));
+//		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
+//		context.add(ped3);
+//		grid.moveTo(ped3,25,2);
+		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
+		context.add(pedg);
 //		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
 //		context.add(pedg2);
 		
