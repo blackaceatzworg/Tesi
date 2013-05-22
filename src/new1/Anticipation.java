@@ -13,7 +13,6 @@ import repast.simphony.space.grid.GridPoint;
 public class Anticipation {
 	
 	private String owner;//occhio, è getID!
-//	private double hazardIndex;
 	Grid<Object> grid;
 	Context context;
 	private ArrayList<AnticipationCell> anticipationCells;
@@ -38,14 +37,14 @@ public class Anticipation {
 		this.context=context;
 	}
 	
-	public void updateVehicleAnticipation(int direction, int x, int y, int anticipationLenght){
+	public void updateVehicleAnticipation(int direction, int x, int y, int anticipationLenght, int speed){
 		AnticipationCell ac;
 		switch(direction){
 		case Constants.O:
-			this.setVehOAnticip(x,y,anticipationLenght, this.getOwnerType());
+			this.setVehOAnticip(x,y,anticipationLenght, this.getOwnerType(),speed);
 			break;
 		case Constants.E:
-			this.setVehEAnticip(x, y, anticipationLenght, this.getOwnerType());
+			this.setVehEAnticip(x, y, anticipationLenght, this.getOwnerType(),speed);
 			break;
 		}
 	}
@@ -252,27 +251,27 @@ public class Anticipation {
 	
 /////////////////////////////////////////////////////////////////////////
 	//vehicle anticipations
-	public void setVehEAnticip(int x, int y, int k, String ownerType){
+	public void setVehEAnticip(int x, int y, int k, String ownerType, int speed){
 		AnticipationCell ac;
 //		System.out.println("veh e ant");
 			for(int i=x;i<x+k;i++){
 				for(int j=y;j<y+5;j++){
 					try{
-					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}
 				}
 			}
 	}
-	public void setVehOAnticip(int x, int y, int k, String ownerType){
+	public void setVehOAnticip(int x, int y, int k, String ownerType, int speed){
 		AnticipationCell ac;
 		System.out.println("veh o ant");
 			for(int i=x;i>x-k;i--){
 				for(int j=y;j<y+5;j++){
 					try{
 //						System.out.println("dir:o");
-					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);}catch(Exception e){e.printStackTrace();}

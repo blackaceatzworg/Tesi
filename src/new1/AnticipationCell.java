@@ -10,11 +10,23 @@ public class AnticipationCell {
 	private int index;
 	private String owner;
 	private String ownerType;
+	private int speed;
 
 	public AnticipationCell(GridPoint gp, String owner, String ownerType){
 		this.setOwner(owner);
 		this.setGp(gp);
 		this.setOwnerType(ownerType);
+	}
+	
+	/**
+	 * Constuctor for anticipation cells used by vehicle. Added parameter speed
+	 * 
+	 * */
+	public AnticipationCell(GridPoint gp, String owner, String ownerType, int speed){
+		this.setOwner(owner);
+		this.setGp(gp);
+		this.setOwnerType(ownerType);
+		this.setSpeed(speed);
 	}
 
 	public GridPoint getGp() {
@@ -47,5 +59,13 @@ public class AnticipationCell {
 
 	public void setOwnerType(String ownerType) {
 		this.ownerType = ownerType;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 }
