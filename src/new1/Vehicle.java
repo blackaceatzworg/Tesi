@@ -25,97 +25,176 @@ public class Vehicle {
 	private DestinationCell dest;
 	private String logFileName;//
 	private int ticker;
-	
+
 	////////////////CONSTRUCTOR
 	public Vehicle(String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
 		this.setId(id);
 		this.setCurrentSpeed(currentSpeed);
 		this.setHeading(heading);
 		this.setGrid(grid);
-		this.setPreferredSpeed(2);
+		this.setPreferredSpeed(5);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
 		this.setVehicleCells(new VehicleShape(l,w));
 		this.setTicker(0);
 	}
 	
+	///test
+//	public void test_accelerate(){
+//	this.gearUp();
+//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
+//	int y=grid.getLocation(this).getY();
+//	grid.moveTo(this,x,y);
+//}
+////@ScheduledMethod(start=0,interval=1)
+//public void test_brake(){
+////	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement()+" ,freno");
+//	this.gearDown();
+//	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement());
+//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
+//	int y=grid.getLocation(this).getY();
+//	System.out.println(x);
+//	grid.moveTo(this,x,y);
+//}
+	
+////	@ScheduledMethod(start=0,interval=1)
+//	public void test(){
+//		Context context=ContextUtils.getContext(this);
+//		GridPoint position=grid.getLocation(this);
+//		int x=position.getX();
+//		int y=position.getY();
+////		if(this.getCurrentSpeed()<2){
+////		this.accelerate();}
+////		this.brake(Constants.softBrakeModule);
+////		int k=(int) Math.round(this.getCurrentSpeed());
+////		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x-1, y, 16);
+//		//grid.moveTo(this,x+1,y);
+//	}
+	
+	@ScheduledMethod(start=0,interval=2)
+	public void test_1a(){
+		this.project();
+		if(this.getCurrentSpeed()<this.getPreferredSpeed()){
+			this.gearUp();
+			int delta=this.calcDisplacement();
+			int x=grid.getLocation(this).getX()+delta;
+			int y=grid.getLocation(this).getY();
+			this.move(x, y);
+		}else{
+			this.gearDown();
+			int delta=this.calcDisplacement();
+			int x=grid.getLocation(this).getX()+delta;
+			int y=grid.getLocation(this).getY();
+			this.move(x, y);
+		}
+	}
+	
+	@ScheduledMethod(start=1,interval=2)
+	public void test_1b(){
+		this.getAnticipation().flushAnticipation();
+	}
+	
+	
+	////////////////MOTION
 	public void accelerate(){
-		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<this.getPreferredSpeed()){
-			System.out.println("in accereleration: "+Math.round(this.getCurrentSpeed()));
-			this.setCurrentSpeed(this.getCurrentSpeed()+Constants.accelerationModule);
+		this.gearUp();
+	}
+	
+	public void brake(){
+		this.gearDown();
+	}
+	
+	/**
+	 * Models the acceleration process. Each value is the speed increment for each speed zone
+	 * */
+	public void gearUp(){
+		double delta=0;
+		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
+			delta=0.3645;
+		}if(this.getCurrentSpeed()>=1&&this.getCurrentSpeed()<2){
+			delta=0.486;
+		}if(this.getCurrentSpeed()>=2&&this.getCurrentSpeed()<3){
+			delta=0.2916;
+		}if(this.getCurrentSpeed()>=3&&this.getCurrentSpeed()<4){
+			delta=0.2082;
+		}if(this.getCurrentSpeed()>=4&&this.getCurrentSpeed()<5){
+			delta=0.243;
 		}
-	}
-	@ScheduledMethod(start=0,interval=1)
-	public void test_accelerate(){
-		this.setTicker(this.getTicker()+1);
-		if(this.getCurrentSpeed()<5){
-		this.setCurrentSpeed(this.getCurrentSpeed()+0.5);}
-		int delta=(int) Math.round(this.getCurrentSpeed());
-		int delta1=this.speedSelector(4);
-		System.out.println(delta+" "+this.getCurrentSpeed()+" "+delta1);
-		int x=grid.getLocation(this).getX()+delta1;
-		int y=grid.getLocation(this).getY();
-		//DestinationCell dest=new DestinationCell(new GridPoint(x,y),0,Constants.E);
-		this.move(x,y);
+		this.setCurrentSpeed(this.getCurrentSpeed()+delta);
+//		return delta;
 	}
 	
-	public int speedSelector(int val){
-		int tick=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-		switch(val){
-		case 1:
-			if(this.getTicker()==4){
-				this.setTicker(0);
-				return 1;
-			}else{
-				return 0;
-			}
-			//break;
-		case 2:
-			
-			if(tick%2==0){
-				return 1;
-			}else{
-				return 0;
-			}
-//			break;
-		case 3:
-			return 1;
-		case 4:
-			if(tick%2==0){
-				return 2;
-			}else{
-				return 1;
-			}
-		case 5:
-			return 2;
+	/**
+	 * Models the deceleration process. Each value is the speed decrement for each speed zone
+	 * */
+	public void gearDown(){
+		double delta=0;
+		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
+			delta=0.486;
+		}if(this.getCurrentSpeed()>=1&&this.getCurrentSpeed()<2){
+			delta=0.648;
+		}if(this.getCurrentSpeed()>=2&&this.getCurrentSpeed()<3){
+			delta=0.3888;
+		}if(this.getCurrentSpeed()>=3&&this.getCurrentSpeed()<4){
+			delta=0.2777;
+		}if(this.getCurrentSpeed()>=4&&this.getCurrentSpeed()<=5){
+			delta=0.324;
 		}
-		
-		
-		return 0;
-	}
-	public void brake(double softbrakemodule){
-		System.out.println("in decereleration: "+Math.round(this.getCurrentSpeed()));
-		this.setCurrentSpeed(this.getCurrentSpeed()-softbrakemodule);
+		this.setCurrentSpeed(this.getCurrentSpeed()-delta);
+//		return delta;
 	}
 	
 	
-//	@ScheduledMethod(start=0,interval=1)
-	public void test(){
-		Context context=ContextUtils.getContext(this);
-		GridPoint position=grid.getLocation(this);
-		int x=position.getX();
-		int y=position.getY();
-//		if(this.getCurrentSpeed()<2){
-//		this.accelerate();}
-//		this.brake(Constants.softBrakeModule);
-//		int k=(int) Math.round(this.getCurrentSpeed());
-//		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x-1, y, 16);
-		//grid.moveTo(this,x+1,y);
-	}
-	
+	/**
+	 * Calculate the displacement related to speed.
+	 * 
+	 * */
+	 public int calcDisplacement(){
+		 int currentTick=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		 int displacement=0;
+		 int val=(int) (Math.round(this.getCurrentSpeed()*100)/100);
+		 switch(val){
+		 case 1:
+			 if(currentTick%2==0){
+				 displacement=1;
+			 }else{
+				 displacement=2;
+			 }
+			 return displacement;
+		 case 2:
+			 if(currentTick%2==0){
+				 displacement=2;
+			 }else{
+				 displacement=3;
+			 }
+			 return displacement;
+		 case 3:
+			 if(currentTick%2==0){
+			 displacement=3;
+		 	}else{
+		 		displacement=4;
+		 	}
+			 return displacement;
+		 case 4:
+			 displacement=7;
+			 return displacement;
+		 case 5: 
+			 displacement=9;
+			 return displacement;
+		 }
+		 return displacement;
+	 }
+	 
 	public DestinationCell chooseDestination(){
 		return this.getDest();//TODO
 	}
 	
+	public void move(int x, int y){
+		grid.moveTo(this,x,y);
+		//TODO flush anticipation
+		//TODO update shape
+	}
+	
+////////////////PERCEPTION
 	public void project(){
 		int speed=(int)this.getCurrentSpeed();
 		int x=grid.getLocation(this).getX()+1;
@@ -123,9 +202,7 @@ public class Vehicle {
 		int anticipationLenght=this.calcAnticipation(speed);
 		System.out.println(this.getCurrentSpeed());
 		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght);
-		this.setCurrentSpeed(this.getCurrentSpeed()+1);
 	}
-	
 	public int calcAnticipation(int speed){
 		int antValue=16;
 		switch(speed){
@@ -155,17 +232,6 @@ public class Vehicle {
 	}
 	
 	public void evaluate(){}
-	
-	@ScheduledMethod(start=1,interval=2)
-	public void movevement(){
-//		int x=this.getDest().getX();
-//		int y=this.getDest().getY();
-//		this.move(x, y);
-		this.getAnticipation().flushAnticipation();
-	}
-	public void move(int x, int y){
-		grid.moveTo(this,x,y);
-	}
 	
 	///Derived from pedestrian
 	public boolean checkOccupation(DestinationCell dc){
