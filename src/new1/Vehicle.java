@@ -1,5 +1,8 @@
 package new1;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import bsh.This;
@@ -27,6 +30,7 @@ public class Vehicle {
 	private DestinationCell dest;
 	private String logFileName;//
 	private int ticker;
+	private boolean passed;
 
 	////////////////CONSTRUCTOR
 	public Vehicle(String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
@@ -40,6 +44,30 @@ public class Vehicle {
 		this.setTicker(0);
 	}
 	
+	public Vehicle(String filename,String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
+		this.setId(id);
+		this.setCurrentSpeed(currentSpeed);
+		this.setHeading(heading);
+		this.setGrid(grid);
+		this.setPreferredSpeed(5);
+		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
+		this.setVehicleCells(new VehicleShape(l,w));
+		this.setTicker(0);
+		this.logFileName=filename;
+	}
+	
+	////LOG
+	public void logArrival(){
+		PrintStream p=null;
+		int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		if(this.isPassed()){
+		try {
+			p = new PrintStream(new FileOutputStream(this.logFileName,true));
+			p.println(this.getId()+","+passedTime);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}}
+	}
 	///test
 //	public void test_accelerate(){
 //	this.gearUp();
@@ -72,7 +100,7 @@ public class Vehicle {
 //		//grid.moveTo(this,x+1,y);
 //	}
 	
-	@ScheduledMethod(start=0,interval=2)
+//	@ScheduledMethod(start=0,interval=2)
 	public void test_1a(){
 		this.project();
 		if(this.getCurrentSpeed()<this.getPreferredSpeed()){
@@ -93,6 +121,11 @@ public class Vehicle {
 	@ScheduledMethod(start=1,interval=2)
 	public void test_1b(){
 		this.getAnticipation().flushAnticipation();
+	}
+	@ScheduledMethod(start=0,interval=2)
+	public void test_eval_anticipation(){
+		this.project();
+		this.evaluate();
 	}
 	
 	
@@ -196,14 +229,24 @@ public class Vehicle {
 		//TODO update shape
 	}
 	
+	public void checkArrival(int x){
+		
+	}
+	
 ////////////////PERCEPTION
+	
+	/**
+	 * Update vehicle anticipation given the vehicle's heading and speed.
+	 * Anticipation length is determined by speed value, calling calcAnticipation(speed)
+	 * 
+	 * */
 	public void project(){
 		int speed=(int)this.getCurrentSpeed();
-		System.out.println(speed);
+//		System.out.println(speed);
 		int x=grid.getLocation(this).getX()+1;
 		int y=grid.getLocation(this).getY();
 		int anticipationLenght=this.calcAnticipation(speed);
-		System.out.println(this.getCurrentSpeed());
+//		System.out.println(this.getCurrentSpeed());
 		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 	}
 	public int calcAnticipation(int speed){
@@ -228,9 +271,6 @@ public class Vehicle {
 			antValue=96;
 			break;
 		}
-		if(speed>5){
-			this.setCurrentSpeed(0);
-		}
 		return antValue;
 	}
 	
@@ -238,17 +278,22 @@ public class Vehicle {
 		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
 			int x=ac.getGp().getX();
 			int y=ac.getGp().getY();
+//			System.out.print(x+" "+ac.getIndex());
+//			System.out.println("");
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof Pedestrian){
-					System.out.println("pedone rilevato in "+x+" "+y+ac.getIndex());
+					System.out.println("pedone rilevato in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getIndex());
 				}
 				if(ags instanceof Vehicle){
 					System.out.println("veicolo rilevato in "+x+" "+y+ac.getOwnerType());
 				}
 				if(ags instanceof AnticipationCell){
 					if(!((AnticipationCell) ags).getOwner().equals(this.getId())){
-						System.out.println("anticipazione rilevata in "+x+" "+y+ac.getOwner());
+						System.out.println("anticipazione rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getOwner());
 					}
+				}
+				if(ags instanceof StoppedPed){
+					System.out.println("pedone fermo in "+x+" "+y+ac.getIndex()+" "+((StoppedPed) ags).getId());
 				}
 			}
 		}
@@ -371,6 +416,14 @@ public class Vehicle {
 
 	public void setTicker(int ticker) {
 		this.ticker = ticker;
+	}
+
+	public boolean isPassed() {
+		return passed;
+	}
+
+	public void setPassed(boolean passed) {
+		this.passed = passed;
 	}
 	
 
