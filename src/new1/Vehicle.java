@@ -33,6 +33,12 @@ public class Vehicle {
 	private boolean passed;
 
 	////////////////CONSTRUCTOR
+	/**
+	 * @param id vehicle id
+	 * @param currenSpeed initial speed
+	 * @param heading Vehicle's heading: it may be 
+	 * 
+	 * */
 	public Vehicle(String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
 		this.setId(id);
 		this.setCurrentSpeed(currentSpeed);
