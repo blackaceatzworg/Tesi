@@ -38,7 +38,6 @@ public class Anticipation {
 	}
 	
 	public void updateVehicleAnticipation(int direction, int x, int y, int anticipationLenght, int speed){
-		AnticipationCell ac;
 		switch(direction){
 		case Constants.O:
 			this.setVehOAnticip(x,y,anticipationLenght, this.getOwnerType(),speed);
@@ -252,6 +251,11 @@ public class Anticipation {
 /////////////////////////////////////////////////////////////////////////
 	//vehicle anticipations
 	public void setVehEAnticip(int x, int y, int k, String ownerType, int speed){
+		int safeValue=Constants.GRID_LENGHT-x;
+//		System.out.println(safeValue);
+		if(k>safeValue){
+			k=safeValue-1;
+		}
 		AnticipationCell ac;
 		int antIndex=16;
 //		System.out.println("veh e ant");
@@ -259,19 +263,26 @@ public class Anticipation {
 				for(int j=y;j<y+5;j++){
 					try{
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
-					this.getAnticipationCells().add(ac);
 					ac.setIndex(this.setAntIndex(antIndex));
 					context.add(ac);
-					grid.moveTo(ac,i,j);}catch(Exception e){
+					grid.moveTo(ac,i,j);
+					this.getAnticipationCells().add(ac);
+					}catch(Exception e){
 						//e.printStackTrace();
 						}
 				}
 				antIndex++;
 			}
+			System.out.println(this.getAnticipationCells().size());
 	}
 	
 	
 	public void setVehOAnticip(int x, int y, int k, String ownerType, int speed){
+		int safeValue=Constants.GRID_LENGHT-x;
+//		System.out.println(safeValue);
+		if(k>x){
+			k=safeValue-1;
+		}
 		AnticipationCell ac;
 		int antIndex=16;
 //		System.out.println("veh o ant");
@@ -280,10 +291,11 @@ public class Anticipation {
 					try{
 //						System.out.println("dir:o");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType, speed);
-					this.getAnticipationCells().add(ac);
 					ac.setIndex(this.setAntIndex(antIndex));
 					context.add(ac);
-					grid.moveTo(ac,i,j);}catch(Exception e){
+					grid.moveTo(ac,i,j);
+					this.getAnticipationCells().add(ac);
+					}catch(Exception e){
 						//e.printStackTrace();
 						}
 				}
