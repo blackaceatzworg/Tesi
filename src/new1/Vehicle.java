@@ -36,7 +36,10 @@ public class Vehicle {
 	/**
 	 * @param id vehicle id
 	 * @param currenSpeed initial speed
-	 * @param heading Vehicle's heading: it may be 
+	 * @param heading Vehicle's heading: it may be east or west
+	 * @param grid context grid
+	 * @param l vehicle's lenght
+	 * @param w vehicle's width
 	 * 
 	 * */
 	public Vehicle(String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
@@ -106,7 +109,7 @@ public class Vehicle {
 //		//grid.moveTo(this,x+1,y);
 //	}
 	
-//	@ScheduledMethod(start=0,interval=2)
+	@ScheduledMethod(start=0,interval=2)
 	public void test_1a(){
 		this.project();
 		if(this.getCurrentSpeed()<this.getPreferredSpeed()){
@@ -128,7 +131,7 @@ public class Vehicle {
 	public void test_1b(){
 		this.getAnticipation().flushAnticipation();
 	}
-	@ScheduledMethod(start=0,interval=2)
+//	@ScheduledMethod(start=0,interval=2)
 	public void test_eval_anticipation(){
 		this.project();
 		this.evaluate();
