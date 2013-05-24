@@ -23,12 +23,10 @@ import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.StrictBorders;
-import repast.simphony.space.grid.WrapAroundBorders;
 import repast.simphony.util.ContextUtils;
 import repast.simphony.valueLayer.GridValueLayer;
 public class ScenarioBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 	Grid<Object> grid;
-	Grid<Object> vehicleGrid;
 	@Override
 	public Context<Object> build(Context<Object> context) {
 		// TODO Auto-generated method stub
@@ -85,14 +83,6 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 						numberOfLane));
 		
 		context.add(grid);
-		vehicleGrid=gf.createGrid("vehicleGrid", context,
-				new GridBuilderParameters<Object>(
-						new WrapAroundBorders(),
-						new SimpleGridAdder<Object>(),
-						true,
-						Constants.GRID_LENGHT,
-						numberOfLane));
-		context.add(vehicleGrid);
 		
 		//field creation,
 		
@@ -373,10 +363,10 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//vehicle
-		Vehicle veh=new Vehicle("v1",2,Constants.E,vehicleGrid,12,5);
-		veh.getAnticipation().initAnticipation(veh.getId(), vehicleGrid, context);
+		Vehicle veh=new Vehicle("v1",2,Constants.E,grid,12,5);
+		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
 		context.add(veh);
-		vehicleGrid.moveTo(veh,9,7);
+		grid.moveTo(veh,9,7);
 		
 //		StoppedPed sped1=new StoppedPed("sped1",grid);
 //		context.add(sped1);

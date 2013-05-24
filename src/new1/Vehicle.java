@@ -233,7 +233,12 @@ public class Vehicle {
 	}
 	
 	public void move(int x, int y){
-		grid.moveTo(this,x,y);
+		try{
+			grid.moveTo(this,x,y);
+		}catch(Exception e){
+			
+		}
+		
 		//TODO flush anticipation
 		//TODO update shape
 	}
