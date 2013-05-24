@@ -20,7 +20,7 @@ public class VehicleGenerator {
 	}
 	
 	//TODO vehicleShape
-	@ScheduledMethod(start=0, interval=10)
+//	@ScheduledMethod(start=0, interval=10)
 	public void addVehicle(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();
@@ -37,11 +37,11 @@ public class VehicleGenerator {
 		
 	}
 	
-//	@Watch(watcheeClassName="new1.Vehicle",watcheeFieldNames="removed",whenToTrigger=WatcherTriggerSchedule.LATER,scheduleTriggerDelta = 1)
-//	public void addProcess(){
-////		System.out.println("Veicolo uscito");
-//		this.addVehicle();
-//	}
+	@Watch(watcheeClassName="new1.Vehicle",watcheeFieldNames="removed",whenToTrigger=WatcherTriggerSchedule.LATER,scheduleTriggerDelta = 1)
+	public void addProcess(){
+//		System.out.println("Veicolo uscito");
+		this.addVehicle();
+	}
 
 
 	

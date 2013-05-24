@@ -317,22 +317,6 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		
-	//AGENTS
-//		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
-//		context.add(pedg);
-		
-		VehicleGenerator vg1=new VehicleGenerator("vg1",context);
-		context.add(vg1);
-		
-//		PedTicker pedt=new PedTicker();
-//		context.add(pedt);
-		
-		VehicleTicker veht=new VehicleTicker();
-		context.add(veht);
-		
-		
-	//TEST AGENTS
-		
 //		//Pedestrian with log
 //		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
 //		ped.setRoute(northSouthRoute);
@@ -349,52 +333,64 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
 //		context.add(ped3);
 //		grid.moveTo(ped3,25,2);
+		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
+		context.add(pedg);
 		
-////	
-//	//Pedestrian normal
-//	Pedestrian ped2=new Pedestrian("ped2",1,grid);
-//	ped2.setRoute(northSouthRoute2);
-//	ped2.setCurrentField(ped2.getRoute().get(0));
-//	ped2.setAnticipation(new Anticipation());
-//	ped2.getAnticipation().initAnticipation(ped.getId(), grid, context);
-//	context.add(ped2);
-//	grid.moveTo(ped2,30,16);
-	
-
-	
-//	Pedestrian ped4=new Pedestrian("ped4",1,grid);
-//	ped4.setRoute(southNorthRoute);
-//	ped4.setCurrentField(ped4.getRoute().get(0));
-//	ped4.setAnticipation(new Anticipation());
-//	ped4.getAnticipation().initAnticipation(ped.getId(), grid, context);
-//	context.add(ped4);
-//	grid.moveTo(ped4,30,2);
-//	
-	//vehicle
-//	Vehicle veh=new Vehicle("v1",4,Constants.E,grid,12,5);
-//	veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
-//	context.add(veh);
-//	grid.moveTo(veh,170,7);
-	
-//	StoppedPed sped1=new StoppedPed("sped1",grid);
-//	context.add(sped1);
-//	grid.moveTo(sped1, 13,9);
-//	StoppedPed sped2=new StoppedPed("sped2",grid);
-//	context.add(sped2);
-//	grid.moveTo(sped2, 23,9);
-//	StoppedPed sped3=new StoppedPed("sped3",grid);
-//	context.add(sped3);
-//	grid.moveTo(sped3, 33,9);
-//	StoppedPed sped4=new StoppedPed("sped4",grid);
-//	context.add(sped4);
-//	grid.moveTo(sped4, 43,9);
-//	StoppedPed sped5=new StoppedPed("sped5",grid);
-//	context.add(sped5);
-//	grid.moveTo(sped5, 53,9);
-//	
+		VehicleGenerator vg1=new VehicleGenerator("vg1",context);
+		context.add(vg1);
+		
+//		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
+//		context.add(pedg2);
+		
+		PedTicker pedt=new PedTicker();
+		context.add(pedt);
+		
+		VehicleTicker veht=new VehicleTicker();
+		context.add(veht);
+////		
+//		//Pedestrian normal
+//		Pedestrian ped2=new Pedestrian("ped2",1,grid);
+//		ped2.setRoute(northSouthRoute2);
+//		ped2.setCurrentField(ped2.getRoute().get(0));
+//		ped2.setAnticipation(new Anticipation());
+//		ped2.getAnticipation().initAnticipation(ped.getId(), grid, context);
+//		context.add(ped2);
+//		grid.moveTo(ped2,30,16);
 		
 
-
+		
+//		Pedestrian ped4=new Pedestrian("ped4",1,grid);
+//		ped4.setRoute(southNorthRoute);
+//		ped4.setCurrentField(ped4.getRoute().get(0));
+//		ped4.setAnticipation(new Anticipation());
+//		ped4.getAnticipation().initAnticipation(ped.getId(), grid, context);
+//		context.add(ped4);
+//		grid.moveTo(ped4,30,2);
+//		
+		
+		
+		//vehicle
+//		Vehicle veh=new Vehicle("v1",2,Constants.E,grid,12,5);
+//		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
+//		context.add(veh);
+//		grid.moveTo(veh,9,7);
+		
+//		StoppedPed sped1=new StoppedPed("sped1",grid);
+//		context.add(sped1);
+//		grid.moveTo(sped1, 13,9);
+//		StoppedPed sped2=new StoppedPed("sped2",grid);
+//		context.add(sped2);
+//		grid.moveTo(sped2, 23,9);
+//		StoppedPed sped3=new StoppedPed("sped3",grid);
+//		context.add(sped3);
+//		grid.moveTo(sped3, 33,9);
+//		StoppedPed sped4=new StoppedPed("sped4",grid);
+//		context.add(sped4);
+//		grid.moveTo(sped4, 43,9);
+//		StoppedPed sped5=new StoppedPed("sped5",grid);
+//		context.add(sped5);
+//		grid.moveTo(sped5, 53,9);
+//		
 
 		
 		return context;

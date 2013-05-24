@@ -81,7 +81,8 @@ public class Vehicle {
 	///TEST
 	
 	
-
+	
+	
 	////////////////MOTION
 	public void accelerate(){
 		this.speedUp();
@@ -180,16 +181,30 @@ public class Vehicle {
 	  * Move by displacemente related to speed,
 	  * 
 	  * */
-	public void move(int delta){
-		if(this.getHeading()==Constants.O){
-			delta=delta*-1;
-		}
+	public void move(){
+		int delta=this.calcDisplacement();
 		int x=grid.getLocation(this).getX()+delta;
-		int y=grid.getLocation(this).getY();
+		int y=this.getDest().getY();
 		try{
 			grid.moveTo(this,x,y);
+			
 		}catch(Exception e){
-			grid.moveTo(this,Constants.GRID_LENGHT-1,y);
+			//grid.moveTo(this,Constants.GRID_LENGHT-1,y);
+		}
+	}
+	
+	//TODO generalizzazione
+	public void checkPassed(){
+		if(this.isPassed()){
+			for(Object ags : grid.getObjectsAt(0,7)){
+				if(ags instanceof Vehicle){
+					System.out.println("veicolo presente");
+				}else{
+					this.setRemoved(true);
+					ContextUtils.getContext(this).remove(this);
+				}
+			}
+			
 		}
 	}
 	
@@ -197,14 +212,16 @@ public class Vehicle {
 	
 	/**
 	 * Update vehicle anticipation given the vehicle's heading and speed.
-	 * Anticipation length is determined by speed value, calling calcAnticipation(speed). Anticipation start at the next cell 
+	 * Anticipation length is determined by speed value, calling calcAnticipation(speed)
 	 * 
 	 * */
 	public void project(){
 		int speed=(int)this.getCurrentSpeed();
+//		System.out.println(speed);
 		int x=grid.getLocation(this).getX()+1;
 		int y=grid.getLocation(this).getY();
 		int anticipationLenght=this.calcAnticipationLenght(speed);
+//		System.out.println(this.getCurrentSpeed());
 		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 	}
 	public int calcAnticipationLenght(int speed){
@@ -238,25 +255,21 @@ public class Vehicle {
 			int y=ac.getGp().getY();
 //			System.out.print(x+" "+ac.getIndex());
 //			System.out.println("");
-			
-			try{
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof Pedestrian){
-//					System.out.println("pedone rilevato in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getIndex());
+					System.out.println("pedone rilevato in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getIndex());
 				}
 				if(ags instanceof Vehicle){
-//					System.out.println("veicolo rilevato in "+x+" "+y+ac.getOwnerType());
+					System.out.println("veicolo rilevato in "+x+" "+y+ac.getOwnerType());
 				}
 				if(ags instanceof AnticipationCell){
 					if(!((AnticipationCell) ags).getOwner().equals(this.getId())){
-//						System.out.println("anticipazione rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getOwner());
+						System.out.println("anticipazione rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getOwner());
 					}
 				}
 				if(ags instanceof StoppedPed){
-//					System.out.println("pedone fermo in "+x+" "+y+ac.getIndex()+" "+((StoppedPed) ags).getId());
+					System.out.println("pedone fermo in "+x+" "+y+ac.getIndex()+" "+((StoppedPed) ags).getId());
 				}
-			}}catch(Exception e){
-				System.out.println("errore di "+this.getId());
 			}
 		}
 		

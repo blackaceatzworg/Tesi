@@ -1,19 +1,18 @@
 package new1;
 
 import java.util.ArrayList;
+
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
-import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
 	
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
 			this.projectVehiclesAnticipation();
-			this.evaluateVehiclesAnticipation();
-			this.moveVehicles();
+			this.moveVehicle();
 			this.flushVehiclesAnticipation();
-			this.controlVehiclesExit();
+		
 	}
 	
 	
@@ -39,27 +38,43 @@ public class VehicleTicker {
 			veh.evaluate();
 		}
 	}
-	public void moveVehicles(){
-		final ArrayList<Vehicle> vehList=getVehList();
-		for(final Vehicle veh:vehList){
-			int displacement=veh.calcDisplacement();
-			veh.move(displacement);
-		}
-	}
 	public void flushVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
 			veh.getAnticipation().flushAnticipation();
 		}
 	}
-	public void controlVehiclesExit(){
+	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			int x=veh.getGrid().getLocation(veh).getX();
-			if((veh.getHeading()==Constants.E&&x>=Constants.GRID_LENGHT-1)||(veh.getHeading()==Constants.O&&x<=0)){
-				ContextUtils.getContext(this).remove(veh);
+			int xl=veh.getGrid().getLocation(veh).getX();
+			//anticipation safe
+			if(xl<Constants.GRID_LENGHT-12){
+				veh.project();
+			}
+			if(veh.getCurrentSpeed()<veh.getPreferredSpeed()){
+				veh.speedUp();
+				veh.move();
+			}else{
+				veh.speedDown();
+				veh.move();
 			}
 		}
 	}
+	
+	
+	
+	
+	
+//	public void activatePedestrians(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		for(final Pedestrian ped:pedList){
+//			//ped.chooseDestination2();
+//			ped.setMotionstate(true);
+//			destinationChoices.add(ped.chooseDestination2());
+////			this.checkDestinationConflicts(destinationChoices);
+//		}
+//		this.checkDestinationConflicts(destinationChoices);
+//	}
 
 }
