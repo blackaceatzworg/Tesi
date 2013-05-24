@@ -27,10 +27,11 @@ public class Vehicle {
 	private boolean motionState;
 	private ArrayList<String> route;
 	private String currentField;
-	private DestinationCell dest;
+	private GridPoint dest;
 	private String logFileName;//
 	private int ticker;
 	private boolean passed;
+	private boolean removed;
 
 	////////////////CONSTRUCTOR
 	/**
@@ -77,80 +78,24 @@ public class Vehicle {
 			e.printStackTrace();
 		}}
 	}
-	///test
-//	public void test_accelerate(){
-//	this.gearUp();
-//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
-//	int y=grid.getLocation(this).getY();
-//	grid.moveTo(this,x,y);
-//}
-////@ScheduledMethod(start=0,interval=1)
-//public void test_brake(){
-////	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement()+" ,freno");
-//	this.gearDown();
-//	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement());
-//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
-//	int y=grid.getLocation(this).getY();
-//	System.out.println(x);
-//	grid.moveTo(this,x,y);
-//}
+	///TEST
 	
-////	@ScheduledMethod(start=0,interval=1)
-//	public void test(){
-//		Context context=ContextUtils.getContext(this);
-//		GridPoint position=grid.getLocation(this);
-//		int x=position.getX();
-//		int y=position.getY();
-////		if(this.getCurrentSpeed()<2){
-////		this.accelerate();}
-////		this.brake(Constants.softBrakeModule);
-////		int k=(int) Math.round(this.getCurrentSpeed());
-////		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x-1, y, 16);
-//		//grid.moveTo(this,x+1,y);
-//	}
 	
-	@ScheduledMethod(start=0,interval=2)
-	public void test_1a(){
-		this.project();
-		if(this.getCurrentSpeed()<this.getPreferredSpeed()){
-			this.gearUp();
-			int delta=this.calcDisplacement();
-			int x=grid.getLocation(this).getX()+delta;
-			int y=grid.getLocation(this).getY();
-			this.move(x, y);
-		}else{
-			this.gearDown();
-			int delta=this.calcDisplacement();
-			int x=grid.getLocation(this).getX()+delta;
-			int y=grid.getLocation(this).getY();
-			this.move(x, y);
-		}
-	}
-	
-	@ScheduledMethod(start=1,interval=2)
-	public void test_1b(){
-		this.getAnticipation().flushAnticipation();
-	}
-//	@ScheduledMethod(start=0,interval=2)
-	public void test_eval_anticipation(){
-		this.project();
-		this.evaluate();
-	}
 	
 	
 	////////////////MOTION
 	public void accelerate(){
-		this.gearUp();
+		this.speedUp();
 	}
 	
 	public void brake(){
-		this.gearDown();
+		this.speedDown();
 	}
 	
 	/**
 	 * Models the acceleration process. Each value is the speed increment for each speed zone
 	 * */
-	public void gearUp(){
+	public void speedUp(){
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.3645;
@@ -170,7 +115,7 @@ public class Vehicle {
 	/**
 	 * Models the deceleration process. Each value is the speed decrement for each speed zone
 	 * */
-	public void gearDown(){
+	public void speedDown(){
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.486;
@@ -195,6 +140,8 @@ public class Vehicle {
 	 public int calcDisplacement(){
 		 int currentTick=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
 		 int displacement=0;
+		 int x=grid.getLocation(this).getX();
+		 int y=grid.getLocation(this).getY();
 		 int val=(int) (Math.round(this.getCurrentSpeed()*100)/100);
 		 switch(val){
 		 case 1:
@@ -227,24 +174,38 @@ public class Vehicle {
 		 }
 		 return displacement;
 	 }
-	 
-	public DestinationCell chooseDestination(){
-		return this.getDest();//TODO
-	}
 	
-	public void move(int x, int y){
+	//TODO direzione inversa
+	 
+	 /**
+	  * Move by displacemente related to speed,
+	  * 
+	  * */
+	public void move(){
+		int delta=this.calcDisplacement();
+		int x=grid.getLocation(this).getX()+delta;
+		int y=this.getDest().getY();
 		try{
 			grid.moveTo(this,x,y);
-		}catch(Exception e){
 			
+		}catch(Exception e){
+			//grid.moveTo(this,Constants.GRID_LENGHT-1,y);
 		}
-		
-		//TODO flush anticipation
-		//TODO update shape
 	}
 	
-	public void checkArrival(int x){
-		
+	//TODO generalizzazione
+	public void checkPassed(){
+		if(this.isPassed()){
+			for(Object ags : grid.getObjectsAt(0,7)){
+				if(ags instanceof Vehicle){
+					System.out.println("veicolo presente");
+				}else{
+					this.setRemoved(true);
+					ContextUtils.getContext(this).remove(this);
+				}
+			}
+			
+		}
 	}
 	
 ////////////////PERCEPTION
@@ -259,11 +220,11 @@ public class Vehicle {
 //		System.out.println(speed);
 		int x=grid.getLocation(this).getX()+1;
 		int y=grid.getLocation(this).getY();
-		int anticipationLenght=this.calcAnticipation(speed);
+		int anticipationLenght=this.calcAnticipationLenght(speed);
 //		System.out.println(this.getCurrentSpeed());
 		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 	}
-	public int calcAnticipation(int speed){
+	public int calcAnticipationLenght(int speed){
 		int antValue=16;
 		switch(speed){
 		case 0:
@@ -316,7 +277,7 @@ public class Vehicle {
 	}
 	
 	///Derived from pedestrian
-	public boolean checkOccupation(DestinationCell dc){
+	public boolean checkOccupation(GridPoint dc){
 		boolean occupied=false;
 		int x=dc.getX();
 		int y=dc.getY();
@@ -416,11 +377,11 @@ public class Vehicle {
 		this.currentField = currentField;
 	}
 
-	public DestinationCell getDest() {
+	public GridPoint getDest() {
 		return dest;
 	}
 
-	public void setDest(DestinationCell dest) {
+	public void setDest(GridPoint dest) {
 		this.dest = dest;
 	}
 
@@ -438,6 +399,14 @@ public class Vehicle {
 
 	public void setPassed(boolean passed) {
 		this.passed = passed;
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 	
 

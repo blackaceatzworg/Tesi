@@ -3,6 +3,9 @@ package new1;
 import java.util.Random;
 
 import repast.simphony.context.Context;
+import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.engine.watcher.Watch;
+import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.space.grid.Grid;
 
 public class VehicleGenerator {
@@ -11,11 +14,13 @@ public class VehicleGenerator {
 	private String id;
 	private Context context;
 	
-	public VehicleGenerator(){
-		
+	public VehicleGenerator(String id, Context cont){
+		this.setId(id);
+		this.context=cont;
 	}
 	
-	
+	//TODO vehicleShape
+//	@ScheduledMethod(start=0, interval=10)
 	public void addVehicle(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();
@@ -24,16 +29,18 @@ public class VehicleGenerator {
 		int curSpeed=r.nextInt(3);
 		Vehicle veh=new Vehicle(id,curSpeed,Constants.E,grid,12,5);
 		veh.getAnticipation().initAnticipation(id, grid, context);
-		
-		
-//		Vehicle veh=new Vehicle(id, vehindex, vehindex, grid, vehindex, vehindex);
-	}
-	public void addVehicleToGrid(Vehicle vehicle){
-		context.add(vehicle);
+		context.add(veh);
+		grid.moveTo(veh,0,7);
 	}
 	
 	public void addVehicle(int numberOfLane){
 		
+	}
+	
+	@Watch(watcheeClassName="new1.Vehicle",watcheeFieldNames="removed",whenToTrigger=WatcherTriggerSchedule.LATER,scheduleTriggerDelta = 1)
+	public void addProcess(){
+//		System.out.println("Veicolo uscito");
+		this.addVehicle();
 	}
 
 

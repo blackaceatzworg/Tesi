@@ -3,8 +3,17 @@ package new1;
 import java.util.ArrayList;
 
 import repast.simphony.engine.environment.RunState;
+import repast.simphony.engine.schedule.ScheduledMethod;
 
 public class VehicleTicker {
+	
+	@ScheduledMethod(start=0, interval=1, priority=0)
+	public void vehicleTurn(){
+			this.projectVehiclesAnticipation();
+			this.moveVehicle();
+			this.flushVehiclesAnticipation();
+		
+	}
 	
 	
 	public ArrayList<Vehicle> getVehList(){
@@ -29,12 +38,31 @@ public class VehicleTicker {
 			veh.evaluate();
 		}
 	}
+	public void flushVehiclesAnticipation(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.getAnticipation().flushAnticipation();
+		}
+	}
 	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			veh.move(0, 0);
+			int xl=veh.getGrid().getLocation(veh).getX();
+			//anticipation safe
+			if(xl<Constants.GRID_LENGHT-12){
+				veh.project();
+			}
+			if(veh.getCurrentSpeed()<veh.getPreferredSpeed()){
+				veh.speedUp();
+				veh.move();
+			}else{
+				veh.speedDown();
+				veh.move();
+			}
 		}
 	}
+	
+	
 	
 	
 	

@@ -1,3 +1,68 @@
+///vehicle test serie 1
+//	public void test_accelerate(){
+//	this.gearUp();
+//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
+//	int y=grid.getLocation(this).getY();
+//	grid.moveTo(this,x,y);
+//}
+////@ScheduledMethod(start=0,interval=1)
+//public void test_brake(){
+////	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement()+" ,freno");
+//	this.gearDown();
+//	System.out.println(this.getCurrentSpeed()+" "+this.calcDisplacement());
+//	int x=grid.getLocation(this).getX()+this.calcDisplacement();
+//	int y=grid.getLocation(this).getY();
+//	System.out.println(x);
+//	grid.moveTo(this,x,y);
+//}
+	
+////	@ScheduledMethod(start=0,interval=1)
+//	public void test(){
+//		Context context=ContextUtils.getContext(this);
+//		GridPoint position=grid.getLocation(this);
+//		int x=position.getX();
+//		int y=position.getY();
+////		if(this.getCurrentSpeed()<2){
+////		this.accelerate();}
+////		this.brake(Constants.softBrakeModule);
+////		int k=(int) Math.round(this.getCurrentSpeed());
+////		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x-1, y, 16);
+//		//grid.moveTo(this,x+1,y);
+//	}
+	
+//	@ScheduledMethod(start=0,interval=2)
+//	public void test_1a(){
+//		int xl=grid.getLocation(this).getX();
+//		//anticipation safe
+//		if(xl<Constants.GRID_LENGHT-12){
+//			this.project();
+//		}
+//		
+//		if(this.getCurrentSpeed()<this.getPreferredSpeed()){
+//			this.gearUp();
+//			int delta=this.calcDisplacement();
+//			int x=grid.getLocation(this).getX()+delta;
+//			int y=grid.getLocation(this).getY();
+//			this.move(x, y);
+//		}else{
+//			this.gearDown();
+//			int delta=this.calcDisplacement();
+//			int x=grid.getLocation(this).getX()+delta;
+//			int y=grid.getLocation(this).getY();
+//			this.move(x, y);
+//		}
+//	}
+	
+////	@ScheduledMethod(start=1,interval=2)
+//	public void test_1b(){
+//		this.getAnticipation().flushAnticipation();
+//	}
+////	@ScheduledMethod(start=0,interval=2)
+//	public void test_eval_anticipation(){
+//		this.project();
+//		this.evaluate();
+//	}
+
 //		AGENT SCHEDULING
 //		ISchedule schedule = (ISchedule) RunEnvironment.getInstance().getCurrentSchedule();
 //		ScheduleParameters activatePedgenParam = ScheduleParameters.createRepeating(0, 10, 1);
