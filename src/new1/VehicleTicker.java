@@ -9,9 +9,10 @@ public class VehicleTicker {
 	
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
-			this.projectVehiclesAnticipation();
-			this.moveVehicle();
-			this.flushVehiclesAnticipation();
+			//this.projectVehiclesAnticipation();
+			//this.moveVehicle();
+			//this.flushVehiclesAnticipation();
+		this.testVehicleShape();
 		
 	}
 	
@@ -44,6 +45,18 @@ public class VehicleTicker {
 			veh.getAnticipation().flushAnticipation();
 		}
 	}
+	
+	public void testVehicleShape(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			int x=veh.getGrid().getLocation(veh).getX();
+			int y=veh.getGrid().getLocation(veh).getY();
+			int heading=veh.getHeading();
+			System.out.println(x+" "+y);
+			veh.getVehicleCells().updateVehicleShape(x,y,heading);
+		}
+	}
+	
 	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){

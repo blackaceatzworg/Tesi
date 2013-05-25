@@ -11,6 +11,10 @@
       <string>new1.SurfaceClassStyle</string>
     </entry>
     <entry>
+      <string>new1.VehicleShapeCell</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
       <string>new1.AnticipationCell</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
@@ -27,6 +31,10 @@
     <entry>
       <string>new1.SurfaceCell</string>
       <null/>
+    </entry>
+    <entry>
+      <string>new1.VehicleShapeCell</string>
+      <string>new1.VehicleShapeCell.style_0.xml</string>
     </entry>
     <entry>
       <string>new1.AnticipationCell</string>
@@ -53,11 +61,15 @@
   <layerOrder>
     <entry>
       <string>new1.Vehicle</string>
-      <int>2</int>
+      <int>3</int>
     </entry>
     <entry>
       <string>new1.SurfaceCell</string>
       <int>0</int>
+    </entry>
+    <entry>
+      <string>new1.VehicleShapeCell</string>
+      <int>2</int>
     </entry>
     <entry>
       <string>new1.AnticipationCell</string>
@@ -65,7 +77,7 @@
     </entry>
     <entry>
       <string>new1.Pedestrian</string>
-      <int>3</int>
+      <int>4</int>
     </entry>
   </layerOrder>
   <projections>

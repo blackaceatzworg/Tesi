@@ -10,6 +10,7 @@ import bsh.This;
 import repast.simphony.context.Context;
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.parameter.Parameters;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.util.ContextUtils;
@@ -23,7 +24,7 @@ public class Vehicle {
 	private double preferredSpeed;
 	private int heading;
 	private Anticipation anticipation;
-	private VehicleShape vehicleCells;
+	private VehicleShape vehicleShape;
 	private boolean motionState;
 	private ArrayList<String> route;
 	private String currentField;
@@ -32,6 +33,9 @@ public class Vehicle {
 	private int ticker;
 	private boolean passed;
 	private boolean removed;
+	
+	Parameters params=RunEnvironment.getInstance().getParameters();
+	int anticipationModule=(Integer)params.getValue("anticipationModule");
 
 	////////////////CONSTRUCTOR
 	/**
@@ -50,7 +54,7 @@ public class Vehicle {
 		this.setGrid(grid);
 		this.setPreferredSpeed(5);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
-		this.setVehicleCells(new VehicleShape(l,w));
+		this.setVehicleCells(new VehicleShape());
 		this.setTicker(0);
 	}
 	
@@ -61,7 +65,7 @@ public class Vehicle {
 		this.setGrid(grid);
 		this.setPreferredSpeed(5);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
-		this.setVehicleCells(new VehicleShape(l,w));
+		this.setVehicleCells(new VehicleShape());
 		this.setTicker(0);
 		this.logFileName=filename;
 	}
@@ -225,25 +229,25 @@ public class Vehicle {
 		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 	}
 	public int calcAnticipationLenght(int speed){
-		int antValue=16;
+		int antValue=anticipationModule;
 		switch(speed){
 		case 0:
-			antValue=16;
+			//antValue=16;
 			break;
 		case 1:
-			antValue=32;
+			antValue*=1;
 			break;
 		case 2:
-			antValue=48;
+			antValue*=2;
 			break;
 		case 3:
-			antValue=64;
+			antValue*=3;
 			break;
 		case 4:
-			antValue=80;
+			antValue*=4;
 			break;
 		case 5:
-			antValue=96;
+			antValue*=5;
 			break;
 		}
 		return antValue;
@@ -346,11 +350,11 @@ public class Vehicle {
 	}
 
 	public VehicleShape getVehicleCells() {
-		return vehicleCells;
+		return vehicleShape;
 	}
 
 	public void setVehicleCells(VehicleShape vehicleCells) {
-		this.vehicleCells = vehicleCells;
+		this.vehicleShape = vehicleCells;
 	}
 
 	public boolean isMotionState() {
