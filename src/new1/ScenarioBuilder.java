@@ -333,8 +333,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		ped3.getAnticipation().initAnticipation(ped3.getId(), grid, context);
 //		context.add(ped3);
 //		grid.moveTo(ped3,25,2);
-		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
-		context.add(pedg);
+//		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
+//		context.add(pedg);
 		
 //		VehicleGenerator vg1=new VehicleGenerator("vg1",context);
 //		context.add(vg1);
@@ -370,15 +370,27 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//vehicle
-		Vehicle veh=new Vehicle("v1",2,Constants.E,grid,12,5);
-		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
-		veh.getVehicleCells().initVehicleShape(12, 5, veh.getId(), grid, context);
-		context.add(veh);
-		grid.moveTo(veh,13,6);
+//		Vehicle veh=new Vehicle("v1",0,Constants.E,grid,12,5);
+//		veh.getAnticipation().initAnticipation(veh.getId(), grid, context);
+////		veh.getVehicleShape().initVehicleShape(12, 5, veh.getId(), grid, context);
+//		context.add(veh);
+//		grid.moveTo(veh,13,6);
 		
-//		StoppedPed sped1=new StoppedPed("sped1",grid);
-//		context.add(sped1);
-//		grid.moveTo(sped1, 13,9);
+		Vehicle veh1=new Vehicle("v2",1,Constants.E,grid,12,5);
+		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
+		veh1.getVehicleShape().initVehicleShape(12, 5, veh1.getId(), grid, context);
+		context.add(veh1);
+		grid.moveTo(veh1,150,6);
+//		
+//		Vehicle veh2=new Vehicle("v3",2,Constants.E,grid,12,5);
+//		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);
+//		veh2.getVehicleShape().initVehicleShape(12, 5, veh2.getId(), grid, context);
+//		context.add(veh2);
+//		grid.moveTo(veh2,53,6);
+		
+		StoppedPed sped1=new StoppedPed("sped1",grid);
+		context.add(sped1);
+		grid.moveTo(sped1, Constants.GRID_LENGHT-120,6);
 //		StoppedPed sped2=new StoppedPed("sped2",grid);
 //		context.add(sped2);
 //		grid.moveTo(sped2, 23,9);

@@ -54,8 +54,9 @@ public class Vehicle {
 		this.setGrid(grid);
 		this.setPreferredSpeed(5);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
-		this.setVehicleCells(new VehicleShape());
+		this.setVehicleShape(new VehicleShape());
 		this.setTicker(0);
+		this.setRemoved(false);
 	}
 	
 	public Vehicle(String filename,String id,double currentSpeed,int heading, Grid<Object> grid, int l, int w){
@@ -65,9 +66,10 @@ public class Vehicle {
 		this.setGrid(grid);
 		this.setPreferredSpeed(5);
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
-		this.setVehicleCells(new VehicleShape());
+		this.setVehicleShape(new VehicleShape());
 		this.setTicker(0);
 		this.logFileName=filename;
+		this.setRemoved(false);
 	}
 	
 	////LOG
@@ -100,6 +102,9 @@ public class Vehicle {
 	 * Models the acceleration process. Each value is the speed increment for each speed zone
 	 * */
 	public void speedUp(){
+		
+		if(this.getCurrentSpeed()<=5){
+			System.out.println(this.getId()+" accelera");
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.3645;
@@ -112,7 +117,7 @@ public class Vehicle {
 		}if(this.getCurrentSpeed()>=4&&this.getCurrentSpeed()<5){
 			delta=0.243;
 		}
-		this.setCurrentSpeed(this.getCurrentSpeed()+delta);
+		this.setCurrentSpeed(this.getCurrentSpeed()+delta);}
 //		return delta;
 	}
 	
@@ -120,6 +125,9 @@ public class Vehicle {
 	 * Models the deceleration process. Each value is the speed decrement for each speed zone
 	 * */
 	public void speedDown(){
+		
+		if(this.getCurrentSpeed()>0){
+			System.out.println(this.getId()+" frena");
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.486;
@@ -129,10 +137,16 @@ public class Vehicle {
 			delta=0.3888;
 		}if(this.getCurrentSpeed()>=3&&this.getCurrentSpeed()<4){
 			delta=0.2777;
-		}if(this.getCurrentSpeed()>=4&&this.getCurrentSpeed()<=5){
+		}
+		//TODO valore
+		if(this.getCurrentSpeed()>=4&&this.getCurrentSpeed()<=6){
 			delta=0.324;
 		}
+		System.out.println(this.getCurrentSpeed());
 		this.setCurrentSpeed(this.getCurrentSpeed()-delta);
+		System.out.println(this.getCurrentSpeed()+" dopo frenata");
+		}
+		
 //		return delta;
 	}
 	
@@ -186,31 +200,34 @@ public class Vehicle {
 	  * 
 	  * */
 	public void move(){
+		System.out.println(this.getId()+" move");
 		int delta=this.calcDisplacement();
-		int x=grid.getLocation(this).getX()+delta;
-		int y=this.getDest().getY();
+		int x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+		int y=grid.getLocation(this).getY();
 		try{
 			grid.moveTo(this,x,y);
 			
 		}catch(Exception e){
-			//grid.moveTo(this,Constants.GRID_LENGHT-1,y);
+			System.out.print("da rimuovere");
+			this.setRemoved(true);
+//			grid.moveTo(this,13,y);
 		}
 	}
 	
-	//TODO generalizzazione
-	public void checkPassed(){
-		if(this.isPassed()){
-			for(Object ags : grid.getObjectsAt(0,7)){
-				if(ags instanceof Vehicle){
-					System.out.println("veicolo presente");
-				}else{
-					this.setRemoved(true);
-					ContextUtils.getContext(this).remove(this);
-				}
-			}
-			
-		}
-	}
+//	//TODO generalizzazione
+//	public void checkPassed(){
+//		if(this.isPassed()){
+//			for(Object ags : grid.getObjectsAt(0,7)){
+//				if(ags instanceof Vehicle){
+//					System.out.println("veicolo presente");
+//				}else{
+//					this.setRemoved(true);
+//					ContextUtils.getContext(this).remove(this);
+//				}
+//			}
+//			
+//		}
+//	}
 	
 ////////////////PERCEPTION
 	
@@ -254,32 +271,136 @@ public class Vehicle {
 	}
 	
 	public void evaluate(){
+		boolean freeride=true;
 		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
 			int x=ac.getGp().getX();
 			int y=ac.getGp().getY();
-//			System.out.print(x+" "+ac.getIndex());
-//			System.out.println("");
 			for(Object ags : grid.getObjectsAt(x,y)){
-				if(ags instanceof Pedestrian){
-					System.out.println("pedone rilevato in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getIndex());
-				}
 				if(ags instanceof Vehicle){
-					System.out.println("veicolo rilevato in "+x+" "+y+ac.getOwnerType());
+					freeride=false;
+					System.out.println("veicolo "+((Vehicle)ags).getId()+" rilevato in fascia "+ac.getIndex()+" con velocitˆ"+((Vehicle)ags).getCurrentSpeed());
+					this.manageVehiclePresence(ac.getIndex());
+//					break;//TODO ???lasciare?
 				}
-				if(ags instanceof AnticipationCell){
-					if(!((AnticipationCell) ags).getOwner().equals(this.getId())){
-						System.out.println("anticipazione rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getOwner());
-					}
-				}
+//				if(ags instanceof Pedestrian){
+//					freeride=false;
+//					System.out.println("pedone rilevato in fascia di velocitˆ:"+ac.getIndex());
+//				}
+//				if(ags instanceof AnticipationCell){
+//					if(!((AnticipationCell) ags).getOwner().equals(this.getId())){
+//						freeride=false;
+//						System.out.println("anticipazione rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getOwner());
+//					}
+//					if(((AnticipationCell) ags).getOwnerType().equals("Pedestrian")){
+//						System.out.println("anticipazione pedone rilevata in "+x+" "+y+" indice fascia di velocitˆ:"+ac.getIndex());
+//					}	
+//				}
 				if(ags instanceof StoppedPed){
-					System.out.println("pedone fermo in "+x+" "+y+ac.getIndex()+" "+((StoppedPed) ags).getId());
+					System.out.println("fascia di v:"+this.getSpeedZone()+", pedone rilevato in fascia di velocitˆ:"+ac.getIndex());
+					freeride=false;
+					this.managePedestrianPresence(ac.getIndex());
 				}
 			}
+		}
+		if(freeride){
+			System.out.println("free");
+			this.speedUp();
 		}
 		
 		
 	}
 	
+	public void manageVehiclePresence(int cellIndex){
+		 
+		//valore intero di velocitˆ
+		int speedZone=this.getSpeedZone();
+		//cambio tra fasce di anticipazione
+		 switch(speedZone){
+		 case 0:
+			 this.speedUp();
+			 break;
+		 case 1:
+			 if(cellIndex==1){
+				 this.speedDown();
+			 }else{
+				 this.speedUp();
+			 }
+			 break;
+		 case 2:
+			 if(cellIndex==1){
+				 this.speedDown();
+			 }else if(cellIndex>2){
+				 this.speedUp();
+			 }
+			 break;
+		 case 3:
+			 if(cellIndex==1||cellIndex==2){
+				 this.speedDown();
+			 }else if(cellIndex>2){
+				 this.speedUp();
+			 }
+			 break;
+		 case 4:
+			 if(cellIndex==1||cellIndex==2){
+				 this.speedDown();
+			 }else if(cellIndex>3){
+				 this.speedUp();
+			 }
+			 break;
+		 case 5:
+			 if(cellIndex==1||cellIndex==2||cellIndex==3){
+				 this.speedDown();
+			 }else if(cellIndex>4){
+				 this.speedUp();
+			 }
+		 }
+	}
+	
+	public void managePedestrianPresence(int cellIndex){
+		 int speedZone=this.getSpeedZone();
+		 switch(speedZone){
+		 case 0:
+			 break;
+		 case 1:
+			 if(cellIndex!=1){
+				 this.speedUp();
+			 }
+			 break;
+		 case 2:
+			 if(cellIndex==1){
+				 this.speedDown();
+				 }
+			 break;
+		 case 3:
+			 if(cellIndex==1||cellIndex==2){
+				 this.speedDown();
+			 }
+			 break;
+		 case 4:
+			 if(cellIndex==1||cellIndex==2||cellIndex==3){
+				 this.speedDown();
+			 }
+//			 if(cellIndex==4){
+//				 this.speedUp();
+//			 }
+			 break;
+		 case 5:
+			 this.speedDown();
+			 break;
+		 
+		 }
+			 
+	}
+	
+	public void manageAnticipationPresence(int cellIndex){
+		 
+	}
+	
+	
+	public int getSpeedZone(){
+		int val=(int) (Math.round(this.getCurrentSpeed()*100)/100);
+		return val;
+	}
 	///Derived from pedestrian
 	public boolean checkOccupation(GridPoint dc){
 		boolean occupied=false;
@@ -349,11 +470,11 @@ public class Vehicle {
 		this.anticipation = anticipation;
 	}
 
-	public VehicleShape getVehicleCells() {
+	public VehicleShape getVehicleShape() {
 		return vehicleShape;
 	}
 
-	public void setVehicleCells(VehicleShape vehicleCells) {
+	public void setVehicleShape(VehicleShape vehicleCells) {
 		this.vehicleShape = vehicleCells;
 	}
 

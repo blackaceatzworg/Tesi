@@ -169,7 +169,7 @@ public class Pedestrian extends Agent {
 		this.chooseDestination2();
 		this.project();
 		this.evaluate();
-		this.movement2();
+		this.movement();
 	}		
 	public DestinationCell chooseDestination2(){
 		String fieldName=this.getCurrentField();
@@ -200,7 +200,7 @@ public class Pedestrian extends Agent {
 		this.getAnticipation().debug_checkAnticipation(this.getAnticipation().getAnticipationCells());
 		//this.getAnticipation().flushAnticipation();
 	}
-	public void movement2(){
+	public void movement(){
 		this.setHeading(dest.getRelativeDirection());
 //		System.out.println(this.getId()+" move");
 		this.move(dest.getX(),dest.getY());

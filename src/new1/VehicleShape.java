@@ -25,28 +25,45 @@ public class VehicleShape {
 	}
 	
 	public void updateVehicleShape(int x, int y, int heading){
+		VehicleShapeCell vsc;
 		if(heading==Constants.E){
 			for(int i=x-this.getLenght();i<=x;i++){
-				for(int j=y;j<=y+this.getWidth();j++){
-					VehicleShapeCell vsc=new VehicleShapeCell(this.getOwnerId(),i,j);
-					this.getShape().add(vsc);
-					context.add(vsc);
-					System.out.println(i+" "+j);
-					grid.moveTo(vsc,i,j);
+				for(int j=y;j<y+this.getWidth();j++){
+					try {
+						vsc=new VehicleShapeCell(this.getOwnerId(),i%Constants.GRID_LENGHT,j);
+						context.add(vsc);
+						grid.moveTo(vsc,i%Constants.GRID_LENGHT,j);
+						this.getShape().add(vsc);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}else{
 			for(int i=x;i<=x+this.getLenght();i++){
-				for(int j=y;j<=y+this.getWidth();j++){
-					VehicleShapeCell vsc=new VehicleShapeCell(this.getOwnerId(),i,j);
-					this.getShape().add(vsc);
-					context.add(vsc);
-					System.out.println(i+" "+j);
-					grid.moveTo(vsc,i,j);
+				for(int j=y;j<y+this.getWidth();j++){
+					try {
+						vsc=new VehicleShapeCell(this.getOwnerId(),i,j);
+						context.add(vsc);
+//						System.out.println(i+" "+j);
+						grid.moveTo(vsc,i,j);
+						this.getShape().add(vsc);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 		
+	}
+	
+	public void alternateUpdate(int mod){
+		for(VehicleShapeCell vsc: this.getShape()){
+			vsc.setX(vsc.getX()+mod);
+			grid.moveTo(vsc, vsc.getX(),vsc.getY());
+		}
 	}
 	
 	/**

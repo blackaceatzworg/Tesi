@@ -4,18 +4,19 @@ import java.util.ArrayList;
 
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
 	
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
-			//this.projectVehiclesAnticipation();
-			//this.moveVehicle();
-			//this.flushVehiclesAnticipation();
-		this.testVehicleShape();
-		
+			this.addVehicleShape();
+			this.projectVehiclesAnticipation();
+			this.evaluateVehiclesAnticipation();
+			this.moveVehicle();
+//			this.flushVehiclesAnticipation();
+//			this.flushVehiclesShape();
 	}
-	
 	
 	public ArrayList<Vehicle> getVehList(){
 		@SuppressWarnings("unchecked")
@@ -26,11 +27,34 @@ public class VehicleTicker {
 		}
 		return vehList;
 	}
+	public ArrayList<VehicleGenerator> getVehGenList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<VehicleGenerator> vehicles=RunState.getInstance().getMasterContext().getObjects(VehicleGenerator.class);
+		final ArrayList<VehicleGenerator> vehList=new ArrayList<VehicleGenerator>();
+		for(final VehicleGenerator veh:vehicles){
+			vehList.add(veh);
+		}
+		return vehList;
+	}
+	
+	public ArrayList<VehicleShapeCell> getVehShapeCelList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<VehicleShapeCell> vehicles=RunState.getInstance().getMasterContext().getObjects(VehicleShapeCell.class);
+		final ArrayList<VehicleShapeCell> vehList=new ArrayList<VehicleShapeCell>();
+		for(final VehicleShapeCell veh:vehicles){
+			vehList.add(veh);
+		}
+		return vehList;
+	}
+	
 	
 	public void projectVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
+			int xl=veh.getGrid().getLocation(veh).getX();
+			if(xl<Constants.GRID_LENGHT-12){
 			veh.project();
+			}
 		}
 	}
 	public void evaluateVehiclesAnticipation(){
@@ -46,34 +70,37 @@ public class VehicleTicker {
 		}
 	}
 	
-	public void testVehicleShape(){
+	public void addVehicleShape(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
 			int x=veh.getGrid().getLocation(veh).getX();
 			int y=veh.getGrid().getLocation(veh).getY();
 			int heading=veh.getHeading();
-			System.out.println(x+" "+y);
-			veh.getVehicleCells().updateVehicleShape(x,y,heading);
+			veh.getVehicleShape().updateVehicleShape(x,y,heading);
+		}
+	}
+	
+	public void flushVehiclesShape(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.getVehicleShape().clearShape();
 		}
 	}
 	
 	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			int xl=veh.getGrid().getLocation(veh).getX();
-			//anticipation safe
-			if(xl<Constants.GRID_LENGHT-12){
-				veh.project();
-			}
-			if(veh.getCurrentSpeed()<veh.getPreferredSpeed()){
-				veh.speedUp();
-				veh.move();
-			}else{
-				veh.speedDown();
-				veh.move();
-			}
+			veh.getVehicleShape().clearShape();
+			veh.move();
+			int x=veh.getGrid().getLocation(veh).getX();
+			int y=veh.getGrid().getLocation(veh).getY();
+			int heading=veh.getHeading();
+			veh.getVehicleShape().updateVehicleShape(x,y,heading);
+			
 		}
 	}
+	
+	
 	
 	
 	
