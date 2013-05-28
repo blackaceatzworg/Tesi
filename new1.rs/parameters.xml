@@ -19,7 +19,7 @@
 									
 		/>
 				<parameter name="numberOfLaneParam" displayName="Number of lane" type="int" 
-						defaultValue="1" 
+						defaultValue="2" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									values="1 2 "

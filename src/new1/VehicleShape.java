@@ -62,12 +62,18 @@ public class VehicleShape {
 		
 	}
 	
-	public void alternateUpdate(int mod){
+	public void alternateUpdate(int mod,int heading){
 //		System.out.println(this.getShape().size()+"");
 		for(VehicleShapeCell vsc: this.getShape()){
-			vsc.setX(vsc.getX()+mod);
-			context.add(vsc);
-			grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());
+			if(heading==Constants.E){
+				vsc.setX(vsc.getX()+mod);
+				context.add(vsc);
+				grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());}
+			else{
+				vsc.setX(vsc.getX()-mod+Constants.GRID_LENGHT);
+				context.add(vsc);
+				grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());
+			}
 		}
 	}
 	

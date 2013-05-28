@@ -380,19 +380,19 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(veh);
 //		grid.moveTo(veh,13,6);
 		
-//		Vehicle veh1=new Vehicle("vehDirectionLog","v1",0,Constants.E,grid,12,5);
-//		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
-//		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
-//		veh1.getVehicleShape().setVehicleShape(13,6, Constants.E);
-//		context.add(veh1);
-//		grid.moveTo(veh1,13,6);
+		Vehicle veh1=new Vehicle("v1",2,Constants.O,grid,12,5);
+		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
+		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
+		veh1.getVehicleShape().setVehicleShape(150,14, Constants.O);
+		context.add(veh1);
+		grid.moveTo(veh1,150,14);
 ////		
-//		Vehicle veh2=new Vehicle("v2",0,Constants.E,grid,12,5);
-//		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);
-//		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
-//		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
-//		context.add(veh2);
-//		grid.moveTo(veh2,43,6);
+		Vehicle veh2=new Vehicle("v2",1,Constants.E,grid,12,5);
+		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);
+		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
+		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
+		context.add(veh2);
+		grid.moveTo(veh2,43,6);
 ////		
 //		Vehicle veh3=new Vehicle("v3",0,Constants.E,grid,12,5);
 //		veh3.getAnticipation().initAnticipation(veh3.getId(), grid, context);

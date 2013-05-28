@@ -11,13 +11,13 @@ public class VehicleTicker {
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
 
-			this.projectVehiclesAnticipation();
-			this.evaluateVehiclesAnticipation();
-			this.flushVehiclesAnticipation();
+//			this.projectVehiclesAnticipation();
+//			this.evaluateVehiclesAnticipation();
+//			this.flushVehiclesAnticipation();
 			
 			this.flushVehiclesShape();
 			this.moveVehicle();
-//			this.logVehicles();
+////			this.logVehicles();
 			this.updateVehicleShape();
 
 	}
@@ -68,7 +68,7 @@ public class VehicleTicker {
 	public void updateVehicleShape(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			veh.getVehicleShape().alternateUpdate(veh.calcDisplacement());
+			veh.getVehicleShape().alternateUpdate(veh.calcDisplacement(),veh.getHeading());
 		}
 	}
 	

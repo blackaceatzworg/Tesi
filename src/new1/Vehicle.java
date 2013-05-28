@@ -199,17 +199,46 @@ public class Vehicle {
 	public void move(){
 //		System.out.println(this.getId()+" move");
 		int delta=this.calcDisplacement();
-		int x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+		int x=0;
+		if(this.getHeading()==Constants.E){
+			x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+		}else{
+			x=(grid.getLocation(this).getX()-delta+Constants.GRID_LENGHT)%(Constants.GRID_LENGHT);
+		}
 		int y=grid.getLocation(this).getY();
 		try{
 			grid.moveTo(this,x,y);
 			
 		}catch(Exception e){
-			System.out.print("da rimuovere");
-			this.setRemoved(true);
-//			grid.moveTo(this,13,y);
+			e.printStackTrace();
 		}
 	}
+	
+//	int delta=this.calcDisplacement();
+//	int x=0;
+//	if(this.getHeading()==Constants.E){
+//		x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+//	}else{
+//		x=(grid.getLocation(this).getX()-delta+Constants.GRID_LENGHT)%(Constants.GRID_LENGHT);
+//	}
+//	int y=grid.getLocation(this).getY();
+//	try{
+//		grid.moveTo(this,x,y);
+//		
+//	}catch(Exception e){
+//		e.printStackTrace();
+//	}
+	
+//	int delta=this.calcDisplacement();
+//	int x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+//	int y=grid.getLocation(this).getY();
+//	try{
+//		grid.moveTo(this,x,y);
+//		
+//	}catch(Exception e){
+//		e.printStackTrace();
+//	}
+
 	
 ////////////////PERCEPTION
 	
