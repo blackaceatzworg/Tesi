@@ -28,7 +28,7 @@ public class VehicleShape {
 	public void setVehicleShape(int x, int y, int heading){
 		VehicleShapeCell vsc;
 		if(heading==Constants.E){
-			for(int i=x-this.getLenght();i<=x;i++){
+			for(int i=x-this.getLenght()+1;i<=x;i++){
 				for(int j=y;j<y+this.getWidth();j++){
 					try {
 						System.out.println(i%Constants.GRID_LENGHT+" "+j+"-ciclo");
@@ -66,6 +66,7 @@ public class VehicleShape {
 		System.out.println(this.getShape().size()+"");
 		for(VehicleShapeCell vsc: this.getShape()){
 			vsc.setX(vsc.getX()+mod);
+			context.add(vsc);
 			grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());
 		}
 	}
@@ -81,7 +82,7 @@ public class VehicleShape {
 				e.printStackTrace();
 			}
 		}
-		this.getShape().removeAll(this.getShape());
+//		this.getShape().removeAll(this.getShape());
 	}
 	
 	

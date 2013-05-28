@@ -17,8 +17,7 @@ public class VehicleTicker {
 			
 			this.flushVehiclesShape();
 			this.moveVehicle();
-			this.addVehicleShape();
-
+			this.updateVehicleShape();
 
 	}
 	
@@ -65,13 +64,10 @@ public class VehicleTicker {
 		}
 	}
 	
-	public void addVehicleShape(){
+	public void updateVehicleShape(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			int x=veh.getGrid().getLocation(veh).getX();
-			int y=veh.getGrid().getLocation(veh).getY();
-			int heading=veh.getHeading();
-			veh.getVehicleShape().setVehicleShape(x,y,heading);
+			veh.getVehicleShape().alternateUpdate(veh.calcDisplacement());
 		}
 	}
 	
@@ -85,9 +81,8 @@ public class VehicleTicker {
 	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			
 			veh.move();
-			this.flushVehiclesShape();
+//			this.flushVehiclesShape();
 		}
 	}
 	
