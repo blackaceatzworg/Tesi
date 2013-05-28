@@ -19,8 +19,18 @@ public class VehicleTicker {
 			this.moveVehicle();
 ////			this.logVehicles();
 			this.updateVehicleShape();
+			
 
 	}
+//	@ScheduledMethod(start=1, interval=1, priority=0)
+	public void vehicleUpdateTest(){
+		this.flushVehiclesAnticipation();
+		this.flushVehiclesShape();
+		this.moveVehicle();
+////		this.logVehicles();
+		this.updateVehicleShape();
+	}
+	
 	
 	public ArrayList<Vehicle> getVehList(){
 		@SuppressWarnings("unchecked")
@@ -58,6 +68,7 @@ public class VehicleTicker {
 			veh.evaluate();
 		}
 	}
+	
 	public void flushVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){

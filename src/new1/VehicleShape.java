@@ -44,13 +44,14 @@ public class VehicleShape {
 				}
 			}
 		}else{
-			for(int i=x;i<=x+this.getLenght();i++){
-				for(int j=y;j<y+this.getWidth();j++){
+			for(int i=0;i<this.getLenght();i++){
+				for(int j=0;j<this.getWidth();j++){
 					try {
-						vsc=new VehicleShapeCell(this.getOwnerId(),i,j);
+//						System.out.println((x-i)%Constants.GRID_LENGHT+" "+j+"-ciclo");
+						vsc=new VehicleShapeCell(this.getOwnerId(),(x+i)%Constants.GRID_LENGHT,y+j);
 						context.add(vsc);
-//						System.out.println(i+" "+j);
-						grid.moveTo(vsc,i,j);
+//						System.out.println(vsc.getX()+" "+vsc.getY()+"-cella");
+						grid.moveTo(vsc,vsc.getX(),vsc.getY());
 						this.getShape().add(vsc);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -58,6 +59,20 @@ public class VehicleShape {
 					}
 				}
 			}
+//			for(int i=x;i<=x+this.getLenght();i++){
+//				for(int j=y;j<y+this.getWidth();j++){
+//					try {
+//						vsc=new VehicleShapeCell(this.getOwnerId(),i,j);
+//						context.add(vsc);
+////						System.out.println(i+" "+j);
+//						grid.moveTo(vsc,i,j);
+//						this.getShape().add(vsc);
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			}
 		}
 		
 	}

@@ -16,7 +16,7 @@
     </entry>
     <entry>
       <string>new1.AnticipationCell</string>
-      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+      <string>new1.AnticipationCellStyleClass</string>
     </entry>
     <entry>
       <string>new1.Pedestrian</string>
@@ -38,7 +38,7 @@
     </entry>
     <entry>
       <string>new1.AnticipationCell</string>
-      <string>new1.AnticipationCell.style_1.xml</string>
+      <null/>
     </entry>
     <entry>
       <string>new1.Pedestrian</string>

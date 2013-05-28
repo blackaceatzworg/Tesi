@@ -261,7 +261,7 @@ public class Anticipation {
 	public void setVehEAnticip(int x, int y, int k, String ownerType, int speed){
 //		int safeValue=Constants.GRID_LENGHT-x;		
 		AnticipationCell ac;
-		int antIndex=16;
+		int antIndex=k;
 //		System.out.println("veh e ant");
 			for(int i=x;i<=x+k;i++){
 				for(int j=y;j<y+5;j++){
@@ -283,20 +283,20 @@ public class Anticipation {
 	
 	public void setVehOAnticip(int x, int y, int k, String ownerType, int speed){
 		AnticipationCell ac;
-		int antIndex=16;
+		int antIndex=k;
 //		System.out.println("veh o ant");
 			for(int i=x;i>x-k;i--){
 				for(int j=y;j<y+5;j++){
 					try{
 //						System.out.println("dir:o");
-					ac= new AnticipationCell(new GridPoint(i%Constants.GRID_LENGHT,j),this.getId(),ownerType, speed);
+					ac= new AnticipationCell(new GridPoint(i+Constants.GRID_LENGHT%Constants.GRID_LENGHT,j),this.getId(),ownerType, speed);
 					ac.setIndex(this.setAntIndex(antIndex));
 					context.add(ac);
-					grid.moveTo(ac,i%Constants.GRID_LENGHT,j);
+					grid.moveTo(ac,i+Constants.GRID_LENGHT%Constants.GRID_LENGHT,j);
 					this.getAnticipationCells().add(ac);
 					System.out.print(ac.getIndex());
 					}catch(Exception e){
-						//e.printStackTrace();
+						e.printStackTrace();
 						}
 				}
 				antIndex++;
