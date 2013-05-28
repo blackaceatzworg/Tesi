@@ -18,13 +18,6 @@
 						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
 									
 		/>
-				<parameter name="numberOfLaneParam" displayName="Number of lane" type="int" 
-						defaultValue="1" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
-									values="1 2 "
-						
-		/>
 				<parameter name="anticipationModule" displayName="Anticipation Module" type="int" 
 						defaultValue="16" 
 						isReadOnly="false" 

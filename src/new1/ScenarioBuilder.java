@@ -16,6 +16,7 @@ import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ISchedule;
 import repast.simphony.engine.schedule.ScheduleParameters;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.parameter.Parameters;
 import repast.simphony.query.space.grid.GridCell;
 import repast.simphony.query.space.grid.GridCellNgh;
 import repast.simphony.space.grid.Grid;
@@ -66,10 +67,13 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		}
 		
 		//TODO parametrized value
-		int numberOfLaneParam=1;
-		int numberOfLane=Constants.SINGLE_GRID_HEIGHT;
+		Parameters params=RunEnvironment.getInstance().getParameters();
+		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
+		int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
+		int secondLaneOffset=0;
 		if(numberOfLaneParam!=1){
-			numberOfLane=Constants.DOUBLE_GRID_HEIGHT;
+			scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
+			secondLaneOffset=8;
 		}
 		
 		//grid creation
@@ -80,55 +84,54 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 						new SimpleGridAdder<Object>(),
 						true,
 						Constants.GRID_LENGHT,
-						numberOfLane));
+						scenarioHeight));
 		
 		context.add(grid);
-		
 		//field creation,
 		
 		
-		final GridValueLayer nordCurbFF=new GridValueLayer(Constants.northCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer nordCurbFF=new GridValueLayer(Constants.northCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(nordCurbFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				nordCurbFF.set(Constants.maxint,i,j);
 				
 			}
 		}
 		
-		final GridValueLayer southCurbFF=new GridValueLayer(Constants.southCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer southCurbFF=new GridValueLayer(Constants.southCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southCurbFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				southCurbFF.set(Constants.maxint,i,j);
 			}
 		}
 		
-		final GridValueLayer southEastFF=new GridValueLayer(Constants.southEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer southEastFF=new GridValueLayer(Constants.southEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southEastFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				southEastFF.set(Constants.maxint,i,j);
 			}
 		}
-		final GridValueLayer southWestFF=new GridValueLayer(Constants.southWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer southWestFF=new GridValueLayer(Constants.southWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southWestFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				southWestFF.set(Constants.maxint,i,j);
 			}
 		}
-		final GridValueLayer northEastFF=new GridValueLayer(Constants.northEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer northEastFF=new GridValueLayer(Constants.northEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(northEastFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				northEastFF.set(Constants.maxint,i,j);
 			}
 		}
-		final GridValueLayer northWestFF=new GridValueLayer(Constants.northWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,numberOfLane);
+		final GridValueLayer northWestFF=new GridValueLayer(Constants.northWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(northWestFF);
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<numberOfLane;j++){
+			for(int j=0; j<scenarioHeight;j++){
 				northWestFF.set(Constants.maxint,i,j);
 			}
 		}
@@ -136,10 +139,10 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		ArrayList<GridPoint> northcurbdestarea=new ArrayList<GridPoint>();
 		ArrayList<GridPoint> southcurbdestarea=new ArrayList<GridPoint>();
 		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
-			northcurbdestarea.add(new GridPoint(i,13));
-			northcurbdestarea.add(new GridPoint(i,14));
-			northcurbdestarea.add(new GridPoint(i,15));
-			northcurbdestarea.add(new GridPoint(i,16));
+			northcurbdestarea.add(new GridPoint(i,13+secondLaneOffset));
+			northcurbdestarea.add(new GridPoint(i,14+secondLaneOffset));
+			northcurbdestarea.add(new GridPoint(i,15+secondLaneOffset));
+			northcurbdestarea.add(new GridPoint(i,16+secondLaneOffset));
 			southcurbdestarea.add(new GridPoint(i,4));
 			southcurbdestarea.add(new GridPoint(i,3));
 			southcurbdestarea.add(new GridPoint(i,2));
@@ -166,7 +169,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		ArrayList<GridPoint> neDest=new ArrayList<GridPoint>();
 		for(int i=Constants.GRID_LENGHT-3;i<Constants.GRID_LENGHT;i++){
-			for(int j=Constants.SINGLE_GRID_HEIGHT-3;j<Constants.SINGLE_GRID_HEIGHT;j++){
+			for(int j=scenarioHeight-3;j<scenarioHeight;j++){
 				neDest.add(new GridPoint(i,j));
 			}
 		}
@@ -174,7 +177,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		ArrayList<GridPoint> nwDest=new ArrayList<GridPoint>();
 		for(int i=0;i<3;i++){
-			for(int j=Constants.SINGLE_GRID_HEIGHT-3;j<Constants.SINGLE_GRID_HEIGHT;j++){
+			for(int j=scenarioHeight-3;j<scenarioHeight;j++){
 				nwDest.add(new GridPoint(i,j));
 			}
 		}
@@ -183,7 +186,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 
 		//north walkway //nordCurbFF southCurbFF southEastFF southWestFF northEastFF northWestFF
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=14; j<numberOfLane;j++){
+			for(int j=14+secondLaneOffset; j<scenarioHeight;j++){
 				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Walkway,false);
 				context.add(cell);
 				grid.moveTo(cell,i,j);
@@ -210,29 +213,30 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 			}
 		}
 		//curb
+		
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
 			final SurfaceCell cell=new SurfaceCell(i,4,Constants.Curb,false);
-			final SurfaceCell cell2=new SurfaceCell(i,13,Constants.Curb,false);
+			final SurfaceCell cell2=new SurfaceCell(i,13+secondLaneOffset,Constants.Curb,false);
 			context.add(cell);
 			context.add(cell2);
 			grid.moveTo(cell,i,4);
-			grid.moveTo(cell2, i,13);
+			grid.moveTo(cell2, i,13+secondLaneOffset);
 			if(nordCurbFF.get(i,4)==0||southCurbFF.get(i,4)==0||
 					southEastFF.get(i,4)==0||
 					southWestFF.get(i,4)==0||northEastFF.get(i,4)==0
 					||northWestFF.get(i,4)==0){
 				cell.setDestination(true);
 			}
-			if(nordCurbFF.get(i,13)==0||southCurbFF.get(i,13)==0||
-					southEastFF.get(i,13)==0||
-					southWestFF.get(i,13)==0||northEastFF.get(i,13)==0
-					||northWestFF.get(i,13)==0){
+			if(nordCurbFF.get(i,13+secondLaneOffset)==0||southCurbFF.get(i,13+secondLaneOffset)==0||
+					southEastFF.get(i,13+secondLaneOffset)==0||
+					southWestFF.get(i,13+secondLaneOffset)==0||northEastFF.get(i,13+secondLaneOffset)==0
+					||northWestFF.get(i,13+secondLaneOffset)==0){
 				cell2.setDestination(true);
 			}
 		}
 		//roadway
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=5;j<13;j++){
+			for(int j=5;j<13+secondLaneOffset;j++){
 				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Roadway,false);
 				context.add(cell);
 				grid.moveTo(cell,i,j);
@@ -247,7 +251,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//File log
-		for(int j=numberOfLane-1;j>=0;j--){
+		for(int j=scenarioHeight-1;j>=0;j--){
 			for(int i=0;i<Constants.GRID_LENGHT;i++){
 				try {
 					//p = new PrintStream(new FileOutputStream("fieldLog",true));
@@ -376,22 +380,45 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(veh);
 //		grid.moveTo(veh,13,6);
 		
-		Vehicle veh1=new Vehicle("v2",5,Constants.E,grid,12,5);
-		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
-		veh1.getVehicleShape().initVehicleShape(12, 5, veh1.getId(), grid, context);
-		veh1.getVehicleShape().setVehicleShape(Constants.GRID_LENGHT-2, 6, Constants.E);
-		context.add(veh1);
-		grid.moveTo(veh1,Constants.GRID_LENGHT-2,6);
-//		
-//		Vehicle veh2=new Vehicle("v3",2,Constants.E,grid,12,5);
+//		Vehicle veh1=new Vehicle("vehDirectionLog","v1",0,Constants.E,grid,12,5);
+//		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
+//		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
+//		veh1.getVehicleShape().setVehicleShape(13,6, Constants.E);
+//		context.add(veh1);
+//		grid.moveTo(veh1,13,6);
+////		
+//		Vehicle veh2=new Vehicle("v2",0,Constants.E,grid,12,5);
 //		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);
-//		veh2.getVehicleShape().initVehicleShape(12, 5, veh2.getId(), grid, context);
+//		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
+//		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
 //		context.add(veh2);
-//		grid.moveTo(veh2,53,6);
+//		grid.moveTo(veh2,43,6);
+////		
+//		Vehicle veh3=new Vehicle("v3",0,Constants.E,grid,12,5);
+//		veh3.getAnticipation().initAnticipation(veh3.getId(), grid, context);
+//		veh3.getVehicleShape().initVehicleShape(12,5, veh3.getId(), grid, context);
+//		veh3.getVehicleShape().setVehicleShape(63,6, Constants.E);
+//		context.add(veh3);
+//		grid.moveTo(veh3,63,6);
 		
-		StoppedPed sped1=new StoppedPed("sped1",grid);
-		context.add(sped1);
-		grid.moveTo(sped1, Constants.GRID_LENGHT-120,6);
+		
+//		VehicleShapeCell vsc1=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 6);
+//		context.add(vsc1);
+//		grid.moveTo(vsc1, Constants.GRID_LENGHT-50,6);
+//		VehicleShapeCell vsc2=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 7);
+//		context.add(vsc2);
+//		grid.moveTo(vsc2, Constants.GRID_LENGHT-50,7);
+//		VehicleShapeCell vsc3=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 8);
+//		context.add(vsc3);
+//		grid.moveTo(vsc3, Constants.GRID_LENGHT-50,8);
+//		VehicleShapeCell vsc4=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 9);
+//		context.add(vsc4);
+//		grid.moveTo(vsc4, Constants.GRID_LENGHT-50,9);
+//		VehicleShapeCell vsc5=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 10);
+//		context.add(vsc5);
+//		grid.moveTo(vsc5, Constants.GRID_LENGHT-50,10);
+//		
+		
 //		StoppedPed sped2=new StoppedPed("sped2",grid);
 //		context.add(sped2);
 //		grid.moveTo(sped2, 23,9);

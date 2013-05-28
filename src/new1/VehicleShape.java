@@ -28,13 +28,13 @@ public class VehicleShape {
 	public void setVehicleShape(int x, int y, int heading){
 		VehicleShapeCell vsc;
 		if(heading==Constants.E){
-			for(int i=x-this.getLenght()+1;i<=x;i++){
-				for(int j=y;j<y+this.getWidth();j++){
+			for(int i=0;i<this.getLenght();i++){
+				for(int j=0;j<this.getWidth();j++){
 					try {
-						System.out.println(i%Constants.GRID_LENGHT+" "+j+"-ciclo");
-						vsc=new VehicleShapeCell(this.getOwnerId(),i%Constants.GRID_LENGHT,j);
+//						System.out.println((x-i)%Constants.GRID_LENGHT+" "+j+"-ciclo");
+						vsc=new VehicleShapeCell(this.getOwnerId(),(x-i)%Constants.GRID_LENGHT,y+j);
 						context.add(vsc);
-						System.out.println(vsc.getX()+" "+vsc.getY()+"-cella");
+//						System.out.println(vsc.getX()+" "+vsc.getY()+"-cella");
 						grid.moveTo(vsc,vsc.getX(),vsc.getY());
 						this.getShape().add(vsc);
 					} catch (Exception e) {
@@ -63,7 +63,7 @@ public class VehicleShape {
 	}
 	
 	public void alternateUpdate(int mod){
-		System.out.println(this.getShape().size()+"");
+//		System.out.println(this.getShape().size()+"");
 		for(VehicleShapeCell vsc: this.getShape()){
 			vsc.setX(vsc.getX()+mod);
 			context.add(vsc);
