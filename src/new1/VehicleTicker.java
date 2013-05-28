@@ -10,12 +10,16 @@ public class VehicleTicker {
 	
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
-			this.addVehicleShape();
-			this.projectVehiclesAnticipation();
-			this.evaluateVehiclesAnticipation();
-			this.moveVehicle();
+
+//			this.projectVehiclesAnticipation();
+//			this.evaluateVehiclesAnticipation();
 //			this.flushVehiclesAnticipation();
-//			this.flushVehiclesShape();
+			
+			this.flushVehiclesShape();
+			this.moveVehicle();
+			this.addVehicleShape();
+
+
 	}
 	
 	public ArrayList<Vehicle> getVehList(){
@@ -23,15 +27,6 @@ public class VehicleTicker {
 		final Iterable<Vehicle> vehicles=RunState.getInstance().getMasterContext().getObjects(Vehicle.class);
 		final ArrayList<Vehicle> vehList=new ArrayList<Vehicle>();
 		for(final Vehicle veh:vehicles){
-			vehList.add(veh);
-		}
-		return vehList;
-	}
-	public ArrayList<VehicleGenerator> getVehGenList(){
-		@SuppressWarnings("unchecked")
-		final Iterable<VehicleGenerator> vehicles=RunState.getInstance().getMasterContext().getObjects(VehicleGenerator.class);
-		final ArrayList<VehicleGenerator> vehList=new ArrayList<VehicleGenerator>();
-		for(final VehicleGenerator veh:vehicles){
 			vehList.add(veh);
 		}
 		return vehList;
@@ -76,7 +71,7 @@ public class VehicleTicker {
 			int x=veh.getGrid().getLocation(veh).getX();
 			int y=veh.getGrid().getLocation(veh).getY();
 			int heading=veh.getHeading();
-			veh.getVehicleShape().updateVehicleShape(x,y,heading);
+			veh.getVehicleShape().setVehicleShape(x,y,heading);
 		}
 	}
 	
@@ -90,13 +85,9 @@ public class VehicleTicker {
 	public void moveVehicle(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			veh.getVehicleShape().clearShape();
-			veh.move();
-			int x=veh.getGrid().getLocation(veh).getX();
-			int y=veh.getGrid().getLocation(veh).getY();
-			int heading=veh.getHeading();
-			veh.getVehicleShape().updateVehicleShape(x,y,heading);
 			
+			veh.move();
+			this.flushVehiclesShape();
 		}
 	}
 	

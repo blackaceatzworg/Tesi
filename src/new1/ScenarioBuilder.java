@@ -380,7 +380,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
 		veh1.getVehicleShape().initVehicleShape(12, 5, veh1.getId(), grid, context);
 		context.add(veh1);
-		grid.moveTo(veh1,150,6);
+		grid.moveTo(veh1,Constants.GRID_LENGHT-2,6);
 //		
 //		Vehicle veh2=new Vehicle("v3",2,Constants.E,grid,12,5);
 //		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);

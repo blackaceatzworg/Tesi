@@ -22,17 +22,20 @@ public class VehicleShape {
 		this.setGrid(agentGrid);
 		this.setContext(context);
 		this.setShape(new ArrayList<VehicleShapeCell>());
+//		this.setVehicleShape(x,y,heading);
 	}
 	
-	public void updateVehicleShape(int x, int y, int heading){
+	public void setVehicleShape(int x, int y, int heading){
 		VehicleShapeCell vsc;
 		if(heading==Constants.E){
 			for(int i=x-this.getLenght();i<=x;i++){
 				for(int j=y;j<y+this.getWidth();j++){
 					try {
+						System.out.println(i%Constants.GRID_LENGHT+" "+j+"-ciclo");
 						vsc=new VehicleShapeCell(this.getOwnerId(),i%Constants.GRID_LENGHT,j);
 						context.add(vsc);
-						grid.moveTo(vsc,i%Constants.GRID_LENGHT,j);
+						System.out.println(vsc.getX()+" "+vsc.getY()+"-cella");
+						grid.moveTo(vsc,vsc.getX(),vsc.getY());
 						this.getShape().add(vsc);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -60,9 +63,10 @@ public class VehicleShape {
 	}
 	
 	public void alternateUpdate(int mod){
+		System.out.println(this.getShape().size()+"");
 		for(VehicleShapeCell vsc: this.getShape()){
 			vsc.setX(vsc.getX()+mod);
-			grid.moveTo(vsc, vsc.getX(),vsc.getY());
+			grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());
 		}
 	}
 	
