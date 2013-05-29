@@ -23,6 +23,7 @@ public class VehicleGenerator {
 	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
 	
 	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading){
+		this.vehindex=0;
 		this.setId(id);
 		this.context=cont;
 		this.setXgen(xgen);
@@ -56,18 +57,36 @@ public class VehicleGenerator {
 		String id=this.getId()+"-"+this.getVehindex();
 		Random r=new Random();
 		int curSpeed=r.nextInt(3);
-		while(this.getVehindex()<numberOfVehicle){
+		if(this.getVehindex()<numberOfVehicle){
 			//TODO control position
-			this.setVehindex(this.getVehindex()+1);
-			Vehicle veh=new Vehicle(id,curSpeed,this.getHeading(),grid,12,5);
-			veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
-			veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),80, veh.getSpeedZone());
-			veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);
-			veh.getVehicleShape().setVehicleShape(this.getXgen(),this.getYgen(), this.getHeading());
-			context.add(veh);
-			grid.moveTo(veh,this.getXgen(),this.getYgen());
+			if(this.checkSpace()){
+				this.setVehindex(this.getVehindex()+1);
+				Vehicle veh=new Vehicle(id,1,this.getHeading(),grid,12,5);
+				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
+				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),80, veh.getSpeedZone());
+				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);
+				veh.getVehicleShape().setVehicleShape(this.getXgen(),this.getYgen(), this.getHeading());
+				context.add(veh);
+				grid.moveTo(veh,this.getXgen(),this.getYgen());	
+			}
 		}
 		
+	}
+	
+	public boolean checkSpace(){
+		boolean freespace=true;
+		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
+		for(int i=14;i>=0;i--){
+			for(Object obj:grid.getObjectsAt(i,6)){
+				if(obj instanceof VehicleShapeCell){
+					System.out.println("vshapefound in "+i);
+					freespace=false;
+					break;
+				}
+			}
+				
+		}
+		return freespace;
 	}
 	
 //	@Watch(watcheeClassName="new1.Vehicle",watcheeFieldNames="removed",whenToTrigger=WatcherTriggerSchedule.LATER,scheduleTriggerDelta = 1)

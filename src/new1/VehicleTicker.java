@@ -1,9 +1,15 @@
 package new1;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
+import repast.simphony.context.Context;
+import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.space.grid.Grid;
 import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
@@ -17,8 +23,33 @@ public class VehicleTicker {
 			this.flushVehiclesShape();
 			this.moveVehicle();
 			this.updateVehicleShape();
+			this.logVehiclePassage();
 ////			this.logVehicles();
 			
+	}
+	
+	public void logVehiclePassage(){
+		int tickValue=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		boolean stop=false;
+		Context context=ContextUtils.getContext(this);
+		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
+			for(Object obj:grid.getObjectsAt(Constants.GRID_LENGHT-1,6)){
+				if(stop){
+					break;
+				}
+				if(obj instanceof VehicleShapeCell){
+					stop=true;
+					PrintStream p=null;
+					int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+					try {
+						p = new PrintStream(new FileOutputStream("VehicleCounter",true));
+						p.println(tickValue);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
 	}
 	
 	public ArrayList<Vehicle> getVehList(){
