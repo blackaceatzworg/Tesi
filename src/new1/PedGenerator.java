@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import repast.simphony.context.Context;
+import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.parameter.Parameters;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.util.ContextUtils;
 
@@ -26,6 +28,14 @@ public class PedGenerator {
 	
 	@ScheduledMethod(start=0, interval=10)
 	public void addPedestrian(){
+		Parameters params=RunEnvironment.getInstance().getParameters();
+		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
+		int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
+		int secondLaneOffset=0;
+		if(numberOfLaneParam!=1){
+			scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
+			secondLaneOffset=8;
+		}
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getPedindex();
 		this.pedindex++;
@@ -39,13 +49,13 @@ public class PedGenerator {
 		Pedestrian ped=new Pedestrian(id,grid);
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
-			ry=Constants.SINGLE_GRID_HEIGHT-3;
+			ry=scenarioHeight-3;
 		}else{
 			ped.setRoute(this.getSouthNorthRoute());
 			ry=3;
 		}
 		if(eo){
-			rx=Constants.GRID_LENGHT-5;
+			rx=scenarioHeight-5;
 		}
 		else{
 			rx=4;

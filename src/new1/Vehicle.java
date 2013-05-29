@@ -196,6 +196,10 @@ public class Vehicle {
 	  * Move by displacemente related to speed,
 	  * 
 	  * */
+	 
+	public int getXCoord(){
+		return grid.getLocation(this).getX();
+	} 
 	public void move(){
 //		System.out.println(this.getId()+" move");
 		int delta=this.calcDisplacement();
@@ -251,13 +255,19 @@ public class Vehicle {
 	 * 
 	 * */
 	public void updateAnticipation(){
-		int x=grid.getLocation(this).getX()+1;
-		int y=grid.getLocation(this).getY();
+		int x=0;
+		if(this.getHeading()==Constants.E){
+			x=(grid.getLocation(this).getX()+1)%Constants.GRID_LENGHT;	
+		}else{
+			x=(grid.getLocation(this).getX()-1+Constants.GRID_LENGHT)%Constants.GRID_LENGHT;
+		}
 		int anticipationLenght=this.calcAnticipationLenght(this.getSpeedZone());
-		System.out.println("AnticipationLe"+anticipationLenght+"disp"+this.calcDisplacement());
+//		System.out.println("AnticipationLe"+anticipationLenght+"disp"+this.calcDisplacement());
 //		System.out.println(this.getCurrentSpeed());
 //		this.getAnticipation().setVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
-		this.getAnticipation().updateVehicleAnticipation(this.calcDisplacement(), this.getHeading());
+		
+		this.getAnticipation().updateVehicleAnticipation(this.calcDisplacement(), this.getHeading(),this.getSpeedZone());
+//		this.getAnticipation().updateDynamicVehicleAnticipation(this.calcDisplacement(), this.getHeading(),anticipationLenght);
 	}
 	public int calcAnticipationLenght(int speed){
 		int antValue=anticipationModule;
@@ -283,18 +293,21 @@ public class Vehicle {
 		return antValue;
 	}
 	
+	
+	
 	public void evaluate(){
 		boolean freeride=true;
 		boolean stop=false;
 		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
-			if (stop)
-				break;
-			int x=ac.getGp().getX();
-			int y=ac.getGp().getY();
+			if (stop){
+				break;}
+			int x=ac.getX();
+			int y=ac.getY();
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof VehicleShapeCell){
 					freeride=false;
 					System.out.println("veicolo "+((VehicleShapeCell)ags).getOwner()+" rilevato in fascia "+ac.getIndex());
+					System.out.println(ac.getX()+" "+ac.getY()+"-"+((VehicleShapeCell)ags).getX()+" "+((VehicleShapeCell)ags).getY());
 					this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
@@ -332,7 +345,7 @@ public class Vehicle {
 		 
 		//valore intero di velocitˆ
 		int speedZone=this.getSpeedZone();
-		System.out.println("velocitˆ:"+speedZone);
+//		System.out.println("velocitˆ:"+speedZone);
 		//cambio tra fasce di anticipazione
 		 switch(speedZone){
 		 case 0:
@@ -404,24 +417,24 @@ public class Vehicle {
 	public void manageAnticipationPresence(int cellIndex){
 		 
 	}
-	///Derived from pedestrian
-	public boolean checkOccupation(GridPoint dc){
-		boolean occupied=false;
-		int x=dc.getX();
-		int y=dc.getY();
-		Context context=ContextUtils.getContext(this);
-		Grid<Object> env=(Grid<Object>)context.getProjection(Constants.GridID);
-		for(Object ags : env.getObjectsAt(x,y)){
-			if(ags instanceof Vehicle){
-					occupied=true;
-//					System.out.println("Cella occupata"+dc.getX()+" "+dc.getY());
-			}
-//			else{
-//				//System.out.println("Cella libera");
+//	///Derived from pedestrian
+//	public boolean checkOccupation(GridPoint dc){
+//		boolean occupied=false;
+//		int x=dc.getX();
+//		int y=dc.getY();
+//		Context context=ContextUtils.getContext(this);
+//		Grid<Object> env=(Grid<Object>)context.getProjection(Constants.GridID);
+//		for(Object ags : env.getObjectsAt(x,y)){
+//			if(ags instanceof Vehicle){
+//					occupied=true;
+////					System.out.println("Cella occupata"+dc.getX()+" "+dc.getY());
 //			}
-		}
-		return occupied;
-	}
+////			else{
+////				//System.out.println("Cella libera");
+////			}
+//		}
+//		return occupied;
+//	}
 	
 	//GETTERS AND SETTERS
 	////////////////////////////////////////////////////////////////

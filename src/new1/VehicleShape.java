@@ -32,7 +32,7 @@ public class VehicleShape {
 				for(int j=0;j<this.getWidth();j++){
 					try {
 //						System.out.println((x-i)%Constants.GRID_LENGHT+" "+j+"-ciclo");
-						vsc=new VehicleShapeCell(this.getOwnerId(),(x-i)%Constants.GRID_LENGHT,y+j);
+						vsc=new VehicleShapeCell(this.getOwnerId(),(x-i+Constants.GRID_LENGHT)%Constants.GRID_LENGHT,y+j);
 						context.add(vsc);
 //						System.out.println(vsc.getX()+" "+vsc.getY()+"-cella");
 						grid.moveTo(vsc,vsc.getX(),vsc.getY());
@@ -81,13 +81,13 @@ public class VehicleShape {
 //		System.out.println(this.getShape().size()+"");
 		for(VehicleShapeCell vsc: this.getShape()){
 			if(heading==Constants.E){
-				vsc.setX(vsc.getX()+mod);
+				vsc.setX((vsc.getX()+mod)%Constants.GRID_LENGHT);
 				context.add(vsc);
-				grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());}
+				grid.moveTo(vsc,vsc.getX(),vsc.getY());}
 			else{
-				vsc.setX(vsc.getX()-mod+Constants.GRID_LENGHT);
+				vsc.setX((vsc.getX()-mod+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
 				context.add(vsc);
-				grid.moveTo(vsc,vsc.getX()%Constants.GRID_LENGHT,vsc.getY());
+				grid.moveTo(vsc,vsc.getX(),vsc.getY());
 			}
 		}
 	}

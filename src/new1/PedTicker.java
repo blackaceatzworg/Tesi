@@ -18,10 +18,10 @@ public class PedTicker {
 	
 	@ScheduledMethod(start=0, interval=5, priority=0)
 	public void pedTurn(){
-//		this.activatePedestrians();
+		this.activatePedestrians();
 //		this.setAnticipationPeds();
 //		this.evalPeds();
-//		this.movePedestrians();
+		this.movePedestrians();
 	}
 	
 	public ArrayList<Pedestrian> getPedList(){

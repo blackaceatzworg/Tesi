@@ -24,9 +24,8 @@ public class AnticipationCell {
 	 * Constuctor for anticipation cells used by vehicle. Added parameter speed
 	 * 
 	 * */
-	public AnticipationCell(int x, int y,GridPoint gp, String owner, String ownerType, int speed){
+	public AnticipationCell(int x, int y, String owner, String ownerType, int speed){
 		this.setOwner(owner);
-		this.setGp(gp);
 		this.setOwnerType(ownerType);
 		this.setSpeed(speed);
 	}

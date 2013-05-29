@@ -319,8 +319,6 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		southNorthRoute.add(nordCurbFF.getName());
 		southNorthRoute.add(northWestFF.getName());
 		
-		
-		
 //		//Pedestrian with log
 //		Pedestrian ped=new Pedestrian("ped1",grid,"PedDirectionLog");
 //		ped.setRoute(northSouthRoute);
@@ -328,7 +326,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 ////		ped.setAnticipation(new Anticipation());
 //		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
 //		context.add(ped);
-//		grid.moveTo(ped,25,16);
+//		grid.moveTo(ped,25,22);
 ////		
 //		Pedestrian ped3=new Pedestrian("ped3",grid);
 //		ped3.setRoute(southNorthRoute);
@@ -343,11 +341,11 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		VehicleGenerator vg1=new VehicleGenerator("vg1",context);
 //		context.add(vg1);
 		
-		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
-		context.add(pedg2);
+//		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
+//		context.add(pedg2);
 		
-		PedTicker pedt=new PedTicker();
-		context.add(pedt);
+//		PedTicker pedt=new PedTicker();
+//		context.add(pedt);
 		
 		VehicleTicker veht=new VehicleTicker();
 		context.add(veht);
@@ -381,22 +379,22 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(veh,13,6);
 		
 		
-//		Vehicle veh1=new Vehicle("v1",5,Constants.O,grid,12,5);
-//		veh1.getAnticipation().initVehicleAnticipation(veh1.getId(), grid, context);
-//		veh1.getAnticipation().setVehicleAnticipation(veh1.getHeading(), 100, 14,veh1.calcAnticipationLenght(veh1.getSpeedZone()), veh1.getSpeedZone());
-//		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
-//		veh1.getVehicleShape().setVehicleShape(100,14, Constants.O);
-//		context.add(veh1);
-//		grid.moveTo(veh1,100,14);
-//////	
-//		
-//		Vehicle veh2=new Vehicle("v2",1,Constants.E,grid,12,5);
-//		veh2.getAnticipation().initVehicleAnticipation(veh2.getId(), grid,context);
-//		veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),43,6,veh2.calcAnticipationLenght(veh2.getSpeedZone()), veh2.getSpeedZone());
-//		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
-//		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
-//		context.add(veh2);
-//		grid.moveTo(veh2,43,6);
+		Vehicle veh1=new Vehicle("v1",0,Constants.O,grid,12,5);
+		veh1.getAnticipation().initVehicleAnticipation(veh1.getId(), grid, context);
+		veh1.getAnticipation().setVehicleAnticipation(veh1.getHeading(),159,14,80, veh1.getSpeedZone());
+		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
+		veh1.getVehicleShape().setVehicleShape(160,14,veh1.getHeading());
+		context.add(veh1);
+		grid.moveTo(veh1,160,14);
+////	
+		
+		Vehicle veh2=new Vehicle("v2",2,Constants.E,grid,12,5);
+		veh2.getAnticipation().initVehicleAnticipation(veh2.getId(), grid,context);
+		veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),44,6,80, veh2.getSpeedZone());
+		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
+		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
+		context.add(veh2);
+		grid.moveTo(veh2,43,6);
 //////		
 //		Vehicle veh3=new Vehicle("v3",0,Constants.E,grid,12,5);
 //		veh3.getAnticipation().initAnticipation(veh3.getId(), grid, context);
@@ -422,6 +420,12 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(vsc5);
 //		grid.moveTo(vsc5, Constants.GRID_LENGHT-50,10);
 //		
+		
+//		VehicleShapeCell vsc3=new VehicleShapeCell("test", 50,16);
+//		context.add(vsc3);
+//		grid.moveTo(vsc3, vsc3.getX(),vsc3.getY());
+//		
+		
 		
 //		StoppedPed sped2=new StoppedPed("sped2",grid);
 //		context.add(sped2);

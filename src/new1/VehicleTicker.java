@@ -8,23 +8,18 @@ import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
 	
-	@ScheduledMethod(start=0, interval=2, priority=0)
+	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
-
-			this.updateVehiclesAnticipation();
-//			this.evaluateVehiclesAnticipation();
+				
+			this.evaluateVehiclesAnticipation();
+			this.updateVehiclesAnticipation();	
 //			this.flushVehiclesAnticipation();
-			
 			this.flushVehiclesShape();
 			this.moveVehicle();
-////			this.logVehicles();
 			this.updateVehicleShape();
+////			this.logVehicles();
 			
-
 	}
-	
-
-	
 	
 	public ArrayList<Vehicle> getVehList(){
 		@SuppressWarnings("unchecked")
@@ -50,6 +45,7 @@ public class VehicleTicker {
 	public void updateVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
+			
 			veh.updateAnticipation();
 		}
 	}
@@ -68,6 +64,7 @@ public class VehicleTicker {
 	}
 	
 	public void updateVehicleShape(){
+//		this.flushVehiclesAnticipation();
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
 			veh.getVehicleShape().alternateUpdate(veh.calcDisplacement(),veh.getHeading());
