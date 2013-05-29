@@ -239,7 +239,10 @@ public class Vehicle {
 //		e.printStackTrace();
 //	}
 
-	
+	public int getSpeedZone(){
+		int val=(int) (Math.round(this.getCurrentSpeed()*1000)/1000);
+		return val;
+	}
 ////////////////PERCEPTION
 	
 	/**
@@ -247,20 +250,19 @@ public class Vehicle {
 	 * Anticipation length is determined by speed value, calling calcAnticipation(speed)
 	 * 
 	 * */
-	public void project(){
-		int speed=(int)this.getCurrentSpeed();
-//		System.out.println(speed);
+	public void updateAnticipation(){
 		int x=grid.getLocation(this).getX()+1;
 		int y=grid.getLocation(this).getY();
-		int anticipationLenght=this.calcAnticipationLenght(speed);
+		int anticipationLenght=this.calcAnticipationLenght(this.getSpeedZone());
+		System.out.println("AnticipationLe"+anticipationLenght+"disp"+this.calcDisplacement());
 //		System.out.println(this.getCurrentSpeed());
-		this.getAnticipation().updateVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
+//		this.getAnticipation().setVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
+		this.getAnticipation().updateVehicleAnticipation(this.calcDisplacement(), this.getHeading());
 	}
 	public int calcAnticipationLenght(int speed){
 		int antValue=anticipationModule;
 		switch(speed){
 		case 0:
-			//antValue=16;
 			break;
 		case 1:
 			antValue*=1;
@@ -401,12 +403,6 @@ public class Vehicle {
 	
 	public void manageAnticipationPresence(int cellIndex){
 		 
-	}
-	
-	
-	public int getSpeedZone(){
-		int val=(int) (Math.round(this.getCurrentSpeed()*1000)/1000);
-		return val;
 	}
 	///Derived from pedestrian
 	public boolean checkOccupation(GridPoint dc){

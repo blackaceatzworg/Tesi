@@ -7,6 +7,8 @@ import repast.simphony.space.grid.GridPoint;
 
 public class AnticipationCell {
 	private GridPoint gp;
+	private int x;
+	private int y;
 	private int index;
 	private String owner;
 	private String ownerType;
@@ -22,7 +24,7 @@ public class AnticipationCell {
 	 * Constuctor for anticipation cells used by vehicle. Added parameter speed
 	 * 
 	 * */
-	public AnticipationCell(GridPoint gp, String owner, String ownerType, int speed){
+	public AnticipationCell(int x, int y,GridPoint gp, String owner, String ownerType, int speed){
 		this.setOwner(owner);
 		this.setGp(gp);
 		this.setOwnerType(ownerType);
@@ -67,5 +69,21 @@ public class AnticipationCell {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }

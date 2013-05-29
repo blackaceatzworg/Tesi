@@ -343,8 +343,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		VehicleGenerator vg1=new VehicleGenerator("vg1",context);
 //		context.add(vg1);
 		
-//		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
-//		context.add(pedg2);
+		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
+		context.add(pedg2);
 		
 		PedTicker pedt=new PedTicker();
 		context.add(pedt);
@@ -381,20 +381,23 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(veh,13,6);
 		
 		
-		Vehicle veh1=new Vehicle("v1",5,Constants.O,grid,12,5);
-		veh1.getAnticipation().initAnticipation(veh1.getId(), grid, context);
-		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
-		veh1.getVehicleShape().setVehicleShape(20,14, Constants.O);
-		context.add(veh1);
-		grid.moveTo(veh1,20,14);
-////		
+//		Vehicle veh1=new Vehicle("v1",5,Constants.O,grid,12,5);
+//		veh1.getAnticipation().initVehicleAnticipation(veh1.getId(), grid, context);
+//		veh1.getAnticipation().setVehicleAnticipation(veh1.getHeading(), 100, 14,veh1.calcAnticipationLenght(veh1.getSpeedZone()), veh1.getSpeedZone());
+//		veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
+//		veh1.getVehicleShape().setVehicleShape(100,14, Constants.O);
+//		context.add(veh1);
+//		grid.moveTo(veh1,100,14);
+//////	
+//		
 //		Vehicle veh2=new Vehicle("v2",1,Constants.E,grid,12,5);
-//		veh2.getAnticipation().initAnticipation(veh2.getId(), grid, context);
+//		veh2.getAnticipation().initVehicleAnticipation(veh2.getId(), grid,context);
+//		veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),43,6,veh2.calcAnticipationLenght(veh2.getSpeedZone()), veh2.getSpeedZone());
 //		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
 //		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
 //		context.add(veh2);
 //		grid.moveTo(veh2,43,6);
-////		
+//////		
 //		Vehicle veh3=new Vehicle("v3",0,Constants.E,grid,12,5);
 //		veh3.getAnticipation().initAnticipation(veh3.getId(), grid, context);
 //		veh3.getVehicleShape().initVehicleShape(12,5, veh3.getId(), grid, context);

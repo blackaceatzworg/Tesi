@@ -8,10 +8,10 @@ import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
 	
-	@ScheduledMethod(start=0, interval=1, priority=0)
+	@ScheduledMethod(start=0, interval=2, priority=0)
 	public void vehicleTurn(){
 
-//			this.projectVehiclesAnticipation();
+			this.updateVehiclesAnticipation();
 //			this.evaluateVehiclesAnticipation();
 //			this.flushVehiclesAnticipation();
 			
@@ -22,14 +22,8 @@ public class VehicleTicker {
 			
 
 	}
-//	@ScheduledMethod(start=1, interval=1, priority=0)
-	public void vehicleUpdateTest(){
-		this.flushVehiclesAnticipation();
-		this.flushVehiclesShape();
-		this.moveVehicle();
-////		this.logVehicles();
-		this.updateVehicleShape();
-	}
+	
+
 	
 	
 	public ArrayList<Vehicle> getVehList(){
@@ -53,13 +47,10 @@ public class VehicleTicker {
 	}
 	
 	
-	public void projectVehiclesAnticipation(){
+	public void updateVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			int xl=veh.getGrid().getLocation(veh).getX();
-			if(xl<Constants.GRID_LENGHT-12){
-			veh.project();
-			}
+			veh.updateAnticipation();
 		}
 	}
 	public void evaluateVehiclesAnticipation(){
