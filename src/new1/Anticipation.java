@@ -52,7 +52,7 @@ public class Anticipation {
 	public void setVehicleAnticipation(int direction, int x, int y, int anticipationLenght, int speed){
 		AnticipationCell ac;
 		int antIndex=VehicleanticipationModule;
-		System.out.println(anticipationLenght);
+//		System.out.println(anticipationLenght);
 		switch(direction){
 		case Constants.E:
 				for(int i=x;i<x+anticipationLenght;i++){
@@ -62,14 +62,15 @@ public class Anticipation {
 						ac.setIndex(this.calcAntIndex(antIndex));
 						ac.setX(i%Constants.GRID_LENGHT);
 						ac.setY(j);
-						System.out.println(ac.getX()+" "+ac.getY());
+//						System.out.println(ac.getX()+" "+ac.getY());
 						context.add(ac);
 						grid.moveTo(ac,ac.getX(),ac.getY());
 						this.getAnticipationCells().add(ac);
 						}catch(Exception e){
 							e.printStackTrace();
 							}
-					}System.out.println("");
+					}
+//					System.out.println("");
 					antIndex++;
 				}
 			break;
@@ -81,14 +82,15 @@ public class Anticipation {
 						ac.setIndex(this.calcAntIndex(antIndex));
 						ac.setX((i+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
 						ac.setY(j);
-						System.out.print(ac.getX()+" "+ac.getY());
+//						System.out.print(ac.getX()+" "+ac.getY());
 						context.add(ac);
 						grid.moveTo(ac,ac.getX(),ac.getY());
 						this.getAnticipationCells().add(ac);
 						}catch(Exception e){
 							e.printStackTrace();
 							}
-					}System.out.println("");
+					}
+//					System.out.println("");
 					antIndex++;
 				}
 			break;
@@ -119,39 +121,54 @@ public class Anticipation {
 	public void updateVehicleAnticipation(int displacement, int heading, int speedZone){
 		for(AnticipationCell ac:this.getAnticipationCells()){
 			if(heading==Constants.E){
-//				System.out.println(ac.getX()+" "+mod);
 				ac.setX((ac.getX()+displacement)%Constants.GRID_LENGHT);
 				ac.setSpeed(speedZone);
-				context.add(ac);
+//				context.add(ac);
 				grid.moveTo(ac,ac.getX(),ac.getY());
 			}else{
 				ac.setX((ac.getX()-displacement+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
 				ac.setSpeed(speedZone);
-				context.add(ac);
+//				context.add(ac);
+				grid.moveTo(ac,ac.getX(),ac.getY());
+			}
+		}
+	}
+	public void updateVehicleAnticipation(ArrayList<AnticipationCell> arrayl,int displacement, int heading, int speedZone){
+		for(AnticipationCell ac:arrayl){
+			if(heading==Constants.E){
+//				System.out.println(ac.getX()+" "+mod);
+				ac.setX((ac.getX()+displacement)%Constants.GRID_LENGHT);
+				ac.setSpeed(speedZone);
+//				context.add(ac);
+				grid.moveTo(ac,ac.getX(),ac.getY());
+			}else{
+				ac.setX((ac.getX()-displacement+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
+				ac.setSpeed(speedZone);
+//				context.add(ac);
 				grid.moveTo(ac,ac.getX(),ac.getY());
 			}
 		}
 	}
 	
-	public void updateDynamicVehicleAnticipation(int displacement, int heading, int anticipationLenght){
-		System.out.println("anticipationLenght"+anticipationLenght);
-		int antIndex=0;
-		for(AnticipationCell ac:this.getAnticipationCells()){
-			if(antIndex<=anticipationLenght){
-				if(heading==Constants.E){
-					ac.setX((ac.getX()+displacement)%Constants.GRID_LENGHT);
-	//				System.out.println(ac.getX());
-					context.add(ac);
-					grid.moveTo(ac,ac.getX(),ac.getY());
-				}else{
-					System.out.println(ac.getX()+" "+antIndex);
-					ac.setX((ac.getX()-displacement+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
-					context.add(ac);
-					grid.moveTo(ac,ac.getX(),ac.getY());
-				}
-				}
-			}
-	}
+//	public void updateDynamicVehicleAnticipation(int displacement, int heading, int anticipationLenght){
+////		System.out.println("anticipationLenght"+anticipationLenght);
+//		int antIndex=0;
+//		for(AnticipationCell ac:this.getAnticipationCells()){
+//			if(antIndex<=anticipationLenght){
+//				if(heading==Constants.E){
+//					ac.setX((ac.getX()+displacement)%Constants.GRID_LENGHT);
+//	//				System.out.println(ac.getX());
+//					context.add(ac);
+//					grid.moveTo(ac,ac.getX(),ac.getY());
+//				}else{
+//					System.out.println(ac.getX()+" "+antIndex);
+//					ac.setX((ac.getX()-displacement+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
+//					context.add(ac);
+//					grid.moveTo(ac,ac.getX(),ac.getY());
+//				}
+//				}
+//			}
+//	}
 	
 	public void updatePedestrianAnticipation(int direction, int x, int y){
 		AnticipationCell ac;

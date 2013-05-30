@@ -20,37 +20,15 @@ public class VehicleTicker {
 			this.evaluateVehiclesAnticipation();
 			this.updateVehiclesAnticipation();	
 //			this.flushVehiclesAnticipation();
-			this.flushVehiclesShape();
+//			this.flushVehiclesShape();
 			this.moveVehicle();
 			this.updateVehicleShape();
-			this.logVehiclePassage();
-////			this.logVehicles();
+//			this.logVehiclePassage();
+//			this.logVehicles();
 			
 	}
 	
-	public void logVehiclePassage(){
-		int tickValue=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-		boolean stop=false;
-		Context context=ContextUtils.getContext(this);
-		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
-			for(Object obj:grid.getObjectsAt(Constants.GRID_LENGHT-1,6)){
-				if(stop){
-					break;
-				}
-				if(obj instanceof VehicleShapeCell){
-					stop=true;
-					PrintStream p=null;
-					int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-					try {
-						p = new PrintStream(new FileOutputStream("VehicleCounter",true));
-						p.println(tickValue);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-					break;
-				}
-			}
-	}
+	
 	
 	public ArrayList<Vehicle> getVehList(){
 		@SuppressWarnings("unchecked")
@@ -76,7 +54,6 @@ public class VehicleTicker {
 	public void updateVehiclesAnticipation(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			
 			veh.updateAnticipation();
 		}
 	}
@@ -119,7 +96,7 @@ public class VehicleTicker {
 	public void logVehicles(){
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
-			veh.logArrival();
+			veh.checkPassingPoint(veh.getXCoord(),"VehicleCounter");
 //			this.flushVehiclesShape();
 		}
 	}

@@ -33,6 +33,7 @@ public class Vehicle {
 	private int ticker;
 	private boolean passed;
 	private boolean removed;
+	private boolean in;
 	
 	Parameters params=RunEnvironment.getInstance().getParameters();
 	int anticipationModule=(Integer)params.getValue("anticipationModule");
@@ -72,6 +73,45 @@ public class Vehicle {
 		this.setRemoved(false);
 	}
 	
+	public void checkPassingPoint(int x_v, String logFileName){
+		PrintStream p=null;
+		int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		if(x_v>=Constants.GRID_LENGHT/2&&x_v<Constants.GRID_LENGHT/2+9){
+			this.in=true;
+		}
+		if(in){
+			if(x_v>Constants.GRID_LENGHT/2+9){
+				this.in=false;
+//				System.out.println(this.getId()+" passato");
+				try {
+					p = new PrintStream(new FileOutputStream(logFileName,true));
+					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void checkPassingPoint2(int x_v, String logFileName){
+		PrintStream p=null;
+		int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		if(x_v>=(Constants.GRID_LENGHT-10)%Constants.GRID_LENGHT&&x_v<(Constants.GRID_LENGHT-1)%Constants.GRID_LENGHT){
+			this.in=true;
+		}
+		if(in){
+			if(x_v>(Constants.GRID_LENGHT-1)%Constants.GRID_LENGHT){
+				this.in=false;
+//				System.out.println(this.getId()+" passato");
+				try {
+					p = new PrintStream(new FileOutputStream(logFileName,true));
+					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	////LOG
 	public void logArrival(){
 		PrintStream p=null;
@@ -141,7 +181,7 @@ public class Vehicle {
 		}
 		
 		this.setCurrentSpeed(this.getCurrentSpeed()-delta);
-		System.out.println(delta+" "+RunEnvironment.getInstance().getScheduleTickDelay()+","+this.getCurrentSpeed());
+//		System.out.println(delta+" "+RunEnvironment.getInstance().getScheduleTickDelay()+","+this.getCurrentSpeed());
 		}
 		
 //		return delta;
@@ -205,8 +245,29 @@ public class Vehicle {
 		int delta=this.calcDisplacement();
 		int x=0;
 		if(this.getHeading()==Constants.E){
+			if(grid.getLocation(this).getX()+delta>=Constants.GRID_LENGHT){
+				PrintStream p=null;
+				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+				try {
+					p = new PrintStream(new FileOutputStream("VehicleCounter",true));
+					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 			x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
+			
 		}else{
+			if(grid.getLocation(this).getX()-delta<=0){
+				PrintStream p=null;
+				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+				try {
+					p = new PrintStream(new FileOutputStream("VehicleCounter",true));
+					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 			x=(grid.getLocation(this).getX()-delta+Constants.GRID_LENGHT)%(Constants.GRID_LENGHT);
 		}
 		int y=grid.getLocation(this).getY();
@@ -255,18 +316,18 @@ public class Vehicle {
 	 * 
 	 * */
 	public void updateAnticipation(){
-		int x=0;
-		if(this.getHeading()==Constants.E){
-			x=(grid.getLocation(this).getX()+1)%Constants.GRID_LENGHT;	
-		}else{
-			x=(grid.getLocation(this).getX()-1+Constants.GRID_LENGHT)%Constants.GRID_LENGHT;
-		}
-		int anticipationLenght=this.calcAnticipationLenght(this.getSpeedZone());
+//		int x=0;
+//		if(this.getHeading()==Constants.E){
+//			x=(grid.getLocation(this).getX()+1)%Constants.GRID_LENGHT;	
+//		}else{
+//			x=(grid.getLocation(this).getX()-1+Constants.GRID_LENGHT)%Constants.GRID_LENGHT;
+//		}
+//		int anticipationLenght=this.calcAnticipationLenght(this.getSpeedZone());
 //		System.out.println("AnticipationLe"+anticipationLenght+"disp"+this.calcDisplacement());
 //		System.out.println(this.getCurrentSpeed());
 //		this.getAnticipation().setVehicleAnticipation(this.getHeading(), x, y, anticipationLenght,speed);
 		
-		this.getAnticipation().updateVehicleAnticipation(this.calcDisplacement(), this.getHeading(),this.getSpeedZone());
+		this.getAnticipation().updateVehicleAnticipation(this.getAnticipation().getAnticipationCells(),this.calcDisplacement(), this.getHeading(),this.getSpeedZone());
 //		this.getAnticipation().updateDynamicVehicleAnticipation(this.calcDisplacement(), this.getHeading(),anticipationLenght);
 	}
 	public int calcAnticipationLenght(int speed){
@@ -306,8 +367,8 @@ public class Vehicle {
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof VehicleShapeCell){
 					freeride=false;
-					System.out.println("veicolo "+((VehicleShapeCell)ags).getOwner()+" rilevato in fascia "+ac.getIndex());
-					System.out.println(ac.getX()+" "+ac.getY()+"-"+((VehicleShapeCell)ags).getX()+" "+((VehicleShapeCell)ags).getY());
+					System.out.println(this.getId()+" rileva "+((VehicleShapeCell)ags).getOwner()+" in fascia "+ac.getIndex());
+//					System.out.println(ac.getX()+" "+ac.getY()+"-"+((VehicleShapeCell)ags).getX()+" "+((VehicleShapeCell)ags).getY());
 					this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
@@ -350,10 +411,15 @@ public class Vehicle {
 		 switch(speedZone){
 		 case 0:
 //			 this.speedUp();
+			 if(cellIndex!=1){
+				 this.speedUp();
+			 }
 			 break;
 		 case 1:
 			 if(cellIndex==1){
 				 this.speedDown();
+			 }else{
+				 this.speedUp();
 			 }
 			 break;
 		 case 2:

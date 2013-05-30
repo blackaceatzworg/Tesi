@@ -82,11 +82,11 @@ public class VehicleShape {
 		for(VehicleShapeCell vsc: this.getShape()){
 			if(heading==Constants.E){
 				vsc.setX((vsc.getX()+mod)%Constants.GRID_LENGHT);
-				context.add(vsc);
+//				context.add(vsc);
 				grid.moveTo(vsc,vsc.getX(),vsc.getY());}
 			else{
 				vsc.setX((vsc.getX()-mod+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
-				context.add(vsc);
+//				context.add(vsc);
 				grid.moveTo(vsc,vsc.getX(),vsc.getY());
 			}
 		}

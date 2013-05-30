@@ -79,7 +79,7 @@ public class VehicleGenerator {
 		for(int i=14;i>=0;i--){
 			for(Object obj:grid.getObjectsAt(i,6)){
 				if(obj instanceof VehicleShapeCell){
-					System.out.println("vshapefound in "+i);
+//					System.out.println("vshapefound in "+i);
 					freespace=false;
 					break;
 				}
