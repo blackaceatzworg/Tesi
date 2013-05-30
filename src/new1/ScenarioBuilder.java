@@ -3,7 +3,9 @@ package new1;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import repast.simphony.context.Context;
@@ -32,11 +34,25 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 	public Context<Object> build(Context<Object> context) {
 		// TODO Auto-generated method stub
 		context.setId("new1");
-		
+		//TODO parametrized value
+				Parameters params=RunEnvironment.getInstance().getParameters();
+				int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
+				int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
+				int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
+				int secondLaneOffset=0;
+				if(numberOfLaneParam!=1){
+					scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
+					secondLaneOffset=8;
+				}
+				Date dateNow = new Date ();
+				SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss");
+		        StringBuilder nowMMDDYYYY = new StringBuilder( date.format(dateNow));
+
 		//data recover
 		FileOutputStream pedDirectionLog=null;
 		FileOutputStream vehDirectionLog=null;
 		FileOutputStream VehicleCounter=null;
+		String VehicleCounterFilename="..\'VehicleCounterFolder\'VehicleCount_@VehPerLane"+numberOfVehicle+"@"+nowMMDDYYYY;
 		FileOutputStream fieldLog=null;
 		FileOutputStream nordcurblog=null;
 		FileOutputStream southcurblog=null;
@@ -55,7 +71,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		try{
 			pedDirectionLog=new FileOutputStream("PedDirectionLog");
 			vehDirectionLog=new FileOutputStream("vehDirectionLog");
-			VehicleCounter=new FileOutputStream("VehicleCounter");
+			VehicleCounter=new FileOutputStream(VehicleCounterFilename);
 			fieldLog=new FileOutputStream("fieldLog");
 			nordcurblog=new FileOutputStream("nclog");
 			southcurblog=new FileOutputStream("sclog");
@@ -68,15 +84,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 			e.printStackTrace();
 		}
 		
-		//TODO parametrized value
-		Parameters params=RunEnvironment.getInstance().getParameters();
-		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
-		int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
-		int secondLaneOffset=0;
-		if(numberOfLaneParam!=1){
-			scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
-			secondLaneOffset=8;
-		}
+		
 		
 		//grid creation
 		GridFactory gf=GridFactoryFinder.createGridFactory(null);
@@ -340,7 +348,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
 //		context.add(pedg);
 		
-		VehicleGenerator vg1=new VehicleGenerator("vg1",context,13,6,Constants.E);
+		VehicleGenerator vg1=new VehicleGenerator("vg1",context,13,6,Constants.E,VehicleCounterFilename);
 		context.add(vg1);
 		
 //		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
@@ -443,7 +451,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(sped5, 53,9);
 //		
 
-		
+		double endAt = 1333;
+		RunEnvironment.getInstance().endAt(endAt);
 		return context;
 	}
 	

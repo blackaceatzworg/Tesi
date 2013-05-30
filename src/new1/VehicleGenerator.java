@@ -18,17 +18,20 @@ public class VehicleGenerator {
 	private int xgen;
 	private int ygen;
 	private int heading;
+	private String counterFileName;
 	Parameters params=RunEnvironment.getInstance().getParameters();
 	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
 	
-	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading){
+	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading,String counterFileName){
 		this.vehindex=0;
 		this.setId(id);
 		this.context=cont;
 		this.setXgen(xgen);
 		this.setYgen(ygen);
 		this.setHeading(heading);
+		this.counterFileName=counterFileName;
+		
 	}
 	
 //	Vehicle veh1=new Vehicle("v1",0,Constants.O,grid,12,5);
@@ -57,11 +60,15 @@ public class VehicleGenerator {
 		String id=this.getId()+"-"+this.getVehindex();
 		Random r=new Random();
 		int curSpeed=r.nextInt(3);
+		if(this.getHeading()==Constants.E){
+			int antXGen=this.getXgen()+1;
+			int yGen=14;
+		}
 		if(this.getVehindex()<numberOfVehicle){
 			//TODO control position
 			if(this.checkSpace()){
 				this.setVehindex(this.getVehindex()+1);
-				Vehicle veh=new Vehicle(id,1,this.getHeading(),grid,12,5);
+				Vehicle veh=new Vehicle(this.counterFileName,id,1,this.getHeading(),grid,12,5);
 				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
 				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),80, veh.getSpeedZone());
 				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);
@@ -73,6 +80,10 @@ public class VehicleGenerator {
 		
 	}
 	
+	/**
+	 * 
+	 * check if there is available space in starting area to add a new vehicle
+	 * */
 	public boolean checkSpace(){
 		boolean freespace=true;
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);

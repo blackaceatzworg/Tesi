@@ -5,16 +5,10 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import bsh.This;
-
-import repast.simphony.context.Context;
 import repast.simphony.engine.environment.RunEnvironment;
-import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.parameter.Parameters;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
-import repast.simphony.util.ContextUtils;
-import repast.simphony.valueLayer.GridValueLayer;
 
 public class Vehicle {
 	
@@ -30,6 +24,14 @@ public class Vehicle {
 	private String currentField;
 	private GridPoint dest;
 	private String logFileName;//
+	public String getLogFileName() {
+		return logFileName;
+	}
+
+	public void setLogFileName(String logFileName) {
+		this.logFileName = logFileName;
+	}
+
 	private int ticker;
 	private boolean passed;
 	private boolean removed;
@@ -69,7 +71,7 @@ public class Vehicle {
 		this.setAnticipation(new Anticipation(Constants.ownerTypeVeh));
 		this.setVehicleShape(new VehicleShape());
 		this.setTicker(0);
-		this.logFileName=filename;
+		this.setLogFileName(filename);
 		this.setRemoved(false);
 	}
 	
@@ -195,8 +197,8 @@ public class Vehicle {
 	 public int calcDisplacement(){
 		 int currentTick=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
 		 int displacement=0;
-		 int x=grid.getLocation(this).getX();
-		 int y=grid.getLocation(this).getY();
+//		 int x=grid.getLocation(this).getX();
+//		 int y=grid.getLocation(this).getY();
 		 int val=(int) (Math.round(this.getCurrentSpeed()*100)/100);
 		 switch(val){
 		 case 1:
@@ -230,7 +232,7 @@ public class Vehicle {
 		 return displacement;
 	 }
 	
-	//TODO direzione inversa
+	
 	 
 	 /**
 	  * Move by displacemente related to speed,
@@ -240,6 +242,8 @@ public class Vehicle {
 	public int getXCoord(){
 		return grid.getLocation(this).getX();
 	} 
+	
+	//TODO direzione inversa
 	public void move(){
 //		System.out.println(this.getId()+" move");
 		int delta=this.calcDisplacement();
@@ -249,7 +253,7 @@ public class Vehicle {
 				PrintStream p=null;
 				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
 				try {
-					p = new PrintStream(new FileOutputStream("VehicleCounter",true));
+					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
 					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -262,7 +266,7 @@ public class Vehicle {
 				PrintStream p=null;
 				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
 				try {
-					p = new PrintStream(new FileOutputStream("VehicleCounter",true));
+					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
 					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
