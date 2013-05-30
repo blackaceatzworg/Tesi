@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.parameter.Parameters;
@@ -400,7 +401,14 @@ public class Vehicle {
 		}
 		if(freeride){
 //			System.out.println("free");
-			this.speedUp();
+			Random r=new Random();
+			double mantainSpeed=r.nextDouble();
+			if(mantainSpeed<=0.75){
+				this.speedUp();
+			}else{
+				this.speedDown();
+			}
+			
 		}
 		
 		

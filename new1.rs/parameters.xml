@@ -26,7 +26,7 @@
 						
 		/>
 				<parameter name="anticipationModule" displayName="Anticipation Module" type="int" 
-						defaultValue="16" 
+						defaultValue="20" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
