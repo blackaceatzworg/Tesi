@@ -22,6 +22,7 @@ public class VehicleGenerator {
 	Parameters params=RunEnvironment.getInstance().getParameters();
 	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
+	int anticipationModule=(Integer)params.getValue("anticipationModule");
 	
 	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading,String counterFileName){
 		this.vehindex=0;
@@ -70,7 +71,7 @@ public class VehicleGenerator {
 				this.setVehindex(this.getVehindex()+1);
 				Vehicle veh=new Vehicle(this.counterFileName,id,1,this.getHeading(),grid,12,5);
 				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
-				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),80, veh.getSpeedZone());
+				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),anticipationModule*5, veh.getSpeedZone());
 				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);
 				veh.getVehicleShape().setVehicleShape(this.getXgen(),this.getYgen(), this.getHeading());
 				context.add(veh);
