@@ -13,9 +13,13 @@ public final class Constants {
 	public static final int ROAD_HEIGHT=8;
 	public static final int PED_ZONE_HEIGHT=WALKWAY_HEIGHT+CURB_HEIGHT;
 	
-	
 	public static String ContextID="ScenarioBuilder";
 	public static String GridID="ScenarioGrid";
+	static int vehicleCounter;
+	
+	public int getVehicleCounter(){
+		return this.vehicleCounter;
+	}
 	
 	//floor fields ids
 	public static final  String northCurbFF="nordCurbFF";

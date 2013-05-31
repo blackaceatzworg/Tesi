@@ -14,6 +14,12 @@ import repast.simphony.util.ContextUtils;
 
 public class VehicleTicker {
 	
+	private int vehicleCount;
+	
+	public VehicleTicker(){
+		this.setVehicleCount(0);
+	}
+	
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void vehicleTurn(){
 				
@@ -29,7 +35,9 @@ public class VehicleTicker {
 	}
 	
 	
-	
+	public int getVehCount(){
+		return Constants.vehicleCounter;
+	}
 	public ArrayList<Vehicle> getVehList(){
 		@SuppressWarnings("unchecked")
 		final Iterable<Vehicle> vehicles=RunState.getInstance().getMasterContext().getObjects(Vehicle.class);
@@ -93,12 +101,20 @@ public class VehicleTicker {
 //			this.flushVehiclesShape();
 		}
 	}
-	public void logVehicles(){
-		final ArrayList<Vehicle> vehList=getVehList();
-		for(final Vehicle veh:vehList){
-			veh.checkPassingPoint(veh.getXCoord(),"VehicleCounter");
-//			this.flushVehiclesShape();
-		}
+//	public void logVehicles(){
+//		final ArrayList<Vehicle> vehList=getVehList();
+//		for(final Vehicle veh:vehList){
+//			veh.checkPassingPoint(veh.getXCoord(),"VehicleCounter");
+////			this.flushVehiclesShape();
+//		}
+//	}
+
+	public int getVehicleCount() {
+		return vehicleCount;
+	}
+
+	public void setVehicleCount(int vehicleCount) {
+		this.vehicleCount = vehicleCount;
 	}
 	
 	

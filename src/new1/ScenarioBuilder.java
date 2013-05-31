@@ -33,6 +33,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 	@Override
 	public Context<Object> build(Context<Object> context) {
 		// TODO Auto-generated method stub
+		Constants.vehicleCounter=0;
 		context.setId("new1");
 		//TODO parametrized value
 				Parameters params=RunEnvironment.getInstance().getParameters();
@@ -52,7 +53,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		FileOutputStream pedDirectionLog=null;
 		FileOutputStream vehDirectionLog=null;
 		FileOutputStream VehicleCounter=null;
-		String VehicleCounterFilename="..\'VehicleCounterFolder\'VehicleCount_@VehPerLane"+numberOfVehicle+"@"+nowMMDDYYYY;
+		String VehicleCounterFilename="VehicleCount_@VehPerLane"+numberOfVehicle+"@"+nowMMDDYYYY;
 		FileOutputStream fieldLog=null;
 		FileOutputStream nordcurblog=null;
 		FileOutputStream southcurblog=null;
@@ -69,16 +70,20 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		PrintStream swprint=null;
 		
 		try{
-			pedDirectionLog=new FileOutputStream("PedDirectionLog");
-			vehDirectionLog=new FileOutputStream("vehDirectionLog");
+//			pedDirectionLog=new FileOutputStream("PedDirectionLog");
+//			vehDirectionLog=new FileOutputStream("vehDirectionLog");
+			
 			VehicleCounter=new FileOutputStream(VehicleCounterFilename);
-			fieldLog=new FileOutputStream("fieldLog");
-			nordcurblog=new FileOutputStream("nclog");
-			southcurblog=new FileOutputStream("sclog");
-			nelog=new FileOutputStream("nelog");
-			nwlog=new FileOutputStream("nwlog");
-			selog=new FileOutputStream("selog");
-			swlog=new FileOutputStream("swlog");
+			p = new PrintStream(new FileOutputStream(VehicleCounterFilename,true));
+			p.println("id,tick,speed(float),speed(discrete),Tot v");
+			
+//			fieldLog=new FileOutputStream("fieldLog");
+//			nordcurblog=new FileOutputStream("nclog");
+//			southcurblog=new FileOutputStream("sclog");
+//			nelog=new FileOutputStream("nelog");
+//			nwlog=new FileOutputStream("nwlog");
+//			selog=new FileOutputStream("selog");
+//			swlog=new FileOutputStream("swlog");
 			
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
@@ -261,55 +266,55 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		
 		//File log
-		for(int j=scenarioHeight-1;j>=0;j--){
-			for(int i=0;i<Constants.GRID_LENGHT;i++){
-				try {
-					//p = new PrintStream(new FileOutputStream("fieldLog",true));
-					//p.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
-					ncprint=new PrintStream(new FileOutputStream("nclog",true));
-					ncprint.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
-					
-					scprint=new PrintStream(new FileOutputStream("sclog",true));
-					scprint.print(Math.floor(southCurbFF.get(i,j)*1000)/1000+" ");
-					
-					neprint=new PrintStream(new FileOutputStream("nelog",true));
-					neprint.print(Math.floor(northEastFF.get(i,j)*1000)/1000+" ");
-					
-					nwprint=new PrintStream(new FileOutputStream("nwlog",true));
-					nwprint.print(Math.floor(northWestFF.get(i,j)*1000)/1000+" ");
-					
-					seprint=new PrintStream(new FileOutputStream("selog",true));
-					seprint.print(Math.floor(southEastFF.get(i,j)*1000)/1000+" ");
-					
-					swprint=new PrintStream(new FileOutputStream("swlog",true));
-					swprint.print(Math.floor(southWestFF.get(i,j)*1000)/1000+" ");
-					
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			//System.out.println("");
-			try {
-				ncprint=new PrintStream(new FileOutputStream("nclog",true));
-				ncprint.println("");
-				scprint=new PrintStream(new FileOutputStream("sclog",true));
-				scprint.println("");
-				neprint=new PrintStream(new FileOutputStream("nelog",true));
-				neprint.println("");
-				nwprint=new PrintStream(new FileOutputStream("nwlog",true));
-				nwprint.println("");
-				seprint=new PrintStream(new FileOutputStream("selog",true));
-				seprint.println("");
-				swprint=new PrintStream(new FileOutputStream("swlog",true));
-				swprint.println("");
-				
-			} catch (FileNotFoundException e) {
-				
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		for(int j=scenarioHeight-1;j>=0;j--){
+//			for(int i=0;i<Constants.GRID_LENGHT;i++){
+//				try {
+//					//p = new PrintStream(new FileOutputStream("fieldLog",true));
+//					//p.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
+//					ncprint=new PrintStream(new FileOutputStream("nclog",true));
+//					ncprint.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
+//					
+//					scprint=new PrintStream(new FileOutputStream("sclog",true));
+//					scprint.print(Math.floor(southCurbFF.get(i,j)*1000)/1000+" ");
+//					
+//					neprint=new PrintStream(new FileOutputStream("nelog",true));
+//					neprint.print(Math.floor(northEastFF.get(i,j)*1000)/1000+" ");
+//					
+//					nwprint=new PrintStream(new FileOutputStream("nwlog",true));
+//					nwprint.print(Math.floor(northWestFF.get(i,j)*1000)/1000+" ");
+//					
+//					seprint=new PrintStream(new FileOutputStream("selog",true));
+//					seprint.print(Math.floor(southEastFF.get(i,j)*1000)/1000+" ");
+//					
+//					swprint=new PrintStream(new FileOutputStream("swlog",true));
+//					swprint.print(Math.floor(southWestFF.get(i,j)*1000)/1000+" ");
+//					
+//				} catch (FileNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			//System.out.println("");
+//			try {
+//				ncprint=new PrintStream(new FileOutputStream("nclog",true));
+//				ncprint.println("");
+//				scprint=new PrintStream(new FileOutputStream("sclog",true));
+//				scprint.println("");
+//				neprint=new PrintStream(new FileOutputStream("nelog",true));
+//				neprint.println("");
+//				nwprint=new PrintStream(new FileOutputStream("nwlog",true));
+//				nwprint.println("");
+//				seprint=new PrintStream(new FileOutputStream("selog",true));
+//				seprint.println("");
+//				swprint=new PrintStream(new FileOutputStream("swlog",true));
+//				swprint.println("");
+//				
+//			} catch (FileNotFoundException e) {
+//				
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 		//path fields
 		
