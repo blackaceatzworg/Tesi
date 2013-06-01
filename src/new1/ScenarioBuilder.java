@@ -39,6 +39,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				Parameters params=RunEnvironment.getInstance().getParameters();
 				int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 				int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
+				int anticipationModule=(Integer)params.getValue("anticipationModule");
 				int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
 				int secondLaneOffset=0;
 				if(numberOfLaneParam!=1){
@@ -53,7 +54,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		FileOutputStream pedDirectionLog=null;
 		FileOutputStream vehDirectionLog=null;
 		FileOutputStream VehicleCounter=null;
-		String VehicleCounterFilename="VehicleCount_@VehPerLane"+numberOfVehicle+"@"+nowMMDDYYYY;
+		String VehicleCounterFilename="VCount_V@Lane"+numberOfVehicle+"_antMod"+anticipationModule+"_"+nowMMDDYYYY;
 		FileOutputStream fieldLog=null;
 		FileOutputStream nordcurblog=null;
 		FileOutputStream southcurblog=null;
@@ -355,7 +356,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 		VehicleGenerator vg1=new VehicleGenerator("vg1",context,13,6,Constants.E,VehicleCounterFilename);
 		context.add(vg1);
-		
+//		
 //		PedGenerator pedg2=new PedGenerator("gen2",context,southNorthRoute,southNorthRoute);
 //		context.add(pedg2);
 		
@@ -403,14 +404,25 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(veh1,160,14);
 //////	
 //		
-//		Vehicle veh2=new Vehicle("v2",2,Constants.E,grid,12,5);
+		
+//		TEST VEHICLE + oblstacle///////////////////////
+//		
+//		Vehicle veh2=new Vehicle(VehicleCounterFilename,"v2",1,Constants.E,grid,12,5);
 //		veh2.getAnticipation().initVehicleAnticipation(veh2.getId(), grid,context);
-//		veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),44,6,80, veh2.getSpeedZone());
+//		veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),Constants.GRID_LENGHT-10,6,80, veh2.getSpeedZone());
 //		veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
-//		veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
+//		veh2.getVehicleShape().setVehicleShape(Constants.GRID_LENGHT-11,6, Constants.E);
 //		context.add(veh2);
-//		grid.moveTo(veh2,43,6);
-//////		
+//		grid.moveTo(veh2,Constants.GRID_LENGHT-11,6);
+//		
+//		VehicleShapeCell vsc1=new VehicleShapeCell("test", 50, 6);
+//		context.add(vsc1);
+//		grid.moveTo(vsc1, 50,6);
+//////	
+		
+		
+		
+		
 //		Vehicle veh3=new Vehicle("v3",0,Constants.E,grid,12,5);
 //		veh3.getAnticipation().initAnticipation(veh3.getId(), grid, context);
 //		veh3.getVehicleShape().initVehicleShape(12,5, veh3.getId(), grid, context);
@@ -419,9 +431,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(veh3,63,6);
 		
 		
-//		VehicleShapeCell vsc1=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 6);
-//		context.add(vsc1);
-//		grid.moveTo(vsc1, Constants.GRID_LENGHT-50,6);
+		
 //		VehicleShapeCell vsc2=new VehicleShapeCell("test", Constants.GRID_LENGHT-50, 7);
 //		context.add(vsc2);
 //		grid.moveTo(vsc2, Constants.GRID_LENGHT-50,7);
@@ -456,7 +466,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		grid.moveTo(sped5, 53,9);
 //		
 
-		double endAt = 1333;
+		double endAt = 13333;
 		RunEnvironment.getInstance().endAt(endAt);
 		return context;
 	}

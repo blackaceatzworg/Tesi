@@ -19,20 +19,20 @@
 									
 		/>
 				<parameter name="numberOfLaneParam" displayName="Number of lane" type="int" 
-						defaultValue="2" 
+						defaultValue="1" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									values="1 2 "
 						
 		/>
 				<parameter name="anticipationModule" displayName="Anticipation Module" type="int" 
-						defaultValue="20" 
+						defaultValue="16" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
 				<parameter name="numberOfVehicle" displayName="Number of vehicle per lane" type="int" 
-						defaultValue="3" 
+						defaultValue="12" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

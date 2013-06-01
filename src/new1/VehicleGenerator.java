@@ -55,7 +55,7 @@ public class VehicleGenerator {
 	
 	
 	//TODO vehicleShape
-	@ScheduledMethod(start=0, interval=1)
+	@ScheduledMethod(start=0, interval=1, priority=1)
 	public void addVehicle(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();
@@ -69,7 +69,7 @@ public class VehicleGenerator {
 			//TODO control position
 			if(this.checkSpace()){
 				this.setVehindex(this.getVehindex()+1);
-				Vehicle veh=new Vehicle(this.counterFileName,id,1,this.getHeading(),grid,12,5);
+				Vehicle veh=new Vehicle(this.counterFileName,id,curSpeed,this.getHeading(),grid,12,5);
 				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
 				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),anticipationModule*5, veh.getSpeedZone());
 				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);

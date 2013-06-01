@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<sweep runs="1">
+	<parameter name="fieldWeight" type="constant" constant_type="double" value="6.0"></parameter>
+	<parameter name="directionWeight" type="constant" constant_type="double" value="2.0"></parameter>
+	<parameter name="numberOfLaneParam" type="constant" constant_type="int" value="2"></parameter>
+	<parameter name="anticipationModule" type="constant" constant_type="int" value="20"></parameter>
+	<parameter name="numberOfVehicle" type="list" value_type="int" values="14"></parameter>
+</sweep>

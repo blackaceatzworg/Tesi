@@ -148,7 +148,7 @@ public class Vehicle {
 	public void speedUp(){
 		
 		if(this.getCurrentSpeed()<=5){
-//			System.out.println(this.getId()+" accelera");
+			System.out.println(this.getId()+" accelera");
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.3645;
@@ -171,6 +171,7 @@ public class Vehicle {
 	public void speedDown(){
 		
 		if(this.getCurrentSpeed()>0){
+			System.out.println(this.getId()+" frena");
 		double delta=0;
 		if(this.getCurrentSpeed()>=0&&this.getCurrentSpeed()<1){
 			delta=0.486;
@@ -184,7 +185,6 @@ public class Vehicle {
 		if(this.getCurrentSpeed()>=4){
 			delta=0.324;
 		}
-		
 		this.setCurrentSpeed(this.getCurrentSpeed()-delta);
 //		System.out.println(delta+" "+RunEnvironment.getInstance().getScheduleTickDelay()+","+this.getCurrentSpeed());
 		}
@@ -272,7 +272,7 @@ public class Vehicle {
 				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
 				try {
 					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
-					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
+					p.println(this.getId()+","+passedTime+","+this.getCurrentSpeed()+","+this.getSpeedZone()+","+Constants.vehicleCounter);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -376,8 +376,11 @@ public class Vehicle {
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof VehicleShapeCell){
 					freeride=false;
-//					System.out.println(this.getId()+" rileva "+((VehicleShapeCell)ags).getOwner()+" in fascia "+ac.getIndex());
+//					System.out.println(this.getId()+" rileva "+((VehicleShapeCell)ags).getOwner()+" in fascia "+ac.getIndex()+" "+this.getSpeedZone());
 //					System.out.println(ac.getX()+" "+ac.getY()+"-"+((VehicleShapeCell)ags).getX()+" "+((VehicleShapeCell)ags).getY());
+					if(ac.getSpeed()==0&&RunEnvironment.getInstance().getCurrentSchedule().getTickCount()>1000){
+						System.out.println(ac.getSpeed()+" "+ac.getOwner()+" "+this.getXCoord());
+					}
 					this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
@@ -404,12 +407,15 @@ public class Vehicle {
 			}
 		}
 		if(freeride){
-//			System.out.println("free");
+			
 			Random r=new Random();
 			double mantainSpeed=r.nextDouble();
-			if(mantainSpeed<=0.75){
+			if(mantainSpeed<=0.80){
+//				System.out.println("free,up"+this.getId());
 				this.speedUp();
-			}else{
+			}else
+			{
+//				System.out.println("free,down"+this.getId());
 				this.speedDown();
 			}
 			
@@ -419,43 +425,58 @@ public class Vehicle {
 	}
 	
 	public void manageVehiclePresence(int cellIndex){
-		 
+		 Random r=new Random();
+		 double choice=r.nextDouble();
 		//valore intero di velocitˆ
 		int speedZone=this.getSpeedZone();
 //		System.out.println("velocitˆ:"+speedZone);
 		//cambio tra fasce di anticipazione
 		 switch(speedZone){
 		 case 0:
-//			 this.speedUp();
-			 if(cellIndex!=1){
+			 if(cellIndex>1){
 				 this.speedUp();
 			 }
 			 break;
 		 case 1:
 			 if(cellIndex==1){
 				 this.speedDown();
-			 }else{
+			 }else if(cellIndex>1){
 				 this.speedUp();
 			 }
 			 break;
 		 case 2:
-			 if(cellIndex==1){
+			 if( cellIndex==1||cellIndex==2){
 				 this.speedDown();
+			 }else if(cellIndex>2){
+				 this.speedUp();
 			 }
 			 break;
 		 case 3:
 			 if(cellIndex==1||cellIndex==2){
 				 this.speedDown();
 			 }
+			 if(cellIndex>4){
+				 this.speedUp();
+			 }
 			 break;
 		 case 4:
 			 if(cellIndex==1||cellIndex==2||cellIndex==3){
 				 this.speedDown();
+			 }else{
+				 if(choice<=0.50){
+					 this.speedDown();
+				 }else{
+					 this.speedUp();
+				 }
 			 }
 			 break;
 		 case 5:
-			 if(cellIndex==1||cellIndex==2||cellIndex==3||cellIndex==4||cellIndex==5){
+			 if(cellIndex==1||cellIndex==2||cellIndex==3){
 				 this.speedDown();
+			 }else{
+				 if(choice<=0.50){
+					 this.speedDown();
+				 }
 			 }
 		 }
 	}
