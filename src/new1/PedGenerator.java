@@ -17,6 +17,9 @@ public class PedGenerator {
 	private Context context;
 	private ArrayList<String> northSouthRoute;
 	private ArrayList<String> southNorthRoute;
+	Parameters params=RunEnvironment.getInstance().getParameters();
+//	pedx
+	int pedx=(Integer)params.getValue("pedx");
 	
 	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute){
 		this.setPedindex(0);
@@ -41,7 +44,7 @@ public class PedGenerator {
 		this.pedindex++;
 		Random r=new Random();
 //		int rx=r.nextInt(Constants.GRID_LENGHT);
-		int rx=3;
+		int rx=0;
 		int ry=3;
 		boolean eo=r.nextBoolean();
 		boolean ns=r.nextBoolean();
@@ -50,20 +53,19 @@ public class PedGenerator {
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
 			ry=scenarioHeight-3;
-			head=3;
+			head=1;
 		}else{
 			ped.setRoute(this.getSouthNorthRoute());
 			ry=3;
-			head=5;
+			head=7;
 		}
 		if(eo){
-			rx=scenarioHeight-5;
+			rx=Constants.GRID_LENGHT/2+pedx;
 		}
 		else{
-			rx=4;
+			rx=Constants.GRID_LENGHT/2-1-pedx;
 		}
 		ped.setCurrentField(ped.getRoute().get(0));
-//		ped.setAnticipation(new Anticipation(Constants.ownerTypePed));
 		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
 		ped.getAnticipation().setPedestrianAnticipation(head, rx, ry);
 		context.add(ped);

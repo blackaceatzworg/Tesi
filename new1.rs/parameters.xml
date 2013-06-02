@@ -24,7 +24,7 @@
 						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
 									
 		/>
-				<parameter name="pedx" displayName="pedestrian start x coord" type="int" 
+				<parameter name="pedx" displayName="pedestrian x offSet from grid center" type="int" 
 						defaultValue="10" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
@@ -44,7 +44,7 @@
 									
 		/>
 				<parameter name="numberOfVehicle" displayName="Number of vehicle per lane" type="int" 
-						defaultValue="12" 
+						defaultValue="1" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

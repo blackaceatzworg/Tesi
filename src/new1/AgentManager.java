@@ -43,16 +43,24 @@ public class AgentManager {
 		//vehGen
 		this.addVehicle();
 		
-		//vehicle
 		this.evaluateVehiclesAnticipation();
 		this.updateVehiclesAnticipation();
+		
+		this.solvePedConflict();
+		this.updatePedAnticipation();
+		this.evalPeds();
+		
+		
+		
+		
+		
+		
+//		this.updateAnticipationPeds();
+		
+		
 		this.moveVehicle();
 		this.updateVehicleShape();
 		
-		//pedestrian
-		this.solvePedConflict();
-		this.updateAnticipationPeds();
-//		this.evalPeds();
 		if(tick%5==0){
 		this.movePedestrians();}
 	}
@@ -169,7 +177,6 @@ public class AgentManager {
 		final ArrayList<Vehicle> vehList=getVehList();
 		for(final Vehicle veh:vehList){
 			veh.move();
-//			this.flushVehiclesShape();
 		}
 	}
 	
@@ -177,7 +184,6 @@ public class AgentManager {
 	public void solvePedConflict(){
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
-			//ped.chooseDestination2();
 			ped.setMotionstate(true);
 			destinationChoices.add(ped.chooseDestination());
 		}
@@ -224,11 +230,10 @@ public class AgentManager {
 		}
 	}
 	
-	public void updateAnticipationPeds(){
+	public void updatePedAnticipation(){
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
 			ped.project();
-//			ped.getAnticipation().updatePedAnticipation(, y, ped.getHeading(), ped.getAnticipation().getAnticipationCells());
 		}
 	}
 	public void evalPeds(){

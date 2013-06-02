@@ -5,7 +5,7 @@ public final class Constants {
 	public static int maxint=100;
 	
 	//grid values
-	public static final int GRID_LENGHT=1000;//500
+	public static final int GRID_LENGHT=200;//500
 	public static final int DOUBLE_GRID_HEIGHT=26;
 	public static final int SINGLE_GRID_HEIGHT=18;//18
 	public static final int CURB_HEIGHT=1;
@@ -28,6 +28,8 @@ public final class Constants {
 	public static final  String destinationFF="destinationFF";
 	
 	//destination area ids
+	public static final String NorthDestFF="northDestination";
+	public static final String southDestFF="southDestination";
 	public static final String southEastDest="southEastDestination";
 	public static final String southWestDest="southWestDestination";
 	public static final String northEastDest="northEastDestination";

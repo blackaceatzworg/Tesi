@@ -105,50 +105,41 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		context.add(grid);
 		//field creation,
 		
+		final GridValueLayer northDestFF=new GridValueLayer(Constants.NorthDestFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
+		context.addValueLayer(northDestFF);
+
+		final GridValueLayer southDestFF=new GridValueLayer(Constants.southDestFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
+		context.addValueLayer(southDestFF);
 		
 		final GridValueLayer nordCurbFF=new GridValueLayer(Constants.northCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(nordCurbFF);
-		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<scenarioHeight;j++){
-				nordCurbFF.set(Constants.maxint,i,j);
-				
-			}
-		}
+		
 		
 		final GridValueLayer southCurbFF=new GridValueLayer(Constants.southCurbFF,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southCurbFF);
-		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<scenarioHeight;j++){
-				southCurbFF.set(Constants.maxint,i,j);
-			}
-		}
 		
 		final GridValueLayer southEastFF=new GridValueLayer(Constants.southEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southEastFF);
-		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<scenarioHeight;j++){
-				southEastFF.set(Constants.maxint,i,j);
-			}
-		}
+		
 		final GridValueLayer southWestFF=new GridValueLayer(Constants.southWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(southWestFF);
-		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<scenarioHeight;j++){
-				southWestFF.set(Constants.maxint,i,j);
-			}
-		}
+		
 		final GridValueLayer northEastFF=new GridValueLayer(Constants.northEastDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(northEastFF);
-		for(int i=0;i<Constants.GRID_LENGHT;i++){
-			for(int j=0; j<scenarioHeight;j++){
-				northEastFF.set(Constants.maxint,i,j);
-			}
-		}
+		
 		final GridValueLayer northWestFF=new GridValueLayer(Constants.northWestDest,true,new StrictBorders(),Constants.GRID_LENGHT,scenarioHeight);
 		context.addValueLayer(northWestFF);
+		
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
 			for(int j=0; j<scenarioHeight;j++){
+				southDestFF.set(Constants.maxint,i,j);
+				northDestFF.set(Constants.maxint,i,j);
 				northWestFF.set(Constants.maxint,i,j);
+				northEastFF.set(Constants.maxint,i,j);
+				southWestFF.set(Constants.maxint,i,j);
+				southEastFF.set(Constants.maxint,i,j);
+				southCurbFF.set(Constants.maxint,i,j);
+				nordCurbFF.set(Constants.maxint,i,j);
 			}
 		}
 		//destination areas
@@ -164,8 +155,19 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 			southcurbdestarea.add(new GridPoint(i,2));
 			southcurbdestarea.add(new GridPoint(i,1));
 		}
+		
 		this.calcPathField(nordCurbFF, northcurbdestarea);
 		this.calcPathField(southCurbFF, southcurbdestarea);
+		
+		ArrayList<GridPoint> southDest=new ArrayList<GridPoint>();
+		ArrayList<GridPoint> northDest=new ArrayList<GridPoint>();
+		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
+			southDest.add(new GridPoint(i,0));
+			northDest.add(new GridPoint(i,scenarioHeight-1));
+		}
+		this.calcPathField(southDestFF, southDest);
+		this.calcPathField(northDestFF, northDest);
+		
 		
 		ArrayList<GridPoint> swDest=new ArrayList<GridPoint>();
 		for(int i=0;i<3;i++){
@@ -209,7 +211,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
 						southEastFF.get(i,j)==0||
 						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0){
+						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
 					cell.setDestination(true);
 				}
 			}
@@ -223,7 +225,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
 						southEastFF.get(i,j)==0||
 						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0){
+						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
 					cell.setDestination(true);
 				}
 			}
@@ -259,81 +261,25 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
 						southEastFF.get(i,j)==0||
 						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0){
+						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
 					cell.setDestination(true);
 				}
 			}
 		}
 		
 		
-		//File log
-//		for(int j=scenarioHeight-1;j>=0;j--){
-//			for(int i=0;i<Constants.GRID_LENGHT;i++){
-//				try {
-//					//p = new PrintStream(new FileOutputStream("fieldLog",true));
-//					//p.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
-//					ncprint=new PrintStream(new FileOutputStream("nclog",true));
-//					ncprint.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
-//					
-//					scprint=new PrintStream(new FileOutputStream("sclog",true));
-//					scprint.print(Math.floor(southCurbFF.get(i,j)*1000)/1000+" ");
-//					
-//					neprint=new PrintStream(new FileOutputStream("nelog",true));
-//					neprint.print(Math.floor(northEastFF.get(i,j)*1000)/1000+" ");
-//					
-//					nwprint=new PrintStream(new FileOutputStream("nwlog",true));
-//					nwprint.print(Math.floor(northWestFF.get(i,j)*1000)/1000+" ");
-//					
-//					seprint=new PrintStream(new FileOutputStream("selog",true));
-//					seprint.print(Math.floor(southEastFF.get(i,j)*1000)/1000+" ");
-//					
-//					swprint=new PrintStream(new FileOutputStream("swlog",true));
-//					swprint.print(Math.floor(southWestFF.get(i,j)*1000)/1000+" ");
-//					
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			//System.out.println("");
-//			try {
-//				ncprint=new PrintStream(new FileOutputStream("nclog",true));
-//				ncprint.println("");
-//				scprint=new PrintStream(new FileOutputStream("sclog",true));
-//				scprint.println("");
-//				neprint=new PrintStream(new FileOutputStream("nelog",true));
-//				neprint.println("");
-//				nwprint=new PrintStream(new FileOutputStream("nwlog",true));
-//				nwprint.println("");
-//				seprint=new PrintStream(new FileOutputStream("selog",true));
-//				seprint.println("");
-//				swprint=new PrintStream(new FileOutputStream("swlog",true));
-//				swprint.println("");
-//				
-//			} catch (FileNotFoundException e) {
-//				
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-		
-		//path fields
+		//Pedestrian routes
 		
 		ArrayList<String> northSouthRoute=new ArrayList<String>();
 		northSouthRoute.add(nordCurbFF.getName());
 		northSouthRoute.add(southCurbFF.getName());
-		northSouthRoute.add(southEastFF.getName());
+		northSouthRoute.add(southDestFF.getName());
 		//northSouthRoute.add(southWestFF.getName());
-		
-		ArrayList<String> northSouthRoute2=new ArrayList<String>();
-		northSouthRoute2.add(nordCurbFF.getName());
-		northSouthRoute2.add(southCurbFF.getName());
-		northSouthRoute2.add(southWestFF.getName());
 		
 		ArrayList<String> southNorthRoute=new ArrayList<String>();
 		southNorthRoute.add(southCurbFF.getName());
 		southNorthRoute.add(nordCurbFF.getName());
-		southNorthRoute.add(northWestFF.getName());
+		southNorthRoute.add(northDestFF.getName());
 		
 //		//Pedestrian with log
 //		Pedestrian ped=new Pedestrian("ped1",grid);
@@ -423,6 +369,18 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		context.add(vsc1);
 //		grid.moveTo(vsc1, 50,6);
 //////	
+//		AnticipationCell ac;
+//		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
+//			for(int j=4;j<13;j++){
+//				ac= new AnticipationCell(i,j,"test","Vehicle",5);
+//				ac.setIndex(1);
+//				ac.setX(i);
+//				ac.setY(j);
+//				context.add(ac);
+//				grid.moveTo(ac, i,j);
+//			}
+//		}
+		
 		
 		
 		

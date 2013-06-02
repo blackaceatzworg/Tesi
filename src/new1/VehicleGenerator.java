@@ -55,7 +55,7 @@ public class VehicleGenerator {
 	
 	
 	//TODO vehicleShape
-	@ScheduledMethod(start=0, interval=1, priority=1)
+//	@ScheduledMethod(start=0, interval=1, priority=1)
 	public void addVehicle(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();

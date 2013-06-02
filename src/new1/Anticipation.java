@@ -60,7 +60,7 @@ public class Anticipation {
 				for(int i=x;i<x+anticipationLenght;i++){
 					for(int j=y;j<y+5;j++){
 						try{
-						ac= new AnticipationCell(i%Constants.GRID_LENGHT,j,this.getId(),ownerType, speed);
+						ac= new AnticipationCell(i%Constants.GRID_LENGHT,j,this.getId(),"Vehicle", speed);
 						ac.setIndex(this.calcAntIndex(antIndex));
 						ac.setX(i%Constants.GRID_LENGHT);
 						ac.setY(j);
@@ -80,7 +80,7 @@ public class Anticipation {
 				for(int i=x;i>x-anticipationLenght;i--){
 					for(int j=y;j<y+5;j++){
 						try{
-						ac= new AnticipationCell((i+Constants.GRID_LENGHT)%Constants.GRID_LENGHT,j,this.getId(),ownerType, speed);
+						ac= new AnticipationCell((i+Constants.GRID_LENGHT)%Constants.GRID_LENGHT,j,this.getId(),"Vehicle", speed);
 						ac.setIndex(this.calcAntIndex(antIndex));
 						ac.setX((i+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
 						ac.setY(j);
@@ -159,34 +159,35 @@ public class Anticipation {
 	
 	public void setPedestrianAnticipation(int direction, int x, int y){
 		int k=5;//ANTICIPATION LENGHT
+		
 		switch(direction){
 		case Constants.O:
-			this.setOAnticip(x, y, k, ownerType);
+			this.setOAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.S:
-			this.setSAnticip(x, y, k, ownerType);
+			this.setSAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.N:
-			this.setNAnticip(x, y, k, ownerType);
+			this.setNAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.E:
-			this.setEAnticip(x, y, k, ownerType);
+			this.setEAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.NO:
 //			System.out.println(Constants.NO+" "+direction);
-			this.setNOAnticip(x, y, k, ownerType);
+			this.setNOAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.SO:
 //			System.out.println(Constants.NO+" "+direction);
-			this.setSOAnticip(x, y, k, ownerType);
+			this.setSOAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.NE:
 //			System.out.println(Constants.NO+" "+direction);
-			this.setNEAnticip(x, y, k, ownerType);
+			this.setNEAnticip(x, y, k, "Pedestrian");
 			break;
 		case Constants.SE:
 //			System.out.println(Constants.NO+" "+direction);
-			this.setSEAnticip(x, y, k, ownerType);
+			this.setSEAnticip(x, y, k, "Pedestrian");
 			break;
 		}
 	}
@@ -200,44 +201,19 @@ public class Anticipation {
 		}
 //		this.getAnticipationCells().removeAll(anticipationCells);
 	}
-	public void checkPedAnticipation(ArrayList<AnticipationCell> aclist){
-		int pedAnticipationCount=0;
-		int vehAnticipationCount=0;
-		int pedCount=0;
-		int vehCount=0;
-		//TODO try catch
-		try{
-		for(AnticipationCell ac:aclist){
-			for(Object obj:grid.getObjectsAt(ac.getGp().getX(),ac.getGp().getY())){
-				//System.out.println(((AnticipationCell) obj).getOwner());
-				if(obj instanceof Pedestrian){
-					pedCount++;
-				}
-				if(obj instanceof AnticipationCell){
-					if(!((AnticipationCell) obj).getOwner().equals(this.getId())){
-						//System.out.println("Conflitc in"+((AnticipationCell) obj).getGp().getX()+" "+
-					//((AnticipationCell) obj).getGp().getY()+" for "+((AnticipationCell)obj).getOwner());
-					}
-				}
-				if(obj instanceof Vehicle||obj instanceof VehicleShapeCell){
-					vehCount++;
-				}
-			}
-		}
-		}catch(Exception e){
-			
-//				e.printStackTrace();	
-		}
-		//System.out.println(pedAnticipationCount+" "+vehAnticipationCount+" "+pedCount+" "+vehCount);
-	}
-	
+
+	int index=1;
 	public void setNAnticip(int x, int y, int k, String ownerType){
 		//System.out.println("dir:n");
 		AnticipationCell ac;
+		
 			for(int i=y;i<y+k;i++){
 				try{
 //					System.out.println("dir:n");
 				ac= new AnticipationCell(new GridPoint(x,i),this.getId(),ownerType);
+				ac.setX(x);
+				ac.setY(i);
+				ac.setIndex(index++);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
 				grid.moveTo(ac,x,i);
@@ -254,6 +230,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:s");
 				ac= new AnticipationCell(new GridPoint(x,i),this.getId(),ownerType);
+				ac.setX(x);
+				ac.setY(i);
+				ac.setIndex(index++);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
 				grid.moveTo(ac,x,i);}catch(Exception e){
@@ -268,6 +247,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:e");
 				ac= new AnticipationCell(new GridPoint(i,y),this.getId(),ownerType);
+				ac.setX(i);
+				ac.setY(y);
+				ac.setIndex(index++);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
 				grid.moveTo(ac,i,y);}catch(Exception e){
@@ -281,6 +263,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:o");
 				ac= new AnticipationCell(new GridPoint(i,y),this.getId(),ownerType);
+				ac.setX(i);
+				ac.setY(y);
+				ac.setIndex(index++);
 				this.getAnticipationCells().add(ac);
 				context.add(ac);
 				grid.moveTo(ac,i,y);}catch(Exception e){
@@ -296,6 +281,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac.setX(i);
+					ac.setY(j);
+					ac.setIndex(index++);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
@@ -313,6 +301,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac.setX(i);
+					ac.setY(j);
+					ac.setIndex(index++);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
@@ -330,6 +321,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac.setX(i);
+					ac.setY(j);
+					ac.setIndex(index++);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
@@ -347,6 +341,9 @@ public class Anticipation {
 				try{
 //					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);
+					ac.setX(i);
+					ac.setY(j);
+					ac.setIndex(index++);
 					this.getAnticipationCells().add(ac);
 					context.add(ac);
 					grid.moveTo(ac,i,j);
@@ -398,7 +395,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 			}
 			catch(Exception e){
-				e.printStackTrace();
+//				System.out.println("ant error N");
+//				e.printStackTrace();
 			}
 		}
 	}
@@ -413,14 +411,15 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 			}
 			catch(Exception e){
-				e.printStackTrace();
+//				System.out.println("ant error S");
+//				e.printStackTrace();
 			}
 		}
 	}
 	
 	public void update_E_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
 		int i=1;
-		System.out.println("update e ant");
+//		System.out.println("update e ant");
 		for(AnticipationCell ac:arrayl){
 			try{
 			ac.setX(x+i);
@@ -429,7 +428,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			System.out.println("ant error E");
+//			e.printStackTrace();
 		}
 		}
 	}
@@ -444,7 +444,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			System.out.println("ant error NE");
+//			e.printStackTrace();
 		}
 		}
 	}
@@ -459,7 +460,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			System.out.println("ant error NO");
+//			e.printStackTrace();
 		}
 		}
 	}
@@ -474,7 +476,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			System.out.println("ant error SE");
+//			e.printStackTrace();
 		}
 		}
 	}
@@ -489,7 +492,8 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			System.out.println("ant error SO");
+//			e.printStackTrace();
 		}
 		}
 	}
@@ -504,7 +508,7 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		}
 	}
