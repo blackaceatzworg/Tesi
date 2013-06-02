@@ -6,24 +6,60 @@ import java.util.Random;
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
 
-public class PedTicker {
+public class AgentManager {
+	
+	
+	//PedTicker attributes
 	ArrayList<DestinationCell> destinationChoices;  
 	ArrayList<DestinationCell> destinationConflicts;
 	
-	
-	public PedTicker(){
+	//VehTicker attributes
+	private int vehicleCount;
+
+	public AgentManager(){
 		this.destinationChoices=new ArrayList<DestinationCell>();
 		this.destinationConflicts=new ArrayList<DestinationCell>();
+		this.setVehicleCount(0);
 	}
 	
-	@ScheduledMethod(start=0, interval=5, priority=0)
-	public void pedTurn(){
+	//Action flow
+	@ScheduledMethod(start=0, interval=1, priority=0)
+	public void simulationStep(){
+		//vehicle
+		this.evaluateVehiclesAnticipation();
+		this.updateVehiclesAnticipation();
+		this.moveVehicle();
+		this.updateVehicleShape();
+		
+		//pedestrian
 		this.solvePedConflict();
-		this.setAnticipationPeds();
+		this.updateAnticipationPeds();
 //		this.evalPeds();
 		this.movePedestrians();
 	}
 	
+	
+	
+	//Agent retrieving methods
+	public ArrayList<Vehicle> getVehList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<Vehicle> vehicles=RunState.getInstance().getMasterContext().getObjects(Vehicle.class);
+		final ArrayList<Vehicle> vehList=new ArrayList<Vehicle>();
+		for(final Vehicle veh:vehicles){
+			vehList.add(veh);
+		}
+		return vehList;
+	}
+	
+	public ArrayList<VehicleShapeCell> getVehShapeCelList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<VehicleShapeCell> vehicles=RunState.getInstance().getMasterContext().getObjects(VehicleShapeCell.class);
+		final ArrayList<VehicleShapeCell> vehList=new ArrayList<VehicleShapeCell>();
+		for(final VehicleShapeCell veh:vehicles){
+			vehList.add(veh);
+		}
+		return vehList;
+	}
 	public ArrayList<Pedestrian> getPedList(){
 		@SuppressWarnings("unchecked")
 		final Iterable<Pedestrian> peds=RunState.getInstance().getMasterContext().getObjects(Pedestrian.class);
@@ -34,10 +70,52 @@ public class PedTicker {
 		return pedList;
 	}
 	
-	/**
-	 * 
-	 * Each Pedestrian choose his destination, which is added to general destination list. Then, conflict beetween pedestrian are solved.
-	 * */
+	
+	//Vehicle turn method
+	public void updateVehiclesAnticipation(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.updateAnticipation();
+		}
+	}
+	public void evaluateVehiclesAnticipation(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.evaluate();
+		}
+	}
+	
+	public void flushVehiclesAnticipation(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.getAnticipation().flushAnticipation();
+		}
+	}
+	
+	public void updateVehicleShape(){
+//		this.flushVehiclesAnticipation();
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.getVehicleShape().alternateUpdate(veh.calcDisplacement(),veh.getHeading());
+		}
+	}
+	
+	public void flushVehiclesShape(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.getVehicleShape().clearShape();
+		}
+	}
+	
+	public void moveVehicle(){
+		final ArrayList<Vehicle> vehList=getVehList();
+		for(final Vehicle veh:vehList){
+			veh.move();
+//			this.flushVehiclesShape();
+		}
+	}
+	
+	//Pedestrian turn method
 	public void solvePedConflict(){
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
@@ -88,7 +166,7 @@ public class PedTicker {
 		}
 	}
 	
-	public void setAnticipationPeds(){
+	public void updateAnticipationPeds(){
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
 			ped.project();
@@ -112,6 +190,19 @@ public class PedTicker {
 		}
 		this.destinationChoices.removeAll(destinationChoices);
 		this.destinationConflicts.removeAll(destinationConflicts);
+	}
+	
+	
+	public int getVehCount(){
+		return Constants.vehicleCounter;
+	}
+	
+	public int getVehicleCount() {
+		return vehicleCount;
+	}
+
+	public void setVehicleCount(int vehicleCount) {
+		this.vehicleCount = vehicleCount;
 	}
 	
 	

@@ -17,6 +17,8 @@ public class PedGenerator {
 	private Context context;
 	private ArrayList<String> northSouthRoute;
 	private ArrayList<String> southNorthRoute;
+	Parameters params=RunEnvironment.getInstance().getParameters();
+	int numOfped=(Integer)params.getValue("numOfPed");
 	
 	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute){
 		this.setPedindex(0);
@@ -26,7 +28,7 @@ public class PedGenerator {
 		this.southNorthRoute=SNroute;
 	}
 	
-	@ScheduledMethod(start=0, interval=10)
+	@ScheduledMethod(start=0, interval=500)
 	public void addPedestrian(){
 		Parameters params=RunEnvironment.getInstance().getParameters();
 		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
@@ -45,14 +47,16 @@ public class PedGenerator {
 		int ry=3;
 		boolean eo=r.nextBoolean();
 		boolean ns=r.nextBoolean();
-		
+		int head=4;
 		Pedestrian ped=new Pedestrian(id,grid);
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
 			ry=scenarioHeight-3;
+			head=3;
 		}else{
 			ped.setRoute(this.getSouthNorthRoute());
 			ry=3;
+			head=5;
 		}
 		if(eo){
 			rx=scenarioHeight-5;
@@ -63,8 +67,9 @@ public class PedGenerator {
 		ped.setCurrentField(ped.getRoute().get(0));
 //		ped.setAnticipation(new Anticipation(Constants.ownerTypePed));
 		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
+		ped.getAnticipation().setPedestrianAnticipation(head, rx, ry);
 		context.add(ped);
-		grid.moveTo(ped, rx,ry);
+		grid.moveTo(ped,rx,ry);
 	}
 
 	public int getPedindex() {

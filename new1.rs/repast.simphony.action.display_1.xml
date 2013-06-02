@@ -15,12 +15,12 @@
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
     <entry>
-      <string>new1.AnticipationCell</string>
-      <string>repast.simphony.visualizationOGL2D.DefaultStyleOGL2D</string>
-    </entry>
-    <entry>
       <string>new1.Pedestrian</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
+      <string>new1.AnticipationCell</string>
+      <string>repast.simphony.visualizationOGL2D.DefaultStyleOGL2D</string>
     </entry>
   </styles>
   <editedStyles>
@@ -37,12 +37,12 @@
       <string>new1.VehicleShapeCell.style_0.xml</string>
     </entry>
     <entry>
-      <string>new1.AnticipationCell</string>
-      <null/>
-    </entry>
-    <entry>
       <string>new1.Pedestrian</string>
       <string>new1.Pedestrian.style_1.xml</string>
+    </entry>
+    <entry>
+      <string>new1.AnticipationCell</string>
+      <null/>
     </entry>
   </editedStyles>
   <netStyles/>
@@ -72,12 +72,12 @@
       <int>2</int>
     </entry>
     <entry>
-      <string>new1.AnticipationCell</string>
-      <int>1</int>
-    </entry>
-    <entry>
       <string>new1.Pedestrian</string>
       <int>4</int>
+    </entry>
+    <entry>
+      <string>new1.AnticipationCell</string>
+      <int>1</int>
     </entry>
   </layerOrder>
   <projections>

@@ -49,6 +49,8 @@ public class Anticipation {
 		this.context=context;
 	}
 	
+	
+	/////VEHICLE ANTICIPATION MANAGEMENT
 	public void setVehicleAnticipation(int direction, int x, int y, int anticipationLenght, int speed){
 		AnticipationCell ac;
 		int antIndex=VehicleanticipationModule;
@@ -150,29 +152,13 @@ public class Anticipation {
 		}
 	}
 	
-//	public void updateDynamicVehicleAnticipation(int displacement, int heading, int anticipationLenght){
-////		System.out.println("anticipationLenght"+anticipationLenght);
-//		int antIndex=0;
-//		for(AnticipationCell ac:this.getAnticipationCells()){
-//			if(antIndex<=anticipationLenght){
-//				if(heading==Constants.E){
-//					ac.setX((ac.getX()+displacement)%Constants.GRID_LENGHT);
-//	//				System.out.println(ac.getX());
-//					context.add(ac);
-//					grid.moveTo(ac,ac.getX(),ac.getY());
-//				}else{
-//					System.out.println(ac.getX()+" "+antIndex);
-//					ac.setX((ac.getX()-displacement+Constants.GRID_LENGHT)%Constants.GRID_LENGHT);
-//					context.add(ac);
-//					grid.moveTo(ac,ac.getX(),ac.getY());
-//				}
-//				}
-//			}
-//	}
+
 	
-	public void updatePedestrianAnticipation(int direction, int x, int y){
-		AnticipationCell ac;
-		int k=5;
+	
+	/////////////PEDESTRIAN ANTICIPATION MANAGEMENT
+	
+	public void setPedestrianAnticipation(int direction, int x, int y){
+		int k=5;//ANTICIPATION LENGHT
 		switch(direction){
 		case Constants.O:
 			this.setOAnticip(x, y, k, ownerType);
@@ -214,7 +200,7 @@ public class Anticipation {
 		}
 //		this.getAnticipationCells().removeAll(anticipationCells);
 	}
-	public void debug_checkAnticipation(ArrayList<AnticipationCell> aclist){
+	public void checkPedAnticipation(ArrayList<AnticipationCell> aclist){
 		int pedAnticipationCount=0;
 		int vehAnticipationCount=0;
 		int pedCount=0;
@@ -233,7 +219,7 @@ public class Anticipation {
 					//((AnticipationCell) obj).getGp().getY()+" for "+((AnticipationCell)obj).getOwner());
 					}
 				}
-				if(obj instanceof Vehicle){
+				if(obj instanceof Vehicle||obj instanceof VehicleShapeCell){
 					vehCount++;
 				}
 			}
@@ -244,8 +230,6 @@ public class Anticipation {
 		}
 		//System.out.println(pedAnticipationCount+" "+vehAnticipationCount+" "+pedCount+" "+vehCount);
 	}
-	
-	
 	
 	public void setNAnticip(int x, int y, int k, String ownerType){
 		//System.out.println("dir:n");
@@ -262,9 +246,7 @@ public class Anticipation {
 					}
 			}
 	}
-	public void updateNAnticipation(){
-		
-	}
+	
 	public void setSAnticip(int x, int y, int k, String ownerType){
 //		System.out.println("dir:s");
 		AnticipationCell ac;
@@ -374,6 +356,157 @@ public class Anticipation {
 //					e.printStackTrace();
 					}	
 			}
+	}
+	
+	
+	public void updatePedAnticipation(int x, int y,int direction,ArrayList<AnticipationCell> arrayl){
+		switch(direction){
+		case Constants.O:
+			this.update_O_Anticipation(x, y, arrayl);
+			break;
+		case Constants.S:
+			this.update_S_Anticipation(x, y, arrayl);
+			break;
+		case Constants.N:
+			this.update_N_Anticipation(x, y, arrayl);
+			break;
+		case Constants.E:
+			this.update_E_Anticipation(x, y, arrayl);
+			break;
+		case Constants.NO:
+			this.update_NO_Anticipation(x, y, arrayl);
+			break;
+		case Constants.SO:
+			this.update_SO_Anticipation(x, y, arrayl);
+			break;
+		case Constants.NE:
+			this.update_NE_Anticipation(x, y, arrayl);
+			break;
+		case Constants.SE:
+			this.update_SE_Anticipation(x, y, arrayl);
+			break;
+		}
+	}
+	
+	public void update_N_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setY(y+i);
+			ac.setX(x);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void update_S_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setY(y-i);
+			ac.setX(x);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void update_E_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		System.out.println("update e ant");
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x+i);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public void update_NE_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x+i);
+			ac.setY(y+i);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public void update_NO_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x-i);
+			ac.setY(y+i);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public void update_SE_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x+i);
+			ac.setY(y-i);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public void update_SO_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x-i);
+			ac.setY(y-i);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public void update_O_Anticipation(int x, int y,ArrayList<AnticipationCell> arrayl){
+		int i=1;
+		for(AnticipationCell ac:arrayl){
+			try{
+			ac.setX(x-i);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		}
 	}
 	
 /////////////////////////////////////////////////////////////////////////

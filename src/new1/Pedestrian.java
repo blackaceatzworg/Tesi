@@ -67,26 +67,7 @@ public class Pedestrian extends Agent {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//STEP
-//	public void movement(GridPoint position, Context context){
-//		String fieldName=this.getRoute().get(this.getRouteIndex());
-//		GridValueLayer gvl=(GridValueLayer)context.getValueLayer(fieldName);
-//		this.checkRouteNode(position, gvl);
-//		dest=this.chooseDestination(position,fieldName);
-//		//if(this.isMotionstate()){
-//			//HEADING UPDATE ------------------------------------------------------------
-//			this.setHeading(dest.getRelativeDirection());
-//			this.move(dest.getX(),dest.getY());
-//		//}
-//		this.checkArrival();
-//	}
-	
-	//@ScheduledMethod(start=1,interval=1000)
-//			public void step(){
-//				Context context=ContextUtils.getContext(this);
-//				GridPoint position=grid.getLocation(this);
-//				
-//			}
+	//Check
 			
 			public void checkAndSwitchRouteNode(GridPoint position, GridValueLayer gvl){
 				double val=gvl.get(position.getX(),position.getY());
@@ -94,7 +75,6 @@ public class Pedestrian extends Agent {
 					if(this.getRouteIndex()==this.getRoute().size()-1){
 						System.out.println("stop");
 						this.setArrived(true);
-						//ContextUtils.getContext(this).remove(this);
 					}else{
 						this.setRouteIndex(this.getRouteIndex()+1);
 						this.setCurrentField(this.getRoute().get(this.getRouteIndex()));//necessario per schedule esterno
@@ -105,6 +85,7 @@ public class Pedestrian extends Agent {
 			
 			public void checkArrival(){
 				if(this.isArrived()){
+					this.getAnticipation().flushAnticipation();
 					ContextUtils.getContext(this).remove(this);
 				}
 			}
@@ -164,47 +145,34 @@ public class Pedestrian extends Agent {
 	////////////////////////////////////////////////////////////////////////////////////////
 	
 	//STEP ////////////////////////////////////////////////////////////////////////////////////////////////////////////////debug
-	
-	public void updatePed(){
-		this.chooseDestination2();
-		this.project();
-		this.evaluate();
-		this.movement();
-	}		
-	public DestinationCell chooseDestination2(){
+	public DestinationCell chooseDestination(){
 		String fieldName=this.getCurrentField();
 		GridPoint position=grid.getLocation(this);
 		Context context=ContextUtils.getContext(this);
 		GridValueLayer gvl=(GridValueLayer)context.getValueLayer(fieldName);
+		/////////////////////////
 		this.checkAndSwitchRouteNode(position, gvl);
+		
 		ArrayList<DestinationCell> nlist=this.getNeigh(position,fieldName);
+		
 		this.calcP(nlist,fieldName);
-		dest=this.lottery(nlist);
-//		System.out.println(this.getId()+" chooseDest");
+		
+		this.setDest(this.lottery(nlist));
+		
 		this.setHeading(dest.getRelativeDirection());
+
 		return dest;
 	}
 	public void project(){
 		Context context=ContextUtils.getContext(this);
 		GridPoint position=grid.getLocation(this);
-//		System.out.println(this.getId()+" percept");
-		this.getAnticipation().updatePedestrianAnticipation(dest.getRelativeDirection(), dest.getX(), dest.getY());
-//		for(int i=0;i<this.getAnticipation().getAnticipationCells().size();i++){
-//			int x=this.getAnticipation().getAnticipationCells().get(i).getGp().getX();
-//			int y=this.getAnticipation().getAnticipationCells().get(i).getGp().getY();
-//			System.out.print("-"+x+" "+y+"|");
-//		}
+		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), this.getHeading(), this.getAnticipation().getAnticipationCells());
 	}
 	public void evaluate(){
-//		System.out.println(this.getId()+" eval");
-		this.getAnticipation().debug_checkAnticipation(this.getAnticipation().getAnticipationCells());
-		//this.getAnticipation().flushAnticipation();
+		this.getAnticipation().checkPedAnticipation(this.getAnticipation().getAnticipationCells());
 	}
 	public void movement(){
-		this.setHeading(dest.getRelativeDirection());
-//		System.out.println(this.getId()+" move");
 		this.move(dest.getX(),dest.getY());
-		this.getAnticipation().flushAnticipation();
 		this.checkArrival();
 	}
 	
