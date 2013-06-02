@@ -245,6 +245,8 @@ public class Anticipation {
 		//System.out.println(pedAnticipationCount+" "+vehAnticipationCount+" "+pedCount+" "+vehCount);
 	}
 	
+	
+	
 	public void setNAnticip(int x, int y, int k, String ownerType){
 		//System.out.println("dir:n");
 		AnticipationCell ac;
@@ -259,6 +261,9 @@ public class Anticipation {
 //					e.printStackTrace();
 					}
 			}
+	}
+	public void updateNAnticipation(){
+		
 	}
 	public void setSAnticip(int x, int y, int k, String ownerType){
 //		System.out.println("dir:s");
