@@ -355,8 +355,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		PedGenerator pedg=new PedGenerator("gen1",context,northSouthRoute,southNorthRoute);
 //		context.add(pedg);
 		
-//		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
-//		context.add(vg);
+		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
+		context.add(vg);
 //		
 		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute);
 		context.add(pedg);

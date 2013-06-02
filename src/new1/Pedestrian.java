@@ -103,6 +103,7 @@ public class Pedestrian extends Agent {
 						if(ags instanceof SurfaceCell){
 							if(((SurfaceCell) ags).getSurfaceType()==Constants.Curb&&this.getRouteIndex()==2){
 								this.setCrossed(true);
+								Constants.crossedPedCounter++;
 								System.out.println("ha attraversato "+ this.getId());
 							}
 						}

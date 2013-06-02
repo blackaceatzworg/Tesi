@@ -3,11 +3,19 @@ package new1;
 import java.util.ArrayList;
 import java.util.Random;
 
+import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.parameter.Parameters;
 
 public class AgentManager {
 	
+	//model parameters
+	Parameters params=RunEnvironment.getInstance().getParameters();
+	int numOfped=(Integer)params.getValue("numOfPed");
+	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
+	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
+	int anticipationModule=(Integer)params.getValue("anticipationModule");
 	
 	//PedTicker attributes
 	ArrayList<DestinationCell> destinationChoices;  
@@ -15,6 +23,7 @@ public class AgentManager {
 	
 	//VehTicker attributes
 	private int vehicleCount;
+	private int pedCount;
 
 	public AgentManager(){
 		this.destinationChoices=new ArrayList<DestinationCell>();
@@ -22,9 +31,18 @@ public class AgentManager {
 		this.setVehicleCount(0);
 	}
 	
-	//Action flow
+	//simulation step
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void simulationStep(){
+		
+		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		
+		//pedGen
+		this.addPedestrian();
+		
+		//vehGen
+		this.addVehicle();
+		
 		//vehicle
 		this.evaluateVehiclesAnticipation();
 		this.updateVehiclesAnticipation();
@@ -35,7 +53,8 @@ public class AgentManager {
 		this.solvePedConflict();
 		this.updateAnticipationPeds();
 //		this.evalPeds();
-		this.movePedestrians();
+		if(tick%5==0){
+		this.movePedestrians();}
 	}
 	
 	
@@ -49,6 +68,26 @@ public class AgentManager {
 			vehList.add(veh);
 		}
 		return vehList;
+	}
+	
+	public ArrayList<PedGenerator> getPedGenList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<PedGenerator> gens=RunState.getInstance().getMasterContext().getObjects(PedGenerator.class);
+		final ArrayList<PedGenerator> List=new ArrayList<PedGenerator>();
+		for(final PedGenerator gen:gens){
+			List.add(gen);
+		}
+		return List;
+	}
+	
+	public ArrayList<VehicleGenerator> getVehGenList(){
+		@SuppressWarnings("unchecked")
+		final Iterable<VehicleGenerator> gens=RunState.getInstance().getMasterContext().getObjects(VehicleGenerator.class);
+		final ArrayList<VehicleGenerator> List=new ArrayList<VehicleGenerator>();
+		for(final VehicleGenerator gen:gens){
+			List.add(gen);
+		}
+		return List;
 	}
 	
 	public ArrayList<VehicleShapeCell> getVehShapeCelList(){
@@ -69,6 +108,25 @@ public class AgentManager {
 		}
 		return pedList;
 	}
+	
+	//agent generators turn
+	public void addPedestrian(){
+		final ArrayList<PedGenerator> list=this.getPedGenList();
+		final ArrayList<Pedestrian> plist=this.getPedList();
+		if(plist.size()==0||plist.size()<numOfped){
+			for(final PedGenerator pg:list){
+				pg.addPedestrian();
+			}
+		}
+	}
+	
+	public void addVehicle(){
+		final ArrayList<VehicleGenerator> list=this.getVehGenList();
+			for(final VehicleGenerator pg:list){
+				pg.addVehicle();
+			}
+	}
+	
 	
 	
 	//Vehicle turn method
@@ -195,6 +253,9 @@ public class AgentManager {
 	
 	public int getVehCount(){
 		return Constants.vehicleCounter;
+	}
+	public int getPedCount(){
+		return Constants.crossedPedCounter;
 	}
 	
 	public int getVehicleCount() {

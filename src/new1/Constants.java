@@ -5,7 +5,7 @@ public final class Constants {
 	public static int maxint=100;
 	
 	//grid values
-	public static final int GRID_LENGHT=100;//500
+	public static final int GRID_LENGHT=1000;//500
 	public static final int DOUBLE_GRID_HEIGHT=26;
 	public static final int SINGLE_GRID_HEIGHT=18;//18
 	public static final int CURB_HEIGHT=1;
@@ -16,6 +16,7 @@ public final class Constants {
 	public static String ContextID="ScenarioBuilder";
 	public static String GridID="ScenarioGrid";
 	static int vehicleCounter;
+	static int crossedPedCounter;
 	
 	public int getVehicleCounter(){
 		return this.vehicleCounter;

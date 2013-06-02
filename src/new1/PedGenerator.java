@@ -17,8 +17,6 @@ public class PedGenerator {
 	private Context context;
 	private ArrayList<String> northSouthRoute;
 	private ArrayList<String> southNorthRoute;
-	Parameters params=RunEnvironment.getInstance().getParameters();
-	int numOfped=(Integer)params.getValue("numOfPed");
 	
 	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute){
 		this.setPedindex(0);
@@ -28,7 +26,7 @@ public class PedGenerator {
 		this.southNorthRoute=SNroute;
 	}
 	
-	@ScheduledMethod(start=0, interval=500)
+//	@ScheduledMethod(start=0, interval=500)
 	public void addPedestrian(){
 		Parameters params=RunEnvironment.getInstance().getParameters();
 		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
