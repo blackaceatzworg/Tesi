@@ -49,6 +49,7 @@ public class PedGenerator {
 		boolean eo=r.nextBoolean();
 		boolean ns=r.nextBoolean();
 		int head=4;
+		int off=r.nextInt(2);
 		Pedestrian ped=new Pedestrian(id,grid);
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
@@ -60,10 +61,10 @@ public class PedGenerator {
 			head=7;
 		}
 		if(eo){
-			rx=Constants.GRID_LENGHT/2+pedx;
+			rx=Constants.GRID_LENGHT/2+pedx+off;
 		}
 		else{
-			rx=Constants.GRID_LENGHT/2-1-pedx;
+			rx=Constants.GRID_LENGHT/2-1-pedx-off;
 		}
 		ped.setCurrentField(ped.getRoute().get(0));
 		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);

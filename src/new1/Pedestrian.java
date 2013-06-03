@@ -182,10 +182,8 @@ public class Pedestrian extends Agent {
 	}
 	
 	private boolean frontVehicle;
-	private boolean frontVehicleAnt;
 	public void evaluate(){
 		frontVehicle=false;
-		frontVehicleAnt=true;
 		boolean stop=false;
 		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
 			if (stop){
@@ -204,7 +202,7 @@ public class Pedestrian extends Agent {
 					if(((AnticipationCell) ags).getOwnerType().equals("Vehicle")){
 						if(((AnticipationCell) ags).getSpeed()>=3){
 							frontVehicle=true;
-							System.out.println("v veicolo rilvato:"+((AnticipationCell) ags).getSpeed()+" "+frontVehicleAnt);
+//							System.out.println("v veicolo rilvato:"+((AnticipationCell) ags).getSpeed()+" "+frontVehicleAnt);
 						}
 						stop=true;
 						break;
@@ -212,12 +210,12 @@ public class Pedestrian extends Agent {
 				}
 
 			}}catch(Exception e){
-				System.out.println("ant corta-ped");
+//				System.out.println("ant corta-ped");
 			}
 		}
 	}
 	public void movement(){
-		System.out.println(frontVehicle);
+//		System.out.println(frontVehicle);
 		if(!frontVehicle){
 			this.move(dest.getX(),dest.getY());
 		}

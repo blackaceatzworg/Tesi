@@ -1,0 +1,4 @@
+id,tick,speed(float),speed(discrete),Tot v
+vehG-0,139,4.676,4,1
+vehG-1,155,4.004600000000001,4,2
+vehG-2,199,5.0,5,3

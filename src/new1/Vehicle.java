@@ -378,7 +378,7 @@ public class Vehicle {
 	
 	
 	public void evaluate(){
-		boolean freeride=true;
+//		boolean freeride=true;
 		boolean stop=false;
 		int finalDecision=0;
 		for(AnticipationCell ac:this.getAnticipation().getAnticipationCells()){
@@ -389,15 +389,14 @@ public class Vehicle {
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof VehicleShapeCell){
 					System.out.println(this.getId()+" vede "+((VehicleShapeCell)ags).getOwner());
-					freeride=false;
-//					this.manageVehiclePresence(ac.getIndex());
+//					freeride=false;
 					finalDecision=this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
 				}
 				if(ags instanceof Pedestrian){
 					System.out.println(this.getId()+" vede "+((Pedestrian)ags).getId());
-					freeride=false;
+//					freeride=false;
 					finalDecision=this.managePedestrianPresence(ac.getIndex());
 					stop=true;
 					break;
@@ -405,8 +404,7 @@ public class Vehicle {
 				if(ags instanceof AnticipationCell){
 					if(((AnticipationCell) ags).getOwnerType().equals("Pedestrian")){
 						System.out.println(this.getId()+" vede "+((AnticipationCell)ags).getOwner());
-						freeride=false;
-//						this.manageAnticipationPresence(ac.getIndex());
+//						freeride=false;
 						finalDecision=this.manageAnticipationPresence(ac.getIndex());
 						stop=true;
 						break;
@@ -415,20 +413,7 @@ public class Vehicle {
 				
 			}
 		}
-//		if(freeride){
-//			System.out.println("free");
-//			Random r=new Random();
-//			double mantainSpeed=r.nextDouble();
-//			if(mantainSpeed<=0.80){
-////				System.out.println("free,up"+this.getId());
-//				this.speedUp();
-//			}else
-//			{
-////				System.out.println("free,down"+this.getId());
-//				this.speedDown();
-//			}
-//			
-//		}
+
 		switch(finalDecision){
 		case 0:
 			this.manageFreeRide();
@@ -445,73 +430,17 @@ public class Vehicle {
 	
 	
 	public void manageFreeRide(){
-		System.out.println(this.getId()+" free @ v:"+this.getCurrentSpeed());
+//		System.out.println(this.getId()+" free @ v:"+this.getCurrentSpeed());
 		Random r=new Random();
-		double mantainSpeed=r.nextDouble();
-		if(mantainSpeed<=0.80){
-//			System.out.println("free,up"+this.getId());
+		double speedChangeChance=r.nextDouble();
+		if(speedChangeChance<=0.70){
 			this.speedUp();
 		}else
 		{
-//			System.out.println("free,down"+this.getId());
 			this.speedDown();
 		}
 	}
-//	public void manageVehiclePresence_old(int cellIndex){
-//		 Random r=new Random();
-//		 double choice=r.nextDouble();
-//		//valore intero di velocitˆ
-//		int speedZone=this.getSpeedZone();
-//		//cambio tra fasce di anticipazione
-//		 switch(speedZone){
-//		 case 0:
-//			 if(cellIndex>1){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 1:
-//			 if(cellIndex==1){
-//				 this.speedDown();
-//			 }else if(cellIndex>1){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 2:
-//			 if( cellIndex==1||cellIndex==2){
-//				 this.speedDown();
-//			 }else if(cellIndex>2){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 3:
-//			 if(cellIndex==1||cellIndex==2){
-//				 this.speedDown();
-//			 }
-//			 if(cellIndex>4){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 4:
-//			 if(cellIndex==1||cellIndex==2||cellIndex==3){
-//				 this.speedDown();
-//			 }else{
-//				 if(choice<=0.50){
-//					 this.speedDown();
-//				 }else{
-//					 this.speedUp();
-//				 }
-//			 }
-//			 break;
-//		 case 5:
-//			 if(cellIndex==1||cellIndex==2||cellIndex==3){
-//				 this.speedDown();
-//			 }else{
-//				 if(choice<=0.50){
-//					 this.speedDown();
-//				 }
-//			 }
-//		 }
-//	}
+
 	
 	public int manageVehiclePresence(int cellIndex){
 		 Random r=new Random();
@@ -534,7 +463,7 @@ public class Vehicle {
 			 if(cellIndex==1){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
-			 }else if(cellIndex>1){
+			 }else if(cellIndex>2){
 //				 this.speedUp();
 				 decision=Constants.speedUpDecision;
 			 }
@@ -543,7 +472,7 @@ public class Vehicle {
 			 if( cellIndex==1){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
-			 }else if(cellIndex>=2){
+			 }else if(cellIndex>2){
 //				 this.speedUp();
 				 decision=Constants.speedUpDecision;
 			 }
@@ -553,30 +482,32 @@ public class Vehicle {
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
 			 }
-			 if(cellIndex>=3){
+			 if(cellIndex>3){
 //				 this.speedUp();
 				 decision=Constants.speedUpDecision;
 			 }
 			 break;
 		 case 4:
-			 if(cellIndex<=4){
+			 if(cellIndex<4){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
-			 }else{
-				 if(choice<=0.55){
+			 }
+			 else if(cellIndex>=4){
+				 if(choice<=0.60){
 //					 this.speedDown();
 					 decision=Constants.speedDownDecision;
-				 }else{
-//					 this.speedUp();
-					 decision=Constants.speedUpDecision;
 				 }
+//				 else{
+////					 this.speedUp();
+//					 decision=Constants.speedUpDecision;
+//				 }
 			 }
 			 break;
 		 case 5:
-			 if(cellIndex<=5){
+			 if(cellIndex==5){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
-			 }else{
+			 }else if(cellIndex<4){
 				 if(choice<=0.70){
 //					 this.speedDown();
 					 decision=Constants.speedDownDecision;
@@ -586,50 +517,7 @@ public class Vehicle {
 		 return decision;
 	}
 	
-//	public void manageAnticipationPresence(int cellIndex){
-//		 int speedZone=this.getSpeedZone();
-//		 switch(speedZone){
-//		 case 0:
-//			 if(cellIndex>2){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 1:
-//			 if(cellIndex==1||cellIndex==2){
-//				 this.speedDown();
-//			 }
-//			 if(cellIndex>3){
-//				 this.speedUp();
-//			 }
-//			 break;
-//		 case 2:
-//			 if(cellIndex<=3){
-//				 this.speedDown();
-//				 }
-//			 break;
-//		 case 3:
-//			 if(cellIndex==1){
-//				 this.speedUp();
-//			 }
-//			 if(cellIndex==2||cellIndex==3){
-//				 this.speedDown();
-//			 }
-//			 break;
-//		 case 4:
-//			 if(cellIndex==1||cellIndex==2){
-//				 this.speedUp();
-//			 }else{
-//				 this.speedDown();
-//			 }
-//			 break;
-//		 case 5:
-//			 if(cellIndex>=3){
-//				 this.speedDown();
-//			 }
-//			 break;
-//		 
-//		 }
-//	}
+
 	public int manageAnticipationPresence(int cellIndex){
 		 int speedZone=this.getSpeedZone();
 		 int decision=0;

@@ -176,11 +176,12 @@ public class AgentManager {
 	//Pedestrian turn method
 	public void solvePedConflict(){
 		final ArrayList<Pedestrian> pedList=getPedList();
-		for(final Pedestrian ped:pedList){
-			ped.setMotionstate(true);
-			destinationChoices.add(ped.chooseDestination());
-		}
-		this.checkDestinationConflicts(destinationChoices);
+//		for(final Pedestrian ped:pedList){
+//			ped.setMotionstate(true);
+//			destinationChoices.add(ped.chooseDestination());
+//		}
+//	this.checkDestinationConflicts(destinationChoices);
+		this.checkDestinationConflict2();
 	}
 	
 	
@@ -204,7 +205,6 @@ public class AgentManager {
 				if(dcx==dc2x&&dcy==dc2y&&!dcId.equals(dc2Id)){
 					if(move){
 						this.destinationConflicts.add(dc2);
-						
 						for(final Pedestrian ped:pedList){
 							if(ped.getId().equals(dc2Id)){
 								ped.setMotionstate(false);
@@ -217,6 +217,24 @@ public class AgentManager {
 								ped.setMotionstate(false);
 							}
 						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void checkDestinationConflict2(){
+		final ArrayList<Pedestrian> pedList=getPedList();
+		for(Pedestrian ped:pedList){
+			DestinationCell cd=ped.chooseDestination();
+			for(DestinationCell dc:this.destinationChoices){
+				if(destinationChoices.size()==0){
+					destinationChoices.add(cd);
+				}else{
+					if(cd.getX()==dc.getX()&&cd.getY()==dc.getY()){
+						ped.setMotionstate(false);
+					}else{
+						destinationChoices.add(cd);
 					}
 				}
 			}
@@ -253,6 +271,7 @@ public class AgentManager {
 		}
 		this.destinationChoices.removeAll(destinationChoices);
 		this.destinationConflicts.removeAll(destinationConflicts);
+		
 	}
 	
 	

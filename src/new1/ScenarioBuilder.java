@@ -288,8 +288,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		AgentManager scenarioManager=new AgentManager();
 		context.add(scenarioManager);
 		
-		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
-		context.add(vg);
+//		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
+//		context.add(vg);
 		
 		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute);
 		context.add(pedg);
@@ -314,17 +314,17 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		StoppedPed sped2=new StoppedPed("test-p",grid);
 //		context.add(sped2);
 //		grid.moveTo(sped2, 290,6);
-//		AnticipationCell ac;
-//		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
-//			for(int j=4;j<13;j++){
-//				ac= new AnticipationCell(i,j,"test","Vehicle",5);
-//				ac.setIndex(1);
-//				ac.setX(i);
-//				ac.setY(j);
-//				context.add(ac);
-//				grid.moveTo(ac, i,j);
-//			}
-//		}
+		AnticipationCell ac;
+		for(int i=Constants.GRID_LENGHT/2-6;i<Constants.GRID_LENGHT/2+12;i++){
+			for(int j=5;j<12;j++){
+				ac= new AnticipationCell(i,j,"test","Vehicle",1);
+				ac.setIndex(1);
+				ac.setX(i);
+				ac.setY(j);
+				context.add(ac);
+				grid.moveTo(ac, i,j);
+			}
+		}
 		
 
 		double endAt = 13333;
