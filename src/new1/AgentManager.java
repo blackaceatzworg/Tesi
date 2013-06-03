@@ -49,22 +49,13 @@ public class AgentManager {
 		this.solvePedConflict();
 		this.updatePedAnticipation();
 		this.evalPeds();
-		
-		
-		
-		
-		
-		
-//		this.updateAnticipationPeds();
-		
-		
+	
 		this.moveVehicle();
 		this.updateVehicleShape();
 		
 		if(tick%5==0){
 		this.movePedestrians();}
 	}
-	
 	
 	
 	//Agent retrieving methods

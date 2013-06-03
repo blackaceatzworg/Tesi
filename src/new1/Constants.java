@@ -18,6 +18,9 @@ public final class Constants {
 	static int vehicleCounter;
 	static int crossedPedCounter;
 	
+	public static final int speedUpDecision=1;
+	public static final int speedDownDecision=2;
+	
 	public int getVehicleCounter(){
 		return this.vehicleCounter;
 	}
