@@ -18,6 +18,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="scenarioLenght" displayName="Scenario lenght(cells)" type="int" 
+						defaultValue="1000" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
+									
+		/>
 				<parameter name="directionWeight" displayName="directionWeight" type="double" 
 						defaultValue="2.0" 
 						isReadOnly="false" 
