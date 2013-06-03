@@ -36,7 +36,7 @@ public class AgentManager {
 	public void simulationStep(){
 		
 		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-		
+		System.out.println("tick--- "+tick);
 		//pedGen
 		this.addPedestrian();
 		
@@ -49,12 +49,14 @@ public class AgentManager {
 		this.solvePedConflict();
 		this.updatePedAnticipation();
 		this.evalPeds();
+//		this.test_updatePedAnticipation();
 	
 		this.moveVehicle();
 		this.updateVehicleShape();
 		
 		if(tick%5==0){
 		this.movePedestrians();}
+		
 	}
 	
 	
@@ -225,6 +227,13 @@ public class AgentManager {
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
 			ped.project();
+		}
+	}
+	
+	public void test_updatePedAnticipation(){
+		final ArrayList<Pedestrian> pedList=getPedList();
+		for(final Pedestrian ped:pedList){
+			ped.testProjection();
 		}
 	}
 	public void evalPeds(){

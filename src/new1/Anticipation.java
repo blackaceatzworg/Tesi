@@ -396,7 +396,11 @@ public class Anticipation {
 			}
 			catch(Exception e){
 //				System.out.println("ant error N");
-//				e.printStackTrace();
+//			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 			}
 		}
 	}
@@ -413,6 +417,10 @@ public class Anticipation {
 			catch(Exception e){
 //				System.out.println("ant error S");
 //				e.printStackTrace();
+				ac.setX(x);
+				ac.setY(y);
+				i++;
+				grid.moveTo(ac, ac.getX(),ac.getY());
 			}
 		}
 	}
@@ -430,6 +438,10 @@ public class Anticipation {
 		catch(Exception e){
 //			System.out.println("ant error E");
 //			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}
@@ -446,6 +458,10 @@ public class Anticipation {
 		catch(Exception e){
 //			System.out.println("ant error NE");
 //			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}
@@ -462,6 +478,10 @@ public class Anticipation {
 		catch(Exception e){
 //			System.out.println("ant error NO");
 //			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}
@@ -478,6 +498,10 @@ public class Anticipation {
 		catch(Exception e){
 //			System.out.println("ant error SE");
 //			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}
@@ -494,6 +518,10 @@ public class Anticipation {
 		catch(Exception e){
 //			System.out.println("ant error SO");
 //			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}
@@ -508,7 +536,10 @@ public class Anticipation {
 			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		catch(Exception e){
-//			e.printStackTrace();
+			ac.setX(x);
+			ac.setY(y);
+			i++;
+			grid.moveTo(ac, ac.getX(),ac.getY());
 		}
 		}
 	}

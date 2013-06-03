@@ -162,7 +162,12 @@ public class Vehicle {
 			delta=0.243;
 		}
 //		System.out.println(this.getCurrentSpeed()+" +"+delta+"="+(this.getCurrentSpeed()+delta));
-		this.setCurrentSpeed(this.getCurrentSpeed()+delta);}
+		if(this.getCurrentSpeed()+delta>5){
+			this.setCurrentSpeed(5);
+		}else{
+			this.setCurrentSpeed(this.getCurrentSpeed()+delta);
+		}
+		}
 //		return delta;
 	}
 	
@@ -187,13 +192,14 @@ public class Vehicle {
 			delta=0.324;
 		}
 //		System.out.println(this.getCurrentSpeed()+" -"+delta+"="+(this.getCurrentSpeed()-delta));
-		this.setCurrentSpeed(this.getCurrentSpeed()-delta);
+			if(this.getCurrentSpeed()-delta<=0){
+				this.setCurrentSpeed(0);
+			}else{
+				this.setCurrentSpeed(this.getCurrentSpeed()-delta);
+			}
 		
 		}
-		else{
-			//TODO controllare con Luca
-			this.setCurrentSpeed(0);
-		}
+		
 		
 //		return delta;
 	}
@@ -385,14 +391,14 @@ public class Vehicle {
 					System.out.println(this.getId()+" vede "+((VehicleShapeCell)ags).getOwner());
 					freeride=false;
 //					this.manageVehiclePresence(ac.getIndex());
-					finalDecision=this.debug_manageVehiclePresence(ac.getIndex());
+					finalDecision=this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
 				}
 				if(ags instanceof Pedestrian){
 					System.out.println(this.getId()+" vede "+((Pedestrian)ags).getId());
 					freeride=false;
-					finalDecision=this.debug_managePedestrianPresence(ac.getIndex());
+					finalDecision=this.managePedestrianPresence(ac.getIndex());
 					stop=true;
 					break;
 				}
@@ -401,7 +407,7 @@ public class Vehicle {
 						System.out.println(this.getId()+" vede "+((AnticipationCell)ags).getOwner());
 						freeride=false;
 //						this.manageAnticipationPresence(ac.getIndex());
-						finalDecision=this.debug_manageAnticipationPresence(ac.getIndex());
+						finalDecision=this.manageAnticipationPresence(ac.getIndex());
 						stop=true;
 						break;
 					}	
@@ -439,7 +445,7 @@ public class Vehicle {
 	
 	
 	public void manageFreeRide(){
-//		System.out.println("free");
+		System.out.println(this.getId()+" free @ v:"+this.getCurrentSpeed());
 		Random r=new Random();
 		double mantainSpeed=r.nextDouble();
 		if(mantainSpeed<=0.80){
@@ -451,69 +457,69 @@ public class Vehicle {
 			this.speedDown();
 		}
 	}
-	public void manageVehiclePresence(int cellIndex){
-		 Random r=new Random();
-		 double choice=r.nextDouble();
-		//valore intero di velocitˆ
-		int speedZone=this.getSpeedZone();
-		//cambio tra fasce di anticipazione
-		 switch(speedZone){
-		 case 0:
-			 if(cellIndex>1){
-				 this.speedUp();
-			 }
-			 break;
-		 case 1:
-			 if(cellIndex==1){
-				 this.speedDown();
-			 }else if(cellIndex>1){
-				 this.speedUp();
-			 }
-			 break;
-		 case 2:
-			 if( cellIndex==1||cellIndex==2){
-				 this.speedDown();
-			 }else if(cellIndex>2){
-				 this.speedUp();
-			 }
-			 break;
-		 case 3:
-			 if(cellIndex==1||cellIndex==2){
-				 this.speedDown();
-			 }
-			 if(cellIndex>4){
-				 this.speedUp();
-			 }
-			 break;
-		 case 4:
-			 if(cellIndex==1||cellIndex==2||cellIndex==3){
-				 this.speedDown();
-			 }else{
-				 if(choice<=0.50){
-					 this.speedDown();
-				 }else{
-					 this.speedUp();
-				 }
-			 }
-			 break;
-		 case 5:
-			 if(cellIndex==1||cellIndex==2||cellIndex==3){
-				 this.speedDown();
-			 }else{
-				 if(choice<=0.50){
-					 this.speedDown();
-				 }
-			 }
-		 }
-	}
+//	public void manageVehiclePresence_old(int cellIndex){
+//		 Random r=new Random();
+//		 double choice=r.nextDouble();
+//		//valore intero di velocitˆ
+//		int speedZone=this.getSpeedZone();
+//		//cambio tra fasce di anticipazione
+//		 switch(speedZone){
+//		 case 0:
+//			 if(cellIndex>1){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 1:
+//			 if(cellIndex==1){
+//				 this.speedDown();
+//			 }else if(cellIndex>1){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 2:
+//			 if( cellIndex==1||cellIndex==2){
+//				 this.speedDown();
+//			 }else if(cellIndex>2){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 3:
+//			 if(cellIndex==1||cellIndex==2){
+//				 this.speedDown();
+//			 }
+//			 if(cellIndex>4){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 4:
+//			 if(cellIndex==1||cellIndex==2||cellIndex==3){
+//				 this.speedDown();
+//			 }else{
+//				 if(choice<=0.50){
+//					 this.speedDown();
+//				 }else{
+//					 this.speedUp();
+//				 }
+//			 }
+//			 break;
+//		 case 5:
+//			 if(cellIndex==1||cellIndex==2||cellIndex==3){
+//				 this.speedDown();
+//			 }else{
+//				 if(choice<=0.50){
+//					 this.speedDown();
+//				 }
+//			 }
+//		 }
+//	}
 	
-	public int debug_manageVehiclePresence(int cellIndex){
+	public int manageVehiclePresence(int cellIndex){
 		 Random r=new Random();
 		 double choice=r.nextDouble();
 		 int decision=0;
 		//valore intero di velocitˆ
 		int speedZone=this.getSpeedZone();
-		System.out.println("speedZone"+speedZone+" in "+cellIndex);
+//		System.out.println("speedZone"+speedZone+" in "+cellIndex);
 		//cambio tra fasce di anticipazione
 		 switch(speedZone){
 		 case 0:
@@ -580,56 +586,56 @@ public class Vehicle {
 		 return decision;
 	}
 	
-	public void manageAnticipationPresence(int cellIndex){
-		 int speedZone=this.getSpeedZone();
-		 switch(speedZone){
-		 case 0:
-			 if(cellIndex>2){
-				 this.speedUp();
-			 }
-			 break;
-		 case 1:
-			 if(cellIndex==1||cellIndex==2){
-				 this.speedDown();
-			 }
-			 if(cellIndex>3){
-				 this.speedUp();
-			 }
-			 break;
-		 case 2:
-			 if(cellIndex<=3){
-				 this.speedDown();
-				 }
-			 break;
-		 case 3:
-			 if(cellIndex==1){
-				 this.speedUp();
-			 }
-			 if(cellIndex==2||cellIndex==3){
-				 this.speedDown();
-			 }
-			 break;
-		 case 4:
-			 if(cellIndex==1||cellIndex==2){
-				 this.speedUp();
-			 }else{
-				 this.speedDown();
-			 }
-			 break;
-		 case 5:
-			 if(cellIndex>=3){
-				 this.speedDown();
-			 }
-			 break;
-		 
-		 }
-	}
-	public int debug_manageAnticipationPresence(int cellIndex){
+//	public void manageAnticipationPresence(int cellIndex){
+//		 int speedZone=this.getSpeedZone();
+//		 switch(speedZone){
+//		 case 0:
+//			 if(cellIndex>2){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 1:
+//			 if(cellIndex==1||cellIndex==2){
+//				 this.speedDown();
+//			 }
+//			 if(cellIndex>3){
+//				 this.speedUp();
+//			 }
+//			 break;
+//		 case 2:
+//			 if(cellIndex<=3){
+//				 this.speedDown();
+//				 }
+//			 break;
+//		 case 3:
+//			 if(cellIndex==1){
+//				 this.speedUp();
+//			 }
+//			 if(cellIndex==2||cellIndex==3){
+//				 this.speedDown();
+//			 }
+//			 break;
+//		 case 4:
+//			 if(cellIndex==1||cellIndex==2){
+//				 this.speedUp();
+//			 }else{
+//				 this.speedDown();
+//			 }
+//			 break;
+//		 case 5:
+//			 if(cellIndex>=3){
+//				 this.speedDown();
+//			 }
+//			 break;
+//		 
+//		 }
+//	}
+	public int manageAnticipationPresence(int cellIndex){
 		 int speedZone=this.getSpeedZone();
 		 int decision=0;
 		 switch(speedZone){
 		 case 0:
-			 if(cellIndex>1){
+			 if(cellIndex>2){
 //				 this.speedUp();
 				 decision=Constants.speedUpDecision;
 			 }else{
@@ -640,7 +646,6 @@ public class Vehicle {
 			 if(cellIndex==1||cellIndex==2){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
-				 
 			 }
 			 if(cellIndex>3){
 //				 this.speedUp();
@@ -651,30 +656,27 @@ public class Vehicle {
 			 if(cellIndex<=3){
 //				 this.speedDown();
 				 decision=Constants.speedDownDecision;
+				 }else{
+					 decision=Constants.speedUpDecision;
 				 }
 			 break;
 		 case 3:
 			 if(cellIndex==1){
-//				 this.speedUp();
 				 decision=Constants.speedUpDecision;
 			 }
 			 if(cellIndex==2||cellIndex==3){
-//				 this.speedDown();
 				 decision=Constants.speedDownDecision;
 			 }
 			 break;
 		 case 4:
-			 if(cellIndex==1||cellIndex==2){
-//				 this.speedUp();
-				 decision=Constants.speedUpDecision;
-			 }else{
-//				 this.speedDown();
+			 if(cellIndex==3||cellIndex==4){
 				 decision=Constants.speedDownDecision;
+			 }else{
+				 decision=Constants.speedUpDecision;
 			 }
 			 break;
 		 case 5:
 			 if(cellIndex>=3){
-//				 this.speedDown();
 				 decision=Constants.speedDownDecision;
 			 }
 			 break;
@@ -684,7 +686,7 @@ public class Vehicle {
 	}
 	
 	
-	public int debug_managePedestrianPresence(int cellIndex){
+	public int managePedestrianPresence(int cellIndex){
 		Random r=new Random();
 		 double choice=r.nextDouble();
 		 int decision=0;
@@ -755,24 +757,7 @@ public class Vehicle {
 		 }
 		return decision;
 	}
-//	///Derived from pedestrian
-//	public boolean checkOccupation(GridPoint dc){
-//		boolean occupied=false;
-//		int x=dc.getX();
-//		int y=dc.getY();
-//		Context context=ContextUtils.getContext(this);
-//		Grid<Object> env=(Grid<Object>)context.getProjection(Constants.GridID);
-//		for(Object ags : env.getObjectsAt(x,y)){
-//			if(ags instanceof Vehicle){
-//					occupied=true;
-////					System.out.println("Cella occupata"+dc.getX()+" "+dc.getY());
-//			}
-////			else{
-////				//System.out.println("Cella libera");
-////			}
-//		}
-//		return occupied;
-//	}
+
 	
 	//GETTERS AND SETTERS
 	////////////////////////////////////////////////////////////////

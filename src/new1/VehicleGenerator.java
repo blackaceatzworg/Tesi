@@ -60,7 +60,7 @@ public class VehicleGenerator {
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();
 		Random r=new Random();
-		int curSpeed=r.nextInt(3);
+		int curSpeed=1;
 		if(this.getHeading()==Constants.E){
 			int antXGen=this.getXgen()+1;
 			int yGen=14;

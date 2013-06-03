@@ -50,7 +50,7 @@
 									
 		/>
 				<parameter name="numberOfVehicle" displayName="Number of vehicle per lane" type="int" 
-						defaultValue="1" 
+						defaultValue="4" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

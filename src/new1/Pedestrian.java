@@ -165,9 +165,20 @@ public class Pedestrian extends Agent {
 		return dest;
 	}
 	public void project(){
-		Context context=ContextUtils.getContext(this);
+//		Context context=ContextUtils.getContext(this);
 		GridPoint position=grid.getLocation(this);
 		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), this.getHeading(), this.getAnticipation().getAnticipationCells());
+	}
+	
+	int testIndex=0;
+	public void testProjection(){
+		testIndex++;
+		if(testIndex>8){
+			testIndex=0;
+		}
+		System.out.println("."+testIndex);
+		GridPoint position=grid.getLocation(this);
+		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), testIndex, this.getAnticipation().getAnticipationCells());
 	}
 	
 	private boolean frontVehicle;
