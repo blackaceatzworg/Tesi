@@ -174,14 +174,16 @@ public class AgentManager {
 	}
 	
 	//Pedestrian turn method
+	
+	ArrayList<Pedestrian> stopped;
 	public void solvePedConflict(){
 		final ArrayList<Pedestrian> pedList=getPedList();
-//		for(final Pedestrian ped:pedList){
-//			ped.setMotionstate(true);
-//			destinationChoices.add(ped.chooseDestination());
-//		}
-//	this.checkDestinationConflicts(destinationChoices);
-		this.checkDestinationConflict2();
+		for(final Pedestrian ped:pedList){
+			ped.setMotionstate(false);
+			destinationChoices.add(ped.chooseDestination());
+		}
+		this.checkDestinationConflicts(destinationChoices);
+		destinationChoices.removeAll(destinationChoices);
 	}
 	
 	
@@ -204,38 +206,18 @@ public class AgentManager {
 				String dc2Id=dc2.getPedId();
 				if(dcx==dc2x&&dcy==dc2y&&!dcId.equals(dc2Id)){
 					if(move){
-						this.destinationConflicts.add(dc2);
-						for(final Pedestrian ped:pedList){
-							if(ped.getId().equals(dc2Id)){
-								ped.setMotionstate(false);
-							}
-						}
+						dcList.remove(dc2);
 					}else{
-						this.destinationConflicts.add(dc);
-						for(final Pedestrian ped:pedList){
-							if(ped.getId().equals(dcId)){
-								ped.setMotionstate(false);
-							}
-						}
+						dcList.remove(dc);
 					}
+					
 				}
 			}
 		}
-	}
-	
-	public void checkDestinationConflict2(){
-		final ArrayList<Pedestrian> pedList=getPedList();
-		for(Pedestrian ped:pedList){
-			DestinationCell cd=ped.chooseDestination();
-			for(DestinationCell dc:this.destinationChoices){
-				if(destinationChoices.size()==0){
-					destinationChoices.add(cd);
-				}else{
-					if(cd.getX()==dc.getX()&&cd.getY()==dc.getY()){
-						ped.setMotionstate(false);
-					}else{
-						destinationChoices.add(cd);
-					}
+		for(DestinationCell dc:dcList){
+			for(Pedestrian ped:this.getPedList()){
+				if(dc.getPedId().equals(ped.getId())){
+					ped.setMotionstate(true);
 				}
 			}
 		}
