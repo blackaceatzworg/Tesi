@@ -34,12 +34,15 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 	public Context<Object> build(Context<Object> context) {
 		// TODO Auto-generated method stub
 		Constants.vehicleCounter=0;
+		Constants.crossedPedCounter=0;
 		context.setId("new1");
 		//TODO parametrized value
 				Parameters params=RunEnvironment.getInstance().getParameters();
 				int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 				int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
 				int anticipationModule=(Integer)params.getValue("anticipationModule");
+				int numberOfPedestrian=(Integer)params.getValue("numOfPed");
+				int pedOffsetGeneration=(Integer)params.getValue("pedx");
 				int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
 				int secondLaneOffset=0;
 				if(numberOfLaneParam!=1){
@@ -51,32 +54,46 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		        StringBuilder nowMMDDYYYY = new StringBuilder( date.format(dateNow));
 
 		//data recover
-		FileOutputStream pedDirectionLog=null;
-		FileOutputStream vehDirectionLog=null;
+//		FileOutputStream pedDirectionLog=null;
+//		FileOutputStream vehDirectionLog=null;
+		
 		FileOutputStream VehicleCounter=null;
 		String VehicleCounterFilename="VCount_V@Lane"+numberOfVehicle+"_antMod"+anticipationModule+"_"+nowMMDDYYYY;
-		FileOutputStream fieldLog=null;
-		FileOutputStream nordcurblog=null;
-		FileOutputStream southcurblog=null;
-		FileOutputStream nelog=null;
-		FileOutputStream nwlog=null;
-		FileOutputStream selog=null;
-		FileOutputStream swlog=null;
-		PrintStream p=null;
-		PrintStream ncprint=null;
-		PrintStream scprint=null;
-		PrintStream neprint=null;
-		PrintStream nwprint=null;
-		PrintStream seprint=null;
-		PrintStream swprint=null;
+		PrintStream vehicleCounterPrintStream=null;
+		
+		FileOutputStream PedestrianCounter=null;
+		String PedestrianCounterFilename="generatedPed"+numberOfPedestrian+"@offset"+pedOffsetGeneration+"_"+nowMMDDYYYY;
+		PrintStream pedestrianCounterPrintStream=null;
+		
+		
+		
+		
+		
+//		FileOutputStream fieldLog=null;
+//		FileOutputStream nordcurblog=null;
+//		FileOutputStream southcurblog=null;
+//		FileOutputStream nelog=null;
+//		FileOutputStream nwlog=null;
+//		FileOutputStream selog=null;
+//		FileOutputStream swlog=null;
+//		PrintStream ncprint=null;
+//		PrintStream scprint=null;
+//		PrintStream neprint=null;
+//		PrintStream nwprint=null;
+//		PrintStream seprint=null;
+//		PrintStream swprint=null;
 		
 		try{
 //			pedDirectionLog=new FileOutputStream("PedDirectionLog");
 //			vehDirectionLog=new FileOutputStream("vehDirectionLog");
 			
 			VehicleCounter=new FileOutputStream(VehicleCounterFilename);
-			p = new PrintStream(new FileOutputStream(VehicleCounterFilename,true));
-			p.println("id,tick,speed(float),speed(discrete),Tot v");
+			vehicleCounterPrintStream = new PrintStream(new FileOutputStream(VehicleCounterFilename,true));
+			vehicleCounterPrintStream.println("id,tick,speed(float),speed(discrete),Tot v");
+			
+			PedestrianCounter=new FileOutputStream(VehicleCounterFilename);
+			pedestrianCounterPrintStream= new PrintStream(new FileOutputStream(PedestrianCounterFilename,true));
+			vehicleCounterPrintStream.println();
 			
 //			fieldLog=new FileOutputStream("fieldLog");
 //			nordcurblog=new FileOutputStream("nclog");
@@ -291,7 +308,7 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
 		context.add(vg);
 		
-		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute);
+		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute,PedestrianCounterFilename);
 		context.add(pedg);
 		
 

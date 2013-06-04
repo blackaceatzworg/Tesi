@@ -26,7 +26,7 @@ public class Pedestrian extends Agent {
 	private int heading;
 	private int previourHeading;
 	private boolean motionstate;
-	private String logDirectionFileName;
+	private String logFileName;
 	private ArrayList<String> route;
 	private int routeIndex;
 	private boolean arrived;
@@ -45,13 +45,13 @@ public class Pedestrian extends Agent {
 	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 	
 	//CONSTRUCTORS////////////////////////////////////////////////////////////////////////////////
-	public Pedestrian(String id,Grid<Object> grid,String logDirectionFileName){
+	public Pedestrian(String id,Grid<Object> grid,String logFileName){
 		this.setId(id);
 		//this.setDesiderdSpeed(desiredSpeed);
 		this.grid=grid;
 		this.setHeading(Constants.E);//TODO orientamento casuale
 		this.setPreviourHeading(this.getHeading());
-		this.setLogDirectionFileName(logDirectionFileName);
+		this.setFileName(logFileName);
 		this.routeIndex=0;
 		this.setArrived(false);
 		this.setAnticipation(new Anticipation(Constants.ownerTypePed));
@@ -123,7 +123,6 @@ public class Pedestrian extends Agent {
 					scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
 					
 				}
-				System.out.println(scenarioHeight-5);
 				if(!this.isCrossed()){
 					if(this.getCrossingLine()==4&&y==4){
 						this.setCrossed(true);
@@ -132,7 +131,9 @@ public class Pedestrian extends Agent {
 						this.setCrossed(true);
 					}
 					if(this.isCrossed()){
-						System.out.println(this.getId()+" crossed");
+						Constants.crossedPedCounter++;
+						System.out.println(Constants.crossedPedCounter);
+						this.logCross();
 					}
 				}
 				
@@ -255,8 +256,19 @@ public class Pedestrian extends Agent {
 		PrintStream p=null;
 		String moveDirection=AgentUtils.translateHeading(direction);
 		try {
-			p = new PrintStream(new FileOutputStream(this.getLogDirectionFileName(),true));
+			p = new PrintStream(new FileOutputStream(this.getFileName(),true));
 			p.println(this.getId()+","+moveDirection);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void logCross(){
+		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		PrintStream p=null;
+		try {
+			p = new PrintStream(new FileOutputStream(this.getFileName(),true));
+			p.println(tick+" "+this.getId()+" "+Constants.crossedPedCounter);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -410,12 +422,12 @@ public class Pedestrian extends Agent {
 		this.previourHeading = previourHeading;
 	}
 
-	public String getLogDirectionFileName() {
-		return logDirectionFileName;
+	public String getFileName() {
+		return logFileName;
 	}
 
-	public void setLogDirectionFileName(String logDirectionFileName) {
-		this.logDirectionFileName = logDirectionFileName;
+	public void setFileName(String logFileName) {
+		this.logFileName = logFileName;
 	}
 	public ArrayList<String> getRoute() {
 		return route;

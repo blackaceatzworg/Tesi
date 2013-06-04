@@ -17,16 +17,18 @@ public class PedGenerator {
 	private Context context;
 	private ArrayList<String> northSouthRoute;
 	private ArrayList<String> southNorthRoute;
+	private String filename;
 	Parameters params=RunEnvironment.getInstance().getParameters();
 //	pedx
 	int pedx=(Integer)params.getValue("pedx");
 	
-	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute){
+	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute,String fileName){
 		this.setPedindex(0);
 		this.setId(id);
 		this.context=context;
 		this.northSouthRoute=NSroute;
 		this.southNorthRoute=SNroute;
+		this.setFilename(fileName);
 	}
 	
 //	@ScheduledMethod(start=0, interval=500)
@@ -50,7 +52,7 @@ public class PedGenerator {
 		boolean ns=r.nextBoolean();
 		int head=4;
 		int off=r.nextInt(2);
-		Pedestrian ped=new Pedestrian(id,grid);
+		Pedestrian ped=new Pedestrian(id,grid,this.getFilename());
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
 			ry=scenarioHeight-3;
@@ -104,6 +106,14 @@ public class PedGenerator {
 
 	public void setSouthNorthRoute(ArrayList<String> southNorthRoute) {
 		this.southNorthRoute = southNorthRoute;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 }
