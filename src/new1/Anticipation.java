@@ -196,7 +196,7 @@ public class Anticipation {
 			try{
 				context.remove(ac);
 			}catch(Exception e){
-				System.out.println("array celle di anticipazione vuoto");
+//				System.out.println("array celle di anticipazione vuoto");
 			}
 		}
 //		this.getAnticipationCells().removeAll(anticipationCells);

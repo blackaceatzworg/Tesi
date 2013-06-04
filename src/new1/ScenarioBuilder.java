@@ -288,8 +288,8 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		AgentManager scenarioManager=new AgentManager();
 		context.add(scenarioManager);
 		
-//		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
-//		context.add(vg);
+		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
+		context.add(vg);
 		
 		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute);
 		context.add(pedg);

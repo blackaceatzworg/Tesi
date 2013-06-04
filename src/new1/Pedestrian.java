@@ -31,8 +31,9 @@ public class Pedestrian extends Agent {
 	private int routeIndex;
 	private boolean arrived;
 	private boolean crossed;
-	
+	private int crossingLine;
 
+	
 	private Anticipation anticipation;
 	private DestinationCell dest;
 	private String currentField;
@@ -41,6 +42,7 @@ public class Pedestrian extends Agent {
 	Parameters params=RunEnvironment.getInstance().getParameters();
 	double fieldWeight=(Double)params.getValue("fieldWeight");
 	double directionWeight=(Double)params.getValue("directionWeight");
+	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 	
 	//CONSTRUCTORS////////////////////////////////////////////////////////////////////////////////
 	public Pedestrian(String id,Grid<Object> grid,String logDirectionFileName){
@@ -73,12 +75,12 @@ public class Pedestrian extends Agent {
 				double val=gvl.get(position.getX(),position.getY());
 				if(val==0){
 					if(this.getRouteIndex()==this.getRoute().size()-1){
-						System.out.println("stop");
+//						System.out.println("stop");
 						this.setArrived(true);
 					}else{
 						this.setRouteIndex(this.getRouteIndex()+1);
 						this.setCurrentField(this.getRoute().get(this.getRouteIndex()));//necessario per schedule esterno
-						System.out.println("walk on "+this.getRoute().get(this.getRouteIndex()));
+//						System.out.println("walk on "+this.getRoute().get(this.getRouteIndex()));
 					}
 				}
 			}
@@ -114,6 +116,28 @@ public class Pedestrian extends Agent {
 				}
 			}
 			
+			public void checkCrossing(){
+				int y=grid.getLocation(this).getY();
+				int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
+				if(numberOfLaneParam!=1){
+					scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
+					
+				}
+				System.out.println(scenarioHeight-5);
+				if(!this.isCrossed()){
+					if(this.getCrossingLine()==4&&y==4){
+						this.setCrossed(true);
+					}
+					if(this.getCrossingLine()==scenarioHeight-5&&y==scenarioHeight-5){
+						this.setCrossed(true);
+					}
+					if(this.isCrossed()){
+						System.out.println(this.getId()+" crossed");
+					}
+				}
+				
+			}
+			
 			public boolean checkOccupation(DestinationCell dc){
 				boolean occupied=false;
 				int x=dc.getX();
@@ -134,13 +158,10 @@ public class Pedestrian extends Agent {
 			
 			/**translate pedestrian at the given gridpoint.
 			 * */
-			public void move(GridPoint gp){
-				grid.moveTo(this,gp.getX(),gp.getY());
-				this.checkSurface();
-			}
 			public void move(int x, int y){
 				grid.moveTo(this,x,y);
-				this.checkSurface();
+//				this.checkSurface();
+				this.checkCrossing();
 			}
 	
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +197,7 @@ public class Pedestrian extends Agent {
 		if(testIndex>8){
 			testIndex=0;
 		}
-		System.out.println("."+testIndex);
+//		System.out.println("."+testIndex);
 		GridPoint position=grid.getLocation(this);
 		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), testIndex, this.getAnticipation().getAnticipationCells());
 	}
@@ -457,4 +478,12 @@ public class Pedestrian extends Agent {
 	public void setCrossed(boolean crossed) {
 		this.crossed = crossed;
 	}
+	public int getCrossingLine() {
+		return crossingLine;
+	}
+
+	public void setCrossingLine(int crossingLine) {
+		this.crossingLine = crossingLine;
+	}
+
 }

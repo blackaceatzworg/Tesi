@@ -72,12 +72,12 @@ public class VehicleTicker {
 		}
 	}
 	
-	public void flushVehiclesAnticipation(){
-		final ArrayList<Vehicle> vehList=getVehList();
-		for(final Vehicle veh:vehList){
-			veh.getAnticipation().flushAnticipation();
-		}
-	}
+//	public void flushVehiclesAnticipation(){
+//		final ArrayList<Vehicle> vehList=getVehList();
+//		for(final Vehicle veh:vehList){
+//			veh.getAnticipation().flushAnticipation();
+//		}
+//	}
 	
 	public void updateVehicleShape(){
 //		this.flushVehiclesAnticipation();

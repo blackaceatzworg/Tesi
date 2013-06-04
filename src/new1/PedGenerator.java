@@ -54,10 +54,12 @@ public class PedGenerator {
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
 			ry=scenarioHeight-3;
+			ped.setCrossingLine(4);
 			head=1;
 		}else{
 			ped.setRoute(this.getSouthNorthRoute());
 			ry=3;
+			ped.setCrossingLine(scenarioHeight-5);
 			head=7;
 		}
 		if(eo){

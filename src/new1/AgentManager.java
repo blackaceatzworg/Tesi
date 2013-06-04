@@ -36,7 +36,7 @@ public class AgentManager {
 	public void simulationStep(){
 		
 		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-		System.out.println("tick--- "+tick);
+//		System.out.println("tick--- "+tick);
 		//pedGen
 		this.addPedestrian();
 		
@@ -144,12 +144,12 @@ public class AgentManager {
 		}
 	}
 	
-	public void flushVehiclesAnticipation(){
-		final ArrayList<Vehicle> vehList=getVehList();
-		for(final Vehicle veh:vehList){
-			veh.getAnticipation().flushAnticipation();
-		}
-	}
+//	public void flushVehiclesAnticipation(){
+//		final ArrayList<Vehicle> vehList=getVehList();
+//		for(final Vehicle veh:vehList){
+//			veh.getAnticipation().flushAnticipation();
+//		}
+//	}
 	
 	public void updateVehicleShape(){
 //		this.flushVehiclesAnticipation();
@@ -247,9 +247,10 @@ public class AgentManager {
 		for(final Pedestrian ped:pedList){
 			if(ped.isMotionstate()){
 			ped.movement();
-			}else{
-				System.out.println(ped.getId()+" in conflict, stopped");
 			}
+//			else{
+//				System.out.println(ped.getId()+" in conflict, stopped");
+//			}
 		}
 		this.destinationChoices.removeAll(destinationChoices);
 		this.destinationConflicts.removeAll(destinationConflicts);

@@ -76,47 +76,7 @@ public class Vehicle {
 		this.setRemoved(false);
 	}
 	
-//	public void checkPassingPoint(int x_v, String logFileName){
-//		PrintStream p=null;
-//		int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-//		if(x_v>=Constants.GRID_LENGHT/2&&x_v<Constants.GRID_LENGHT/2+9){
-//			this.in=true;
-//		}
-//		if(in){
-//			if(x_v>Constants.GRID_LENGHT/2+9){
-//				this.in=false;
-////				System.out.println(this.getId()+" passato");
-//				try {
-//					Constants.vehicleCounter++;
-//					p = new PrintStream(new FileOutputStream(logFileName,true));
-//					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone()+" tot"+Constants.vehicleCounter);
-//					
-//				} catch (FileNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
-//	
-//	public void checkPassingPoint2(int x_v, String logFileName){
-//		PrintStream p=null;
-//		int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-//		if(x_v>=(Constants.GRID_LENGHT-10)%Constants.GRID_LENGHT&&x_v<(Constants.GRID_LENGHT-1)%Constants.GRID_LENGHT){
-//			this.in=true;
-//		}
-//		if(in){
-//			if(x_v>(Constants.GRID_LENGHT-1)%Constants.GRID_LENGHT){
-//				this.in=false;
-////				System.out.println(this.getId()+" passato");
-//				try {
-//					p = new PrintStream(new FileOutputStream(logFileName,true));
-//					p.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone());
-//				} catch (FileNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
+
 	////LOG
 	public void logArrival(){
 		PrintStream p=null;
@@ -388,14 +348,14 @@ public class Vehicle {
 			int y=ac.getY();
 			for(Object ags : grid.getObjectsAt(x,y)){
 				if(ags instanceof VehicleShapeCell){
-					System.out.println(this.getId()+" vede "+((VehicleShapeCell)ags).getOwner());
+//					System.out.println(this.getId()+" vede "+((VehicleShapeCell)ags).getOwner());
 //					freeride=false;
 					finalDecision=this.manageVehiclePresence(ac.getIndex());
 					stop=true;
 					break;
 				}
 				if(ags instanceof Pedestrian){
-					System.out.println(this.getId()+" vede "+((Pedestrian)ags).getId());
+//					System.out.println(this.getId()+" vede "+((Pedestrian)ags).getId());
 //					freeride=false;
 					finalDecision=this.managePedestrianPresence(ac.getIndex());
 					stop=true;
@@ -403,7 +363,7 @@ public class Vehicle {
 				}
 				if(ags instanceof AnticipationCell){
 					if(((AnticipationCell) ags).getOwnerType().equals("Pedestrian")){
-						System.out.println(this.getId()+" vede "+((AnticipationCell)ags).getOwner());
+//						System.out.println(this.getId()+" vede "+((AnticipationCell)ags).getOwner());
 //						freeride=false;
 						finalDecision=this.manageAnticipationPresence(ac.getIndex());
 						stop=true;
