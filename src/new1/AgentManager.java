@@ -1,5 +1,8 @@
 package new1;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,26 +19,71 @@ public class AgentManager {
 	int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
 	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
 	int anticipationModule=(Integer)params.getValue("anticipationModule");
+	int numberOfPedestrian=(Integer)params.getValue("numOfPed");
+	int pedOffsetGeneration=(Integer)params.getValue("pedx");
+	
+	private int interval;
+	
+	public int getOffSet(){
+		return pedOffsetGeneration;
+	}
+	public int getNumberOfPed(){
+		return numberOfPedestrian;
+	}
+	public int getNumberOfVehicle(){
+		return numberOfVehicle;
+	}
 	
 	//PedTicker attributes
 	ArrayList<DestinationCell> destinationChoices;  
 	ArrayList<DestinationCell> destinationConflicts;
+	private String filename;
 	
 	//VehTicker attributes
 	private int vehicleCount;
 	private int pedCount;
 
-	public AgentManager(){
+	public AgentManager(String filename){
 		this.destinationChoices=new ArrayList<DestinationCell>();
 		this.destinationConflicts=new ArrayList<DestinationCell>();
 		this.setVehicleCount(0);
+		this.setFilename(filename);
+		this.setInterval(-1);
+	}
+	
+	/**
+	 * Constructor for time dynamic scenario
+	 * */
+	public AgentManager(String filename, int interval){
+		this.destinationChoices=new ArrayList<DestinationCell>();
+		this.destinationConflicts=new ArrayList<DestinationCell>();
+		this.setVehicleCount(0);
+		this.setFilename(filename);
+		this.setInterval(interval);
 	}
 	
 	//simulation step
+	int pedOffSet=0;
+	int numVeh=0;
 	@ScheduledMethod(start=0, interval=1, priority=0)
 	public void simulationStep(){
 		
 		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		if(tick==13333){
+			this.logCross();
+		}
+//		if(tick%this.getInterval()==0&&tick<13333){
+////			this.setInterval(this.getInterval()+tick);
+//			this.logCross();
+//			pedOffSet=pedOffSet+5;
+//			numVeh=numVeh+3;
+////			System.out.println(tick+" "+numVeh+" "+pedOffSet);
+//		}else if(tick%this.getInterval()==0){
+//			if(pedOffSet>0){
+//				pedOffSet=pedOffSet-5;
+//			}
+//		}
+		
 //		System.out.println("tick--- "+tick);
 		//pedGen
 		this.addPedestrian();
@@ -54,9 +102,11 @@ public class AgentManager {
 		this.moveVehicle();
 		this.updateVehicleShape();
 		
-		if(tick%5==0){
-		this.movePedestrians();}
 		
+		
+		// was 5
+		if(tick%1==0){
+		this.movePedestrians();}
 	}
 	
 	
@@ -114,11 +164,12 @@ public class AgentManager {
 	public void addPedestrian(){
 		final ArrayList<PedGenerator> list=this.getPedGenList();
 		final ArrayList<Pedestrian> plist=this.getPedList();
+		if(numOfped>0){
 		if(plist.size()==0||plist.size()<numOfped){
 			for(final PedGenerator pg:list){
 				pg.addPedestrian();
 			}
-		}
+		}}
 	}
 	
 	public void addVehicle(){
@@ -230,12 +281,12 @@ public class AgentManager {
 		}
 	}
 	
-	public void test_updatePedAnticipation(){
-		final ArrayList<Pedestrian> pedList=getPedList();
-		for(final Pedestrian ped:pedList){
-			ped.testProjection();
-		}
-	}
+//	public void test_updatePedAnticipation(){
+//		final ArrayList<Pedestrian> pedList=getPedList();
+//		for(final Pedestrian ped:pedList){
+//			ped.testProjection();
+//		}
+//	}
 	public void evalPeds(){
 		final ArrayList<Pedestrian> pedList=getPedList();
 		for(final Pedestrian ped:pedList){
@@ -272,7 +323,30 @@ public class AgentManager {
 	public void setVehicleCount(int vehicleCount) {
 		this.vehicleCount = vehicleCount;
 	}
-	
+	public void logCross(){
+		int tick=(int)RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+		PrintStream p=null;
+		try {
+			p = new PrintStream(new FileOutputStream(this.getFilename(),true));
+			p.println(tick+" "+Constants.vehicleCounter+" "+Constants.crossedPedCounter);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public int getInterval() {
+		return interval;
+	}
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
 	
 
 }

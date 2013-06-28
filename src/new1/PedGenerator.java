@@ -22,13 +22,13 @@ public class PedGenerator {
 //	pedx
 	int pedx=(Integer)params.getValue("pedx");
 	
-	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute,String fileName){
+	public PedGenerator(String id,Context context, ArrayList<String> NSroute,ArrayList<String> SNroute){
 		this.setPedindex(0);
 		this.setId(id);
 		this.context=context;
 		this.northSouthRoute=NSroute;
 		this.southNorthRoute=SNroute;
-		this.setFilename(fileName);
+//		this.setFilename(fileName);
 	}
 	
 //	@ScheduledMethod(start=0, interval=500)
@@ -52,7 +52,8 @@ public class PedGenerator {
 		boolean ns=r.nextBoolean();
 		int head=4;
 		int off=r.nextInt(2);
-		Pedestrian ped=new Pedestrian(id,grid,this.getFilename());
+//		Pedestrian ped=new Pedestrian(id,grid,this.getFilename());
+		Pedestrian ped=new Pedestrian(id,grid);
 		if(ns){
 			ped.setRoute(this.getNorthSouthRoute());
 			ry=scenarioHeight-3;
@@ -69,6 +70,52 @@ public class PedGenerator {
 		}
 		else{
 			rx=Constants.GRID_LENGHT/2-1-pedx-off;
+		}
+		ped.setCurrentField(ped.getRoute().get(0));
+		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);
+		ped.getAnticipation().setPedestrianAnticipation(head, rx, ry);
+		context.add(ped);
+		grid.moveTo(ped,rx,ry);
+	}
+	
+	public void addPedestrian(int pedx2){
+		Parameters params=RunEnvironment.getInstance().getParameters();
+		int numberOfLaneParam=(Integer)params.getValue("numberOfLaneParam");
+		int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
+		int secondLaneOffset=0;
+		if(numberOfLaneParam!=1){
+			scenarioHeight=Constants.DOUBLE_GRID_HEIGHT;
+			secondLaneOffset=8;
+		}
+		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
+		String id=this.getId()+"-"+this.getPedindex();
+		this.pedindex++;
+		Random r=new Random();
+//		int rx=r.nextInt(Constants.GRID_LENGHT);
+		int rx=0;
+		int ry=3;
+		boolean eo=r.nextBoolean();
+		boolean ns=r.nextBoolean();
+		int head=4;
+		int off=r.nextInt(2);
+//		Pedestrian ped=new Pedestrian(id,grid,this.getFilename());
+		Pedestrian ped=new Pedestrian(id,grid);
+		if(ns){
+			ped.setRoute(this.getNorthSouthRoute());
+			ry=scenarioHeight-3;
+			ped.setCrossingLine(4);
+			head=1;
+		}else{
+			ped.setRoute(this.getSouthNorthRoute());
+			ry=3;
+			ped.setCrossingLine(scenarioHeight-5);
+			head=7;
+		}
+		if(eo){
+			rx=Constants.GRID_LENGHT/2+pedx2+off;
+		}
+		else{
+			rx=Constants.GRID_LENGHT/2-1-pedx2-off;
 		}
 		ped.setCurrentField(ped.getRoute().get(0));
 		ped.getAnticipation().initAnticipation(ped.getId(), grid, context);

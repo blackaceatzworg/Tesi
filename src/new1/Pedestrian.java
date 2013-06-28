@@ -95,6 +95,7 @@ public class Pedestrian extends Agent {
 			
 			/**
 			 * Control when one pedestrian cross the road successfully
+			 * OBSOLETE
 			 * 
 			 * */
 			public void checkSurface(){
@@ -116,6 +117,11 @@ public class Pedestrian extends Agent {
 				}
 			}
 			
+			/**
+			 * Control and state when one pedestrian cross the road successfully
+			 * 
+			 * 
+			 * */
 			public void checkCrossing(){
 				int y=grid.getLocation(this).getY();
 				int scenarioHeight=Constants.SINGLE_GRID_HEIGHT;
@@ -132,13 +138,14 @@ public class Pedestrian extends Agent {
 					}
 					if(this.isCrossed()){
 						Constants.crossedPedCounter++;
-						System.out.println(Constants.crossedPedCounter);
-						this.logCross();
 					}
 				}
-				
 			}
 			
+			/**
+			 * Control if destination cell is occupied by another agent.
+			 * 
+			 * */
 			public boolean checkOccupation(DestinationCell dc){
 				boolean occupied=false;
 				int x=dc.getX();
@@ -146,7 +153,7 @@ public class Pedestrian extends Agent {
 				Context context=ContextUtils.getContext(this);
 				Grid<Object> env=(Grid<Object>)context.getProjection(Constants.GridID);
 				for(Object ags : env.getObjectsAt(x,y)){
-					if(ags instanceof Pedestrian){
+					if(ags instanceof Pedestrian||ags instanceof VehicleShapeCell){
 							occupied=true;
 //							System.out.println("Cella occupata"+dc.getX()+" "+dc.getY());
 					}
@@ -161,7 +168,6 @@ public class Pedestrian extends Agent {
 			 * */
 			public void move(int x, int y){
 				grid.moveTo(this,x,y);
-//				this.checkSurface();
 				this.checkCrossing();
 			}
 	
@@ -192,16 +198,16 @@ public class Pedestrian extends Agent {
 		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), this.getHeading(), this.getAnticipation().getAnticipationCells());
 	}
 	
-	int testIndex=0;
-	public void testProjection(){
-		testIndex++;
-		if(testIndex>8){
-			testIndex=0;
-		}
-//		System.out.println("."+testIndex);
-		GridPoint position=grid.getLocation(this);
-		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), testIndex, this.getAnticipation().getAnticipationCells());
-	}
+//	int testIndex=0;
+//	public void testProjection(){
+//		testIndex++;
+//		if(testIndex>8){
+//			testIndex=0;
+//		}
+////		System.out.println("."+testIndex);
+//		GridPoint position=grid.getLocation(this);
+//		this.getAnticipation().updatePedAnticipation(position.getX(), position.getY(), testIndex, this.getAnticipation().getAnticipationCells());
+//	}
 	
 	private boolean frontVehicle;
 	public void evaluate(){
@@ -244,7 +250,7 @@ public class Pedestrian extends Agent {
 		this.checkArrival();
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////debug
+////////////////////////////////////////////////////////////////////////////////////////////////////////////debug
 	
 	
 	/**Log the direction of pedestrian

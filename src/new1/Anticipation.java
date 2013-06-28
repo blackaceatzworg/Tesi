@@ -297,7 +297,7 @@ public class Anticipation {
 	public void setSOAnticip(int x, int y, int k, String ownerType){
 		AnticipationCell ac;
 		int j=y;
-			for(int i=x;i>x-k+1;i--){
+			for(int i=x;i>x-k;i--){
 				try{
 //					System.out.println("dir:No");
 					ac= new AnticipationCell(new GridPoint(i,j),this.getId(),ownerType);

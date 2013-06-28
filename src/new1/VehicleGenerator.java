@@ -24,38 +24,31 @@ public class VehicleGenerator {
 	int numberOfVehicle=(Integer)params.getValue("numberOfVehicle");
 	int anticipationModule=(Integer)params.getValue("anticipationModule");
 	
-	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading,String counterFileName){
+	/**
+	 * Vehicle generator constructor
+	 * 
+	 *@param id Vehicle generator id
+	 *@param cont scenario context
+	 *@param xgen coordinate on x-axis of vehicle single cell
+	 *@param ygen coordinate on y-axis of vehicle single cell
+	 *@param heading heading of vehicles, may be Constants.E or Constants.O 
+	 * */
+	public VehicleGenerator(String id, Context cont, int xgen, int ygen, int heading){
 		this.vehindex=0;
 		this.setId(id);
 		this.context=cont;
 		this.setXgen(xgen);
 		this.setYgen(ygen);
 		this.setHeading(heading);
-		this.counterFileName=counterFileName;
+//		this.counterFileName=counterFileName;
 		
-	}
-	
-//	Vehicle veh1=new Vehicle("v1",0,Constants.O,grid,12,5);
-//	veh1.getAnticipation().initVehicleAnticipation(veh1.getId(), grid, context);
-//	veh1.getAnticipation().setVehicleAnticipation(veh1.getHeading(),159,14,80, veh1.getSpeedZone());
-//	veh1.getVehicleShape().initVehicleShape(12,5, veh1.getId(), grid, context);
-//	veh1.getVehicleShape().setVehicleShape(160,14,veh1.getHeading());
-//	context.add(veh1);
-//	grid.moveTo(veh1,160,14);
-//////
-//	
-//	Vehicle veh2=new Vehicle("v2",2,Constants.E,grid,12,5);
-//	veh2.getAnticipation().initVehicleAnticipation(veh2.getId(), grid,context);
-//	veh2.getAnticipation().setVehicleAnticipation(veh2.getHeading(),44,6,80, veh2.getSpeedZone());
-//	veh2.getVehicleShape().initVehicleShape(12,5, veh2.getId(), grid, context);
-//	veh2.getVehicleShape().setVehicleShape(43,6, Constants.E);
-//	context.add(veh2);
-//	grid.moveTo(veh2,43,6);
-//	
-	
-	
+	}	
 	//TODO vehicleShape
 //	@ScheduledMethod(start=0, interval=1, priority=1)
+	
+	/**
+	 * add vehicle to scenario
+	 * */
 	public void addVehicle(){
 		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
 		String id=this.getId()+"-"+this.getVehindex();
@@ -69,7 +62,32 @@ public class VehicleGenerator {
 			//TODO control position
 			if(this.checkSpace()){
 				this.setVehindex(this.getVehindex()+1);
-				Vehicle veh=new Vehicle(this.counterFileName,id,curSpeed,this.getHeading(),grid,12,5);
+				Vehicle veh=new Vehicle(id,curSpeed,this.getHeading(),grid,12,5);
+				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
+				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),anticipationModule*5, veh.getSpeedZone());
+				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);
+				veh.getVehicleShape().setVehicleShape(this.getXgen(),this.getYgen(), this.getHeading());
+				context.add(veh);
+				grid.moveTo(veh,this.getXgen(),this.getYgen());	
+			}
+		}
+		
+	}
+	
+	public void addVehicle(int numOfVeh){
+		Grid<Object> grid=(Grid<Object>)context.getProjection(Constants.GridID);
+		String id=this.getId()+"-"+this.getVehindex();
+		Random r=new Random();
+		int curSpeed=1;
+		if(this.getHeading()==Constants.E){
+			int antXGen=this.getXgen()+1;
+			int yGen=14;
+		}
+		if(this.getVehindex()<numOfVeh){
+			//TODO control position
+			if(this.checkSpace()){
+				this.setVehindex(this.getVehindex()+1);
+				Vehicle veh=new Vehicle(id,curSpeed,this.getHeading(),grid,12,5);
 				veh.getAnticipation().initVehicleAnticipation(veh.getId(), grid,context);
 				veh.getAnticipation().setVehicleAnticipation(this.getHeading(),this.getXgen()+1,this.getYgen(),anticipationModule*5, veh.getSpeedZone());
 				veh.getVehicleShape().initVehicleShape(12,5, veh.getId(), grid, context);

@@ -50,58 +50,65 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 					secondLaneOffset=8;
 				}
 				Date dateNow = new Date ();
-				SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss");
+				SimpleDateFormat date = new SimpleDateFormat("dd_MM__HH_mm");
 		        StringBuilder nowMMDDYYYY = new StringBuilder( date.format(dateNow));
 
 		//data recover
 //		FileOutputStream pedDirectionLog=null;
 //		FileOutputStream vehDirectionLog=null;
 		
-		FileOutputStream VehicleCounter=null;
-		String VehicleCounterFilename="VCount_V@Lane"+numberOfVehicle+"_antMod"+anticipationModule+"_"+nowMMDDYYYY;
-		PrintStream vehicleCounterPrintStream=null;
+//		FileOutputStream VehicleCounter=null;
+//		String VehicleCounterFilename="VCount_V@Lane"+numberOfVehicle+"_antMod"+anticipationModule+"_"+nowMMDDYYYY;
+//		PrintStream vehicleCounterPrintStream=null;
+//		
+//		FileOutputStream PedestrianCounter=null;
+//		String PedestrianCounterFilename="generatedPed"+numberOfPedestrian+"@offset"+pedOffsetGeneration+"_"+nowMMDDYYYY;
+//		PrintStream pedestrianCounterPrintStream=null;
 		
-		FileOutputStream PedestrianCounter=null;
-		String PedestrianCounterFilename="generatedPed"+numberOfPedestrian+"@offset"+pedOffsetGeneration+"_"+nowMMDDYYYY;
-		PrintStream pedestrianCounterPrintStream=null;
-		
-		
+		FileOutputStream testFOS=null;
+		String TestFilename="Test_Veh"+numberOfVehicle+"_Ped"+numberOfPedestrian+"_Pedoffset"+pedOffsetGeneration+"_"+nowMMDDYYYY+".txt";
+//		String TestFilename="test";
+		PrintStream testStream=null;
 		
 		
 		
 //		FileOutputStream fieldLog=null;
-//		FileOutputStream nordcurblog=null;
-//		FileOutputStream southcurblog=null;
-//		FileOutputStream nelog=null;
-//		FileOutputStream nwlog=null;
-//		FileOutputStream selog=null;
-//		FileOutputStream swlog=null;
-//		PrintStream ncprint=null;
-//		PrintStream scprint=null;
-//		PrintStream neprint=null;
-//		PrintStream nwprint=null;
-//		PrintStream seprint=null;
-//		PrintStream swprint=null;
+		FileOutputStream nordcurblog=null;
+		PrintStream ncprint=null;
+		FileOutputStream southcurblog=null;
+		PrintStream scprint=null;
+		FileOutputStream nelog=null;
+		PrintStream neprint=null;
+		FileOutputStream nwlog=null;
+		PrintStream nwprint=null;
+		FileOutputStream selog=null;
+		PrintStream seprint=null;
+		FileOutputStream swlog=null;
+		PrintStream swprint=null;
 		
 		try{
 //			pedDirectionLog=new FileOutputStream("PedDirectionLog");
 //			vehDirectionLog=new FileOutputStream("vehDirectionLog");
 			
-			VehicleCounter=new FileOutputStream(VehicleCounterFilename);
-			vehicleCounterPrintStream = new PrintStream(new FileOutputStream(VehicleCounterFilename,true));
-			vehicleCounterPrintStream.println("id,tick,speed(float),speed(discrete),Tot v");
-			
-			PedestrianCounter=new FileOutputStream(VehicleCounterFilename);
-			pedestrianCounterPrintStream= new PrintStream(new FileOutputStream(PedestrianCounterFilename,true));
-			vehicleCounterPrintStream.println();
+//			VehicleCounter=new FileOutputStream(VehicleCounterFilename);
+//			vehicleCounterPrintStream = new PrintStream(new FileOutputStream(VehicleCounterFilename,true));
+//			vehicleCounterPrintStream.println("id,tick,speed(float),speed(discrete),Tot v");
+//			
+//			PedestrianCounter=new FileOutputStream(VehicleCounterFilename);
+//			pedestrianCounterPrintStream= new PrintStream(new FileOutputStream(PedestrianCounterFilename,true));
+//			vehicleCounterPrintStream.println();
+//			
+			testFOS=new FileOutputStream(TestFilename);
+			testStream= new PrintStream(new FileOutputStream(TestFilename,true));
+			testStream.println("tick Veh"+numberOfVehicle+"_Ped"+numberOfPedestrian);
 			
 //			fieldLog=new FileOutputStream("fieldLog");
-//			nordcurblog=new FileOutputStream("nclog");
-//			southcurblog=new FileOutputStream("sclog");
-//			nelog=new FileOutputStream("nelog");
-//			nwlog=new FileOutputStream("nwlog");
-//			selog=new FileOutputStream("selog");
-//			swlog=new FileOutputStream("swlog");
+			nordcurblog=new FileOutputStream("nclog");
+			southcurblog=new FileOutputStream("sclog");
+			nelog=new FileOutputStream("nelog");
+			nwlog=new FileOutputStream("nwlog");
+			selog=new FileOutputStream("selog");
+			swlog=new FileOutputStream("swlog");
 			
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
@@ -225,12 +232,12 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Walkway,false);
 				context.add(cell);
 				grid.moveTo(cell,i,j);
-				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
-						southEastFF.get(i,j)==0||
-						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
-					cell.setDestination(true);
-				}
+//				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
+//						southEastFF.get(i,j)==0||
+//						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
+//						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
+//					cell.setDestination(true);
+//				}
 			}
 		}
 		//south walkway
@@ -239,12 +246,12 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Walkway,false);
 				context.add(cell);
 				grid.moveTo(cell,i,j);
-				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
-						southEastFF.get(i,j)==0||
-						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
-					cell.setDestination(true);
-				}
+//				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
+//						southEastFF.get(i,j)==0||
+//						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
+//						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
+//					cell.setDestination(true);
+//				}
 			}
 		}
 		//curb
@@ -256,18 +263,18 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 			context.add(cell2);
 			grid.moveTo(cell,i,4);
 			grid.moveTo(cell2, i,13+secondLaneOffset);
-			if(nordCurbFF.get(i,4)==0||southCurbFF.get(i,4)==0||
-					southEastFF.get(i,4)==0||
-					southWestFF.get(i,4)==0||northEastFF.get(i,4)==0
-					||northWestFF.get(i,4)==0){
-				cell.setDestination(true);
-			}
-			if(nordCurbFF.get(i,13+secondLaneOffset)==0||southCurbFF.get(i,13+secondLaneOffset)==0||
-					southEastFF.get(i,13+secondLaneOffset)==0||
-					southWestFF.get(i,13+secondLaneOffset)==0||northEastFF.get(i,13+secondLaneOffset)==0
-					||northWestFF.get(i,13+secondLaneOffset)==0){
-				cell2.setDestination(true);
-			}
+//			if(nordCurbFF.get(i,4)==0||southCurbFF.get(i,4)==0||
+//					southEastFF.get(i,4)==0||
+//					southWestFF.get(i,4)==0||northEastFF.get(i,4)==0
+//					||northWestFF.get(i,4)==0){
+//				cell.setDestination(true);
+//			}
+//			if(nordCurbFF.get(i,13+secondLaneOffset)==0||southCurbFF.get(i,13+secondLaneOffset)==0||
+//					southEastFF.get(i,13+secondLaneOffset)==0||
+//					southWestFF.get(i,13+secondLaneOffset)==0||northEastFF.get(i,13+secondLaneOffset)==0
+//					||northWestFF.get(i,13+secondLaneOffset)==0){
+//				cell2.setDestination(true);
+//			}
 		}
 		//roadway
 		for(int i=0;i<Constants.GRID_LENGHT;i++){
@@ -275,12 +282,23 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 				final SurfaceCell cell=new SurfaceCell(i,j,Constants.Roadway,false);
 				context.add(cell);
 				grid.moveTo(cell,i,j);
-				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
-						southEastFF.get(i,j)==0||
-						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
-						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
-					cell.setDestination(true);
-				}
+//				if(nordCurbFF.get(i,j)==0||southCurbFF.get(i,j)==0||
+//						southEastFF.get(i,j)==0||
+//						southWestFF.get(i,j)==0||northEastFF.get(i,j)==0
+//						||northWestFF.get(i,j)==0||southDestFF.get(i,j)==0||northDestFF.get(i,j)==0){
+//					cell.setDestination(true);
+//				}
+			}
+		}
+		
+		//zebracross
+		//Accessories for visualization
+		for(int i=Constants.GRID_LENGHT/2;i<Constants.GRID_LENGHT/2+6;i++){
+			for(int j=5;j<13+secondLaneOffset;j++){
+				if(j%2==0){
+				final ZebraCross zb=new ZebraCross();
+				context.add(zb);
+				grid.moveTo(zb, i,j);}
 			}
 		}
 		
@@ -302,13 +320,15 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 		
 
 		//Agent actors
-		AgentManager scenarioManager=new AgentManager();
+		AgentManager scenarioManager=new AgentManager(TestFilename,1000);
 		context.add(scenarioManager);
 		
-		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
+//		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E,VehicleCounterFilename);
+		VehicleGenerator vg=new VehicleGenerator("vehG",context,13,6,Constants.E);
 		context.add(vg);
-		
-		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute,PedestrianCounterFilename);
+//		
+////		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute,PedestrianCounterFilename);
+		PedGenerator pedg=new PedGenerator("pedG",context,northSouthRoute,southNorthRoute);
 		context.add(pedg);
 		
 
@@ -330,19 +350,67 @@ public class ScenarioBuilder extends DefaultContext<Object> implements ContextBu
 //		
 //		StoppedPed sped2=new StoppedPed("test-p",grid);
 //		context.add(sped2);
-//		grid.moveTo(sped2, 290,6);
-		AnticipationCell ac;
-		for(int i=Constants.GRID_LENGHT/2-6;i<Constants.GRID_LENGHT/2+12;i++){
-			for(int j=5;j<12;j++){
-				ac= new AnticipationCell(i,j,"test","Vehicle",1);
-				ac.setIndex(1);
-				ac.setX(i);
-				ac.setY(j);
-				context.add(ac);
-				grid.moveTo(ac, i,j);
+//		grid.moveTo(sped2, 20,6);
+//		sped2.project(context, 20, 6);
+//		VehicleShapeCell ac;
+//		for(int i=Constants.GRID_LENGHT/2-6;i<Constants.GRID_LENGHT/2+12;i++){
+//			for(int j=5;j<12;j++){
+//				ac=new  VehicleShapeCell("test-v", i, j);
+////				ac.setIndex(1);
+//				context.add(ac);
+//				grid.moveTo(ac, i,j);
+//			}
+//		}
+		for(int j=scenarioHeight-1;j>=0;j--){
+			for(int i=0;i<Constants.GRID_LENGHT;i++){
+				try {
+					//p = new PrintStream(new FileOutputStream("fieldLog",true));
+					//p.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
+					ncprint=new PrintStream(new FileOutputStream("nclog",true));
+					ncprint.print(Math.floor(nordCurbFF.get(i,j)*1000)/1000+" ");
+					
+					scprint=new PrintStream(new FileOutputStream("sclog",true));
+					scprint.print(Math.floor(southCurbFF.get(i,j)*1000)/1000+" ");
+					
+//					neprint=new PrintStream(new FileOutputStream("nelog",true));
+//					neprint.print(Math.floor(northEastFF.get(i,j)*1000)/1000+" ");
+//					
+//					nwprint=new PrintStream(new FileOutputStream("nwlog",true));
+//					nwprint.print(Math.floor(northWestFF.get(i,j)*1000)/1000+" ");
+//					
+//					seprint=new PrintStream(new FileOutputStream("selog",true));
+//					seprint.print(Math.floor(southEastFF.get(i,j)*1000)/1000+" ");
+//					
+//					swprint=new PrintStream(new FileOutputStream("swlog",true));
+//					swprint.print(Math.floor(southWestFF.get(i,j)*1000)/1000+" ");
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			//System.out.println("");
+			try {
+				ncprint=new PrintStream(new FileOutputStream("nclog",true));
+				ncprint.println("");
+				scprint=new PrintStream(new FileOutputStream("sclog",true));
+				scprint.println("");
+				neprint=new PrintStream(new FileOutputStream("nelog",true));
+				neprint.println("");
+				nwprint=new PrintStream(new FileOutputStream("nwlog",true));
+				nwprint.println("");
+				seprint=new PrintStream(new FileOutputStream("selog",true));
+				seprint.println("");
+				swprint=new PrintStream(new FileOutputStream("swlog",true));
+				swprint.println("");
+				
+			} catch (FileNotFoundException e) {
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		
+
 
 		double endAt = 13333;
 		RunEnvironment.getInstance().endAt(endAt);

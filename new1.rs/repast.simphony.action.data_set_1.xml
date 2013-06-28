@@ -1,0 +1,60 @@
+<repast.simphony.data2.engine.DataSetDescriptor>
+  <name>Counter</name>
+  <type>NON_AGGREGATE</type>
+  <sourceType>new1.AgentManager</sourceType>
+  <inclTick>true</inclTick>
+  <inclBatchRun>false</inclBatchRun>
+  <inclRandomSeed>false</inclRandomSeed>
+  <scheduleParams>
+    <start>13333.0</start>
+    <interval>0.0</interval>
+    <priority>-Infinity</priority>
+    <duration>-1.0</duration>
+    <frequency>ONE_TIME</frequency>
+  </scheduleParams>
+  <methodDataSources class="linked-hash-map">
+    <entry>
+      <string>NumberOfPed</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>NumberOfPed</id>
+        <className>new1.AgentManager</className>
+        <methodName>getNumberOfPed</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+    <entry>
+      <string>NumberOfVehicle</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>NumberOfVehicle</id>
+        <className>new1.AgentManager</className>
+        <methodName>getNumberOfVehicle</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+    <entry>
+      <string>OffSet</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>OffSet</id>
+        <className>new1.AgentManager</className>
+        <methodName>getOffSet</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+    <entry>
+      <string>PedCount</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>PedCount</id>
+        <className>new1.AgentManager</className>
+        <methodName>getPedCount</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+    <entry>
+      <string>VehCount</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>VehCount</id>
+        <className>new1.AgentManager</className>
+        <methodName>getVehCount</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+  </methodDataSources>
+  <countSources class="linked-hash-map"/>
+  <customNADataSources class="linked-hash-map"/>
+  <customAggDataSources class="linked-hash-map"/>
+</repast.simphony.data2.engine.DataSetDescriptor>

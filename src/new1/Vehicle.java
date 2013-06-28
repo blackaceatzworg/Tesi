@@ -192,9 +192,9 @@ public class Vehicle {
 			 return displacement;
 		 case 3:
 			 if(currentTick%2==0){
-			 displacement=3;
+			 displacement=4;
 		 	}else{
-		 		displacement=4;
+		 		displacement=5;
 		 	}
 			 return displacement;
 		 case 4:
@@ -225,29 +225,31 @@ public class Vehicle {
 		int x=0;
 		if(this.getHeading()==Constants.E){
 			if(grid.getLocation(this).getX()+delta>=Constants.GRID_LENGHT){
-				PrintStream p=null;
-				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-				try {
-					Constants.vehicleCounter++;
-					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
-//					System.out.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone()+" tot:"+Constants.vehicleCounter);
-					p.println(this.getId()+","+passedTime+","+this.getCurrentSpeed()+","+this.getSpeedZone()+","+Constants.vehicleCounter);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+//				PrintStream p=null;
+//				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+				Constants.vehicleCounter++;
+//				try {
+//					Constants.vehicleCounter++;
+//					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
+////					System.out.println(this.getId()+" @"+passedTime+", v:"+this.getCurrentSpeed()+" ,speedZone:"+this.getSpeedZone()+" tot:"+Constants.vehicleCounter);
+//					p.println(this.getId()+","+passedTime+","+this.getCurrentSpeed()+","+this.getSpeedZone()+","+Constants.vehicleCounter);
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				}
 			}
 			x=(grid.getLocation(this).getX()+delta)%(Constants.GRID_LENGHT);
 			
 		}else{
 			if(grid.getLocation(this).getX()-delta<=0){
-				PrintStream p=null;
-				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
-				try {
-					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
-					p.println(this.getId()+","+passedTime+","+this.getCurrentSpeed()+","+this.getSpeedZone()+","+Constants.vehicleCounter);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+				Constants.vehicleCounter++;
+//				PrintStream p=null;
+//				int passedTime=(int) RunEnvironment.getInstance().getCurrentSchedule().getTickCount();
+//				try {
+//					p = new PrintStream(new FileOutputStream(this.getLogFileName(),true));
+//					p.println(this.getId()+","+passedTime+","+this.getCurrentSpeed()+","+this.getSpeedZone()+","+Constants.vehicleCounter);
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				}
 			}
 			x=(grid.getLocation(this).getX()-delta+Constants.GRID_LENGHT)%(Constants.GRID_LENGHT);
 		}
